@@ -1,0 +1,73 @@
+{
+  "input": "server/data/tamcam-rag-qa-test.jsonl",
+  "generatedAt": "2026-07-06T18:22:20.763Z",
+  "summary": {
+    "totalQuestions": 8,
+    "evidenceHitRate": 1,
+    "answerF1": 0.430448718305477,
+    "mustContainCoverage": 1,
+    "averageTopScore": 8.75
+  },
+  "failureSamples": [
+    {
+      "id": "rag-qa-001-q2",
+      "fileName": "quan-ly-quan-ca-phe.docx",
+      "question": "Các tác nhân chính là ai?",
+      "expectedAnswer": "Quản trị, Thu ngân, Pha chế và Khách hàng.",
+      "answer": "Dựa trên các đoạn liên quan trong tài liệu:\n1. Tac nhan chinh gom Quan tri, Thu ngan, Pha che va Khach hang.\n2. Tai lieu mo ta he thong quan ly quan ca phe, bao gom cac chuc nang quan ly menu, goi mon, thanh toan, quan ly nhan vien va thong ke doanh thu.\n3. Use Case quan trong gom dang nhap, quan ly thuc don, lap hoa don, xu ly don hang va xem bao cao doanh thu.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "text": "Tac nhan chinh gom Quan tri, Thu ngan, Pha che va Khach hang.",
+          "score": 19
+        },
+        {
+          "index": 2,
+          "text": "Tai lieu mo ta he thong quan ly quan ca phe, bao gom cac chuc nang quan ly menu, goi mon, thanh toan, quan ly nhan vien va thong ke doanh thu.",
+          "score": 17
+        },
+        {
+          "index": 4,
+          "text": "Use Case quan trong gom dang nhap, quan ly thuc don, lap hoa don, xu ly don hang va xem bao cao doanh thu.",
+          "score": 17
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.21333333333333335,
+        "mustContainCoverage": 1,
+        "topScore": 19
+      }
+    },
+    {
+      "id": "rag-qa-002-q2",
+      "fileName": "bao-cao-doanh-thu.csv",
+      "question": "Chi nhánh nào cao nhất?",
+      "expectedAnswer": "Chi nhánh A có doanh thu cao nhất.",
+      "answer": "Dựa trên các đoạn liên quan trong tài liệu:\n1. Tong doanh thu cua chi nhanh A cao nhat trong bang du lieu.\n2. 2026-07-02,C,Ca phe den,10,250000\n3. Chi nhanh C co doanh thu thap nhat va can kiem tra lai chien luoc ban hang.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "text": "Tong doanh thu cua chi nhanh A cao nhat trong bang du lieu.",
+          "score": 22
+        },
+        {
+          "index": 4,
+          "text": "2026-07-02,C,Ca phe den,10,250000",
+          "score": 20
+        },
+        {
+          "index": 6,
+          "text": "Chi nhanh C co doanh thu thap nhat va can kiem tra lai chien luoc ban hang.",
+          "score": 20
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.33333333333333337,
+        "mustContainCoverage": 1,
+        "topScore": 22
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "input": "server/data/tamcam-predictive-test.jsonl",
+  "generatedAt": "2026-07-14T07:56:23.010Z",
+  "summary": {
+    "total": 10,
+    "hasPredictionRate": 1,
+    "trendAccuracy": 1,
+    "forecastRangeAccuracy": 1,
+    "riskAccuracy": 1,
+    "actionCoverage": 1
+  },
+  "failureSamples": []
+}

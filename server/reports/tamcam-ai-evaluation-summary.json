@@ -1,0 +1,207 @@
+{
+  "generatedAt": "2026-07-14T07:56:23.223Z",
+  "modelConfig": {
+    "primaryModel": "gemini-2.5-flash",
+    "architecture": "Gemini + prompt + chat history + lightweight RAG + local fallback + predictive analytics + office reminder extraction"
+  },
+  "scores": {
+    "taskExtractionScore": 0.9022463720676486,
+    "documentQaScore": 0.8773749569207014,
+    "antiJunkScore": 1,
+    "birthdayReminderScore": 0.9666666666666666,
+    "predictiveScore": 1,
+    "dataAnalysisAgentScore": 0.9400000000000001,
+    "overallScore": 0.9325719989137542,
+    "overallScore10": 9.33
+  },
+  "modules": {
+    "taskExtraction": {
+      "total": 250,
+      "hasTaskAccuracy": 0.932,
+      "taskCountExactAccuracy": 0.88,
+      "summaryF1": 0.4565270431314389,
+      "titleF1": 0.9034871794871795,
+      "deadlineAccuracy": 0.8978723404255319,
+      "startTimeAccuracy": 0.8978723404255319
+    },
+    "documentQaRag": {
+      "totalQuestions": 100,
+      "intentAccuracy": 1,
+      "evidenceHitRate": 0.98,
+      "evidencePrecision": 0.3234999999999997,
+      "answerF1": 0.7121248707621046,
+      "mustContainCoverage": 0.94,
+      "criticalFactAccuracy": 1,
+      "unsupportedFactRate": 0,
+      "fallbackRate": 0,
+      "averageTopScore": 32.57,
+      "byCategory": {
+        "overview": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.41999999999999993,
+          "answerF1": 0.9166666666666666,
+          "mustContainCoverage": 0.6,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 18
+        },
+        "detail": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.35000000000000003,
+          "answerF1": 0.8607142857142858,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 25.8
+        },
+        "workflow": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.2333333333333333,
+          "answerF1": 0.5295665779234223,
+          "mustContainCoverage": 0.95,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 48.7
+        },
+        "deadline": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.25,
+          "answerF1": 0.4791998787120737,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 36.8
+        },
+        "task": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 0.9,
+          "evidencePrecision": 0.3866666666666667,
+          "answerF1": 0.8734553775743708,
+          "mustContainCoverage": 0.95,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 28.7
+        },
+        "risk": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.3000000000000001,
+          "answerF1": 0.41476847417862023,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 35.6
+        },
+        "comparison": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.3416666666666667,
+          "answerF1": 0.6678487788558046,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 49.6
+        },
+        "recommendation": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.19999999999999998,
+          "answerF1": 0.5979658119658118,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 34.5
+        },
+        "fact": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 0.9,
+          "evidencePrecision": 0.2866666666666667,
+          "answerF1": 0.8757437070938214,
+          "mustContainCoverage": 0.9,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 20.6
+        },
+        "multi_fact": {
+          "totalQuestions": 10,
+          "intentAccuracy": 1,
+          "evidenceHitRate": 1,
+          "evidencePrecision": 0.4666666666666666,
+          "answerF1": 0.9053191489361703,
+          "mustContainCoverage": 1,
+          "criticalFactAccuracy": 1,
+          "unsupportedFactRate": 0,
+          "fallbackRate": 0,
+          "averageTopScore": 27.4
+        }
+      }
+    },
+    "antiJunkTasks": {
+      "total": 10,
+      "negativeCases": 6,
+      "positiveCases": 4,
+      "passRate": 1,
+      "junkBlockAccuracy": 1,
+      "validActionKeepAccuracy": 1,
+      "forbiddenTitleCleanRate": 1,
+      "requiredTitleCoverage": 1
+    },
+    "birthdayReminders": {
+      "total": 2,
+      "hasTaskAccuracy": 1,
+      "taskCountExactAccuracy": 1,
+      "summaryF1": 0.04789826378312519,
+      "titleF1": 1,
+      "deadlineAccuracy": 0.8333333333333333,
+      "startTimeAccuracy": 1
+    },
+    "predictiveAnalytics": {
+      "total": 10,
+      "hasPredictionRate": 1,
+      "trendAccuracy": 1,
+      "forecastRangeAccuracy": 1,
+      "riskAccuracy": 1,
+      "actionCoverage": 1
+    },
+    "dataAnalysisAgent": {
+      "totalCases": 50,
+      "intentAccuracy": 0.9,
+      "columnSelectionAccuracy": 0.9,
+      "operationAccuracy": 0.9,
+      "numericAnswerAccuracy": 1,
+      "topKAccuracy": 1,
+      "fallbackRate": 0
+    }
+  },
+  "sourceReports": {
+    "dataset": "server/reports/tamcam-vietnamese-test-local.json",
+    "rag": "server/reports/tamcam-rag-qa-v2.json",
+    "antiJunk": "server/reports/tamcam-anti-junk-task-test.json",
+    "birthday": "server/reports/tamcam-birthday-reminder-test.json",
+    "predictive": "server/reports/tamcam-predictive-local.json",
+    "dataAgent": "server/reports/tamcam-data-analysis-agent-local.json",
+    "all": "server/reports/tamcam-ai-evaluation-summary.json"
+  }
+}

@@ -1,0 +1,1463 @@
+{
+  "input": "server/data/tamcam-rag-qa-v2.jsonl",
+  "generatedAt": "2026-07-14T07:56:22.316Z",
+  "summary": {
+    "totalQuestions": 100,
+    "intentAccuracy": 1,
+    "evidenceHitRate": 0.98,
+    "evidencePrecision": 0.3234999999999997,
+    "answerF1": 0.7121248707621046,
+    "mustContainCoverage": 0.94,
+    "criticalFactAccuracy": 1,
+    "unsupportedFactRate": 0,
+    "fallbackRate": 0,
+    "averageTopScore": 32.57,
+    "byCategory": {
+      "overview": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.41999999999999993,
+        "answerF1": 0.9166666666666666,
+        "mustContainCoverage": 0.6,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 18
+      },
+      "detail": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.35000000000000003,
+        "answerF1": 0.8607142857142858,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 25.8
+      },
+      "workflow": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.2333333333333333,
+        "answerF1": 0.5295665779234223,
+        "mustContainCoverage": 0.95,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 48.7
+      },
+      "deadline": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.4791998787120737,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 36.8
+      },
+      "task": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 0.9,
+        "evidencePrecision": 0.3866666666666667,
+        "answerF1": 0.8734553775743708,
+        "mustContainCoverage": 0.95,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 28.7
+      },
+      "risk": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.3000000000000001,
+        "answerF1": 0.41476847417862023,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 35.6
+      },
+      "comparison": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.3416666666666667,
+        "answerF1": 0.6678487788558046,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 49.6
+      },
+      "recommendation": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.19999999999999998,
+        "answerF1": 0.5979658119658118,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 34.5
+      },
+      "fact": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 0.9,
+        "evidencePrecision": 0.2866666666666667,
+        "answerF1": 0.8757437070938214,
+        "mustContainCoverage": 0.9,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 20.6
+      },
+      "multi_fact": {
+        "totalQuestions": 10,
+        "intentAccuracy": 1,
+        "evidenceHitRate": 1,
+        "evidencePrecision": 0.4666666666666666,
+        "answerF1": 0.9053191489361703,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackRate": 0,
+        "averageTopScore": 27.4
+      }
+    }
+  },
+  "failureSamples": [
+    {
+      "id": "rag-v2-study-q2",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "K-map dùng để làm gì?",
+      "category": "detail",
+      "expectedAnswer": "K-map dùng để tối giản hàm Boolean bằng cách nhóm các ô 1.",
+      "answer": "Tài liệu Karnaugh/K-map dùng để tối giản hàm Boolean.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu Karnaugh/K-map dùng để tối giản hàm Boolean.",
+          "intent": "FACT_LOOKUP",
+          "score": 16
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "FACT_LOOKUP",
+          "score": 16
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "K-map khác bảng chân trị ở chỗ K-map dùng trực quan hóa để rút gọn nhanh hơn.",
+          "intent": "FACT_LOOKUP",
+          "score": 16
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.3333333333333333,
+        "answerF1": 0.42857142857142855,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 16
+      }
+    },
+    {
+      "id": "rag-v2-study-q3",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Làm bài Karnaugh theo bước nào?",
+      "category": "workflow",
+      "expectedAnswer": "Viết bảng chân trị, lập K-map, nhóm ô 1 rồi suy ra biểu thức tối giản.",
+      "answer": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "FACT_LOOKUP",
+          "score": 24
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "FACT_LOOKUP",
+          "score": 22
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Deadline ôn tập là 12/07.",
+          "intent": "FACT_LOOKUP",
+          "score": 22
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.6666666666666666,
+        "answerF1": 0.5806451612903226,
+        "mustContainCoverage": 0.5,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 24
+      }
+    },
+    {
+      "id": "rag-v2-study-q4",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Deadline hoặc mốc thời gian là gì?",
+      "category": "deadline",
+      "expectedAnswer": "Deadline ôn tập là 12/07.",
+      "answer": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức. Deadline ôn tập là 12/07.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 37
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Deadline ôn tập là 12/07.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.3076923076923077,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 37
+      }
+    },
+    {
+      "id": "rag-v2-study-q5",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Tôi cần làm gì?",
+      "category": "task",
+      "expectedAnswer": "Làm lại 5 bài sai và ghi công thức nhóm ô.",
+      "answer": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức. Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "TASK_LOOKUP",
+          "score": 29
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+          "intent": "TASK_LOOKUP",
+          "score": 29
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "TASK_LOOKUP",
+          "score": 27
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Deadline ôn tập là 12/07.",
+          "intent": "TASK_LOOKUP",
+          "score": 27
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Rủi ro thường gặp là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn.",
+          "intent": "TASK_LOOKUP",
+          "score": 27
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.2,
+        "answerF1": 0.4736842105263158,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 29
+      }
+    },
+    {
+      "id": "rag-v2-study-q6",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Rủi ro hoặc điểm cần chú ý là gì?",
+      "category": "risk",
+      "expectedAnswer": "Rủi ro là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn.",
+      "answer": "Rủi ro thường gặp là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn. Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô. K-map khác bảng chân trị ở chỗ K-map dùng trực quan hóa để rút gọn nhanh hơn.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Rủi ro thường gặp là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 38
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 36
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "K-map khác bảng chân trị ở chỗ K-map dùng trực quan hóa để rút gọn nhanh hơn.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 36
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 34
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 32
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.2,
+        "answerF1": 0.4489795918367347,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 38
+      }
+    },
+    {
+      "id": "rag-v2-study-q7",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "K-map khác bảng chân trị như thế nào?",
+      "category": "comparison",
+      "expectedAnswer": "K-map trực quan hóa để rút gọn nhanh hơn, còn bảng chân trị liệt kê giá trị.",
+      "answer": "K-map khác bảng chân trị ở chỗ K-map dùng trực quan hóa để rút gọn nhanh hơn. Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+      "retrievedBlocks": [
+        {
+          "index": 6,
+          "heading": "",
+          "text": "K-map khác bảng chân trị ở chỗ K-map dùng trực quan hóa để rút gọn nhanh hơn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 80
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Rủi ro thường gặp là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 78
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 61
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 59
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.5,
+        "answerF1": 0.4489795918367347,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 80
+      }
+    },
+    {
+      "id": "rag-v2-study-q8",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Nên ưu tiên xử lý gì?",
+      "category": "recommendation",
+      "expectedAnswer": "Ưu tiên làm lại 5 bài sai trước.",
+      "answer": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức. Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Khi làm bài cần viết bảng chân trị, lập K-map, nhóm các ô 1 theo nhóm 1, 2, 4, 8 hoặc 16 rồi rút biểu thức.",
+          "intent": "RECOMMENDATION",
+          "score": 22
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+          "intent": "RECOMMENDATION",
+          "score": 22
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "RECOMMENDATION",
+          "score": 20
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Deadline ôn tập là 12/07.",
+          "intent": "RECOMMENDATION",
+          "score": 20
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Rủi ro thường gặp là nhóm sai ô không kề nhau hoặc bỏ sót nhóm lớn.",
+          "intent": "RECOMMENDATION",
+          "score": 20
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.2,
+        "answerF1": 0.2222222222222222,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 22
+      }
+    },
+    {
+      "id": "rag-v2-study-q9",
+      "fileName": "tai-lieu-karnaugh.docx",
+      "question": "Nhóm ô có kích thước nào?",
+      "category": "fact",
+      "expectedAnswer": "Nhóm ô có kích thước 1, 2, 4, 8 hoặc 16.",
+      "answer": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+      "retrievedBlocks": [
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung gồm khái niệm K-map, mã Gray, cách nhóm ô 1 và cách suy ra biểu thức tối giản.",
+          "intent": "FACT_LOOKUP",
+          "score": 13
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Việc cần làm là làm lại 5 bài sai và ghi công thức nhóm ô.",
+          "intent": "FACT_LOOKUP",
+          "score": 13
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu Karnaugh/K-map dùng để tối giản hàm Boolean.",
+          "intent": "FACT_LOOKUP",
+          "score": 11
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": false,
+        "evidencePrecision": 0,
+        "answerF1": 0.10526315789473682,
+        "mustContainCoverage": 0,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 13
+      }
+    },
+    {
+      "id": "rag-v2-office-q1",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "File này là gì?",
+      "category": "overview",
+      "expectedAnswer": "Tài liệu báo cáo văn phòng về nhân sự và hồ sơ hành chính.",
+      "answer": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 18
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Deadline gửi báo cáo là 15/07.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 18
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.8,
+        "answerF1": 0.3333333333333333,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 18
+      }
+    },
+    {
+      "id": "rag-v2-office-q2",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Có bao nhiêu hồ sơ trễ hạn?",
+      "category": "detail",
+      "expectedAnswer": "Có 12 hồ sơ trễ hạn.",
+      "answer": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn. Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ. Khuyến nghị ưu tiên xử lý 12 hồ sơ trễ hạn. Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 74
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 72
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "Khuyến nghị ưu tiên xử lý 12 hồ sơ trễ hạn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 71
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 69
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.5,
+        "answerF1": 0.17857142857142855,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 74
+      }
+    },
+    {
+      "id": "rag-v2-office-q3",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Quy trình xử lý hồ sơ gồm gì?",
+      "category": "workflow",
+      "expectedAnswer": "Kiểm tra danh sách, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng.",
+      "answer": "Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng. Deadline gửi báo cáo là 15/07. Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn. Khuyến nghị ưu tiên xử lý 12 hồ sơ trễ hạn.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 79
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Deadline gửi báo cáo là 15/07.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 77
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 77
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "Khuyến nghị ưu tiên xử lý 12 hồ sơ trễ hạn.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 50
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 48
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "WORKFLOW_EXPLANATION",
+          "score": 39
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.16666666666666666,
+        "answerF1": 0.44776119402985076,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 79
+      }
+    },
+    {
+      "id": "rag-v2-office-q4",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Deadline hoặc mốc thời gian là gì?",
+      "category": "deadline",
+      "expectedAnswer": "Deadline gửi báo cáo là 15/07.",
+      "answer": "Deadline gửi báo cáo là 15/07. Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ. Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Deadline gửi báo cáo là 15/07.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 37
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 34
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.24390243902439027,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 37
+      }
+    },
+    {
+      "id": "rag-v2-office-q5",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Tôi cần làm gì?",
+      "category": "task",
+      "expectedAnswer": "Kiểm tra hồ sơ, đối chiếu hợp đồng và cập nhật trạng thái.",
+      "answer": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+      "retrievedBlocks": [
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "TASK_LOOKUP",
+          "score": 26
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "TASK_LOOKUP",
+          "score": 24
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Deadline gửi báo cáo là 15/07.",
+          "intent": "TASK_LOOKUP",
+          "score": 24
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": false,
+        "evidencePrecision": 0.3333333333333333,
+        "answerF1": 0.2608695652173913,
+        "mustContainCoverage": 0.5,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 26
+      }
+    },
+    {
+      "id": "rag-v2-office-q6",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Rủi ro hoặc điểm cần chú ý là gì?",
+      "category": "risk",
+      "expectedAnswer": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+      "answer": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn. Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng. Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 38
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Quy trình xử lý gồm kiểm tra danh sách hồ sơ, đối chiếu hợp đồng, cập nhật trạng thái và gửi trưởng phòng.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 36
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 36
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 28
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 26
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.2,
+        "answerF1": 0.4745762711864407,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 38
+      }
+    },
+    {
+      "id": "rag-v2-office-q7",
+      "fileName": "bao-cao-hanh-chinh.docx",
+      "question": "Tháng 6 khác tháng 5 thế nào?",
+      "category": "comparison",
+      "expectedAnswer": "Tháng 6 nhiều hơn tháng 5 là 24 hồ sơ.",
+      "answer": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn. Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ. Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ. Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Báo cáo hành chính tháng 6 tổng hợp 156 hồ sơ, 12 hồ sơ trễ hạn và 4 hợp đồng sắp hết hạn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 40
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Tháng 6 có nhiều hồ sơ hơn tháng 5 là 24 hồ sơ.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 40
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Phòng Tổ chức hành chính phụ trách kiểm tra hồ sơ.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 38
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro là hồ sơ thiếu chữ ký và hợp đồng hết hạn chưa gia hạn.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 38
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.22950819672131148,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 40
+      }
+    },
+    {
+      "id": "rag-v2-contract-q1",
+      "fileName": "02_Hop_dong_van_chuyen.docx",
+      "question": "File này là gì?",
+      "category": "overview",
+      "expectedAnswer": "Tài liệu hợp đồng vận chuyển.",
+      "answer": "Tài liệu này là hợp đồng vận chuyển.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là hợp đồng vận chuyển.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 18
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là Bên B vận chuyển đơn hàng nội thành.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thanh toán chậm.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.4,
+        "answerF1": 1,
+        "mustContainCoverage": 0.5,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 18
+      }
+    },
+    {
+      "id": "rag-v2-contract-q3",
+      "fileName": "02_Hop_dong_van_chuyen.docx",
+      "question": "Quy trình gồm những bước nào?",
+      "category": "workflow",
+      "expectedAnswer": "Tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+      "answer": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả. Rủi ro chính là thanh toán chậm. Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý. Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 48
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thanh toán chậm.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "So với kỳ trước, khối lượng tăng 18%.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 30
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là hợp đồng vận chuyển.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 28
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 28
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.16666666666666666,
+        "answerF1": 0.5333333333333333,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 48
+      }
+    },
+    {
+      "id": "rag-v2-contract-q4",
+      "fileName": "02_Hop_dong_van_chuyen.docx",
+      "question": "Deadline hoặc mốc thời gian là gì?",
+      "category": "deadline",
+      "expectedAnswer": "Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027.",
+      "answer": "Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027. Việc cần làm là Bên B vận chuyển đơn hàng nội thành. Rủi ro chính là thanh toán chậm.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là 20/07/2026; mốc theo dõi là 19/07/2027.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 37
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là Bên B vận chuyển đơn hàng nội thành.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 35
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thanh toán chậm.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 28
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.5,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 37
+      }
+    },
+    {
+      "id": "rag-v2-contract-q6",
+      "fileName": "02_Hop_dong_van_chuyen.docx",
+      "question": "Rủi ro hoặc điểm cần chú ý là gì?",
+      "category": "risk",
+      "expectedAnswer": "Rủi ro chính là thanh toán chậm.",
+      "answer": "Rủi ro chính là thanh toán chậm. Khuyến nghị ưu tiên phần có hạn gần và rủi ro cao. Việc cần làm là Bên B vận chuyển đơn hàng nội thành.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thanh toán chậm.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 35
+        },
+        {
+          "index": 7,
+          "heading": "",
+          "text": "Khuyến nghị ưu tiên phần có hạn gần và rủi ro cao.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 35
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là Bên B vận chuyển đơn hàng nội thành.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "So với kỳ trước, khối lượng tăng 18%.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.4,
+        "answerF1": 0.4,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 35
+      }
+    },
+    {
+      "id": "rag-v2-meeting-q1",
+      "fileName": "bien-ban-hop-kpi.docx",
+      "question": "File này là gì?",
+      "category": "overview",
+      "expectedAnswer": "Tài liệu biên bản họp KPI.",
+      "answer": "Tài liệu này là biên bản họp KPI.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là biên bản họp KPI.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 18
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là 10/07; mốc theo dõi là 12/07.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là cập nhật KPI tháng 6.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thiếu số liệu.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.4,
+        "answerF1": 1,
+        "mustContainCoverage": 0.5,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 18
+      }
+    },
+    {
+      "id": "rag-v2-meeting-q3",
+      "fileName": "bien-ban-hop-kpi.docx",
+      "question": "Quy trình gồm những bước nào?",
+      "category": "workflow",
+      "expectedAnswer": "Tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+      "answer": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả. Rủi ro chính là thiếu số liệu. Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý. Mốc chính là 10/07; mốc theo dõi là 12/07.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 48
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thiếu số liệu.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "So với kỳ trước, khối lượng tăng 18%.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 30
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là biên bản họp KPI.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 28
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là 10/07; mốc theo dõi là 12/07.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 28
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.16666666666666666,
+        "answerF1": 0.5333333333333333,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 48
+      }
+    },
+    {
+      "id": "rag-v2-meeting-q6",
+      "fileName": "bien-ban-hop-kpi.docx",
+      "question": "Rủi ro hoặc điểm cần chú ý là gì?",
+      "category": "risk",
+      "expectedAnswer": "Rủi ro chính là thiếu số liệu.",
+      "answer": "Rủi ro chính là thiếu số liệu. Khuyến nghị ưu tiên phần có hạn gần và rủi ro cao. Việc cần làm là cập nhật KPI tháng 6.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là thiếu số liệu.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 35
+        },
+        {
+          "index": 7,
+          "heading": "",
+          "text": "Khuyến nghị ưu tiên phần có hạn gần và rủi ro cao.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 35
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là cập nhật KPI tháng 6.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        },
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "So với kỳ trước, khối lượng tăng 18%.",
+          "intent": "CAUSE_ANALYSIS",
+          "score": 33
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.4,
+        "answerF1": 0.41379310344827586,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 35
+      }
+    },
+    {
+      "id": "rag-v2-process-q1",
+      "fileName": "quy-trinh-don-hang.docx",
+      "question": "File này là gì?",
+      "category": "overview",
+      "expectedAnswer": "Tài liệu quy trình quản lý đơn hàng.",
+      "answer": "Tài liệu này là quy trình quản lý đơn hàng.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là quy trình quản lý đơn hàng.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 18
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là không nêu deadline; mốc theo dõi là mỗi tuần.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là tiếp nhận, xác nhận, kiểm kho, điều phối, đổi trả.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là cập nhật trạng thái chậm.",
+          "intent": "DOCUMENT_OVERVIEW",
+          "score": 16
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.4,
+        "answerF1": 1,
+        "mustContainCoverage": 0.5,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 18
+      }
+    },
+    {
+      "id": "rag-v2-process-q3",
+      "fileName": "quy-trinh-don-hang.docx",
+      "question": "Quy trình gồm những bước nào?",
+      "category": "workflow",
+      "expectedAnswer": "Tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+      "answer": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả. Rủi ro chính là cập nhật trạng thái chậm. Tài liệu này là quy trình quản lý đơn hàng. Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "heading": "",
+          "text": "Quy trình gồm tiếp nhận thông tin, kiểm tra dữ liệu, xử lý phần còn thiếu và báo cáo kết quả.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 48
+        },
+        {
+          "index": 4,
+          "heading": "",
+          "text": "Rủi ro chính là cập nhật trạng thái chậm.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 6,
+          "heading": "",
+          "text": "So với kỳ trước, khối lượng tăng 18%.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 46
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là quy trình quản lý đơn hàng.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 35
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 33
+        },
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là không nêu deadline; mốc theo dõi là mỗi tuần.",
+          "intent": "MULTI_FACT_SYNTHESIS",
+          "score": 28
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.16666666666666666,
+        "answerF1": 0.5245901639344263,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 48
+      }
+    },
+    {
+      "id": "rag-v2-process-q4",
+      "fileName": "quy-trinh-don-hang.docx",
+      "question": "Deadline hoặc mốc thời gian là gì?",
+      "category": "deadline",
+      "expectedAnswer": "Mốc chính là không nêu deadline; mốc theo dõi là mỗi tuần.",
+      "answer": "Mốc chính là không nêu deadline; mốc theo dõi là mỗi tuần. Việc cần làm là tiếp nhận, xác nhận, kiểm kho, điều phối, đổi trả. Tài liệu này là quy trình quản lý đơn hàng.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "heading": "",
+          "text": "Mốc chính là không nêu deadline; mốc theo dõi là mỗi tuần.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 36
+        },
+        {
+          "index": 1,
+          "heading": "",
+          "text": "Nội dung chính gồm mục tiêu, phạm vi, người liên quan và các bước xử lý.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 34
+        },
+        {
+          "index": 3,
+          "heading": "",
+          "text": "Việc cần làm là tiếp nhận, xác nhận, kiểm kho, điều phối, đổi trả.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 34
+        },
+        {
+          "index": 0,
+          "heading": "",
+          "text": "Tài liệu này là quy trình quản lý đơn hàng.",
+          "intent": "DEADLINE_LOOKUP",
+          "score": 30
+        }
+      ],
+      "metrics": {
+        "intentHit": true,
+        "evidenceHit": true,
+        "evidencePrecision": 0.25,
+        "answerF1": 0.5,
+        "mustContainCoverage": 1,
+        "criticalFactAccuracy": 1,
+        "unsupportedFactRate": 0,
+        "fallbackUsed": false,
+        "topScore": 36
+      }
+    }
+  ]
+}

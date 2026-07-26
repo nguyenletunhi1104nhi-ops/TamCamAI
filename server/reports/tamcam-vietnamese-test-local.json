@@ -1,0 +1,1305 @@
+{
+  "input": "server/data/tamcam-vietnamese-test.jsonl",
+  "generatedAt": "2026-07-14T07:56:21.957Z",
+  "summary": {
+    "total": 250,
+    "hasTaskAccuracy": 0.932,
+    "taskCountExactAccuracy": 0.88,
+    "summaryF1": 0.4565270431314389,
+    "titleF1": 0.9034871794871795,
+    "deadlineAccuracy": 0.8978723404255319,
+    "startTimeAccuracy": 0.8978723404255319
+  },
+  "failureSamples": [
+    {
+      "index": 10,
+      "id": "example-11",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về Machine Learning và yêu cầu ôn tập kiến thức Machine Learning trước ngày 17/09/2026. Thời gian bắt đầu gợi ý là 19:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "Machine Learning",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về Machine Learning và yêu cầu Ôn tập kiến thức machine learning trước ngày 17/09/2026. Thời gian bắt đầu gợi ý là 19:00. Machine Learning là lĩnh vực cho phép máy tính học từ dữ liệu để đưa ra dự đoán hoặc quyết định mà không cần lập trình cứng từng quy tắc. Quy trình cơ bản gồm thu thập dữ liệu, tiền xử lý, chia tập train/test, huấn luyện mô hình và đánh giá bằng các chỉ số như accuracy, precision, recall và F1-score. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 17/09/2026, bắt đầu từ 19:00. Deadline: 17/09/2026 Giờ bắt đầu gợi ý: 19:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": true,
+        "summaryF1": 0.3448275862068966,
+        "averageTitleF1": 1,
+        "deadlineAccuracy": 1,
+        "startTimeAccuracy": 1
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Ôn tập kiến thức machine learning",
+            "description": "Dựa trên tài liệu về Machine Learning, người dùng cần ôn tập kiến thức Machine Learning.",
+            "deadline": "2026-09-17",
+            "startTime": "19:00",
+            "priority": "medium",
+            "taskType": "study",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "knowledge-task-1",
+            "title": "Ôn tập kiến thức machine learning",
+            "description": "Dựa trên tài liệu về Machine Learning, người dùng cần Ôn tập kiến thức machine learning.",
+            "category": "Study",
+            "type": "Learning",
+            "domain": "General",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2026-09-17",
+            "deadline": "2026-09-17",
+            "startTime": "19:00",
+            "endTime": "20:00",
+            "estimate": "1 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Xác định mục tiêu công việc",
+              "Đọc và kiểm tra yêu cầu",
+              "Chia nhỏ nhiệm vụ cần làm",
+              "Thực hiện từng phần",
+              "Kiểm tra kết quả và cập nhật trạng thái"
+            ],
+            "sourceText": "Tài liệu kiến thức: Machine Learning\nMachine Learning là lĩnh vực cho phép máy tính học từ dữ liệu để đưa ra dự đoán hoặc quyết định mà không cần lập trình cứng từng quy tắc. Quy trình cơ bản gồm thu thập dữ liệu, tiền xử lý, chia tập train/test, huấn luyện mô hình và đánh giá bằng các chỉ số như accuracy, precision, recall và F1-score.\nNhiệm vụ liên quan: Ôn tập kiến thức machine learning. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 17/09/2026, bắt đầu từ 19:00."
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "id": "example-16",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 2,
+        "summary": "Tài liệu gồm kiến thức về Cơ sở dữ liệu và báo cáo chi phí vận hành. Có 2 nhiệm vụ cần tạo lịch với deadline lần lượt là 27/09/2026 và 28/09/2026.",
+        "metadata": {
+          "language": "vi",
+          "domain": "mixed",
+          "documentType": "multi_knowledge_with_tasks",
+          "topic": "Cơ sở dữ liệu + báo cáo chi phí vận hành",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 2,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu gồm kiến thức về Cơ sở dữ liệu và báo cáo chi phí vận hành. Có 2 nhiệm vụ cần tạo lịch với deadline lần lượt là 27/09/2026 và 28/09/2026. Làm bài tập thiết kế cơ sở dữ liệu - deadline 27/09/2026 - bắt đầu 19:30 Tổng hợp báo cáo chi phí vận hành - deadline 28/09/2026 - bắt đầu 19:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.6176470588235294,
+        "averageTitleF1": 0.3333333333333333,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Làm bài tập thiết kế cơ sở dữ liệu",
+            "description": "Dựa trên phần kiến thức về Cơ sở dữ liệu, người dùng cần làm bài tập thiết kế cơ sở dữ liệu.",
+            "deadline": "2026-09-27",
+            "startTime": "19:30",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-1",
+            "title": "Thiết kế Database MySQL",
+            "description": "Xác định bảng, khóa chính/khóa ngoại và dữ liệu cần lưu cho hệ thống cơ sở dữ liệu.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Khó",
+            "necessity": "Cao",
+            "priority": "Cao",
+            "startDate": "2026-07-14",
+            "deadline": "2026-07-14",
+            "startTime": "19:00",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Liệt kê các thực thể chính trong đề tài",
+              "Thiết kế bảng và trường dữ liệu cần có",
+              "Xác định khóa chính, khóa ngoại và quan hệ",
+              "Tạo script SQL và dữ liệu mẫu để test"
+            ],
+            "sourceText": "Tài liệu tổng hợp kiến thức\nPhần 1 - Cơ sở dữ liệu:\nCơ sở dữ liệu quan hệ lưu trữ dữ liệu dưới dạng bảng, gồm các hàng và cột. Khóa chính dùng để định danh duy nhất mỗi bản ghi, còn khóa ngoại thể hiện mối quan hệ giữa các bảng. Khi thiết kế database, cần xác định thực thể, thuộc tính, quan hệ và chuẩn hóa để giảm dư thừa dữ liệu.\nPhần 2 - báo cáo chi phí vận hành:\nChi phí vận hành gồm chi phí nhân sự, vận chuyển, kho bãi, phần mềm, vật tư và các chi phí phát sinh khác. Việc tổng hợp chi phí theo tuần hoặc theo tháng giúp quản lý nhận biết khoản nào tăng bất thường và đưa ra phương án tối ưu.\nNhiệm vụ 1: Làm bài tập thiết kế cơ sở dữ liệu, hạn hoàn thành 27/09/2026, bắt đầu lúc 19:30.\nNhiệm vụ 2: Tổng hợp báo cáo chi phí vận hành, hạn hoàn thành 28/09/2026, bắt đầu lúc 19:00."
+          },
+          "titleF1": 0.3333333333333333,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        },
+        {
+          "expectedTask": {
+            "title": "Tổng hợp báo cáo chi phí vận hành",
+            "description": "Dựa trên phần kiến thức về báo cáo chi phí vận hành, người dùng cần tổng hợp báo cáo chi phí vận hành.",
+            "deadline": "2026-09-28",
+            "startTime": "19:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu tổng hợp kiến thức\nPhần 1 - Cơ sở dữ liệu:\nCơ sở dữ liệu quan hệ lưu trữ dữ liệu dưới dạng bảng, gồm các hàng và cột. Khóa chính dùng để định danh duy nhất mỗi bản ghi, còn khóa ngoại thể hiện mối quan hệ giữa các bảng. Khi thiết kế database, cần xác định thực thể, thuộc tính, quan hệ và chuẩn hóa để giảm dư thừa dữ liệu.\nPhần 2 - báo cáo chi phí vận hành:\nChi phí vận hành gồm chi phí nhân sự, vận chuyển, kho bãi, phần mềm, vật tư và các chi phí phát sinh khác. Việc tổng hợp chi phí theo tuần hoặc theo tháng giúp quản lý nhận biết khoản nào tăng bất thường và đưa ra phương án tối ưu.\nNhiệm vụ 1: Làm bài tập thiết kế cơ sở dữ liệu, hạn hoàn thành 27/09/2026, bắt đầu lúc 19:30.\nNhiệm vụ 2: Tổng hợp báo cáo chi phí vận hành, hạn hoàn thành 28/09/2026, bắt đầu lúc 19:00."
+          },
+          "titleF1": 0.3333333333333333,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "id": "example-22",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 24/07/2026. Thời gian bắt đầu gợi ý là 09:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 24/07/2026. Thời gian bắt đầu gợi ý là 09:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Nội dung này cần được đưa vào lịch với deadline 24/07/2026 và giờ bắt đầu 09:00. Deadline: 24/07/2026 Giờ bắt đầu gợi ý: 09:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.4273504273504273,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-07-24",
+            "startTime": "09:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 22,
+      "id": "example-23",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 01/11/2026. Thời gian bắt đầu gợi ý là 13:30.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 01/11/2026. Thời gian bắt đầu gợi ý là 13:30. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 01/11/2026 Giờ bắt đầu gợi ý: 13:30",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-11-01",
+            "startTime": "13:30",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Yêu cầu hoàn thành trước ngày 01/11/2026. Thời gian bắt đầu gợi ý là 13:30."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 23,
+      "id": "example-24",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 09/07/2026. Thời gian bắt đầu gợi ý là 07:30.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 09/07/2026. Thời gian bắt đầu gợi ý là 07:30. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 09/07/2026 Giờ bắt đầu gợi ý: 07:30",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-07-09",
+            "startTime": "07:30",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Hạn cuối của nhiệm vụ là 09/07/2026. Nên bắt đầu lúc 07:30 để tránh trễ hạn."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 33,
+      "id": "example-34",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về Machine Learning và yêu cầu ôn tập kiến thức Machine Learning trước ngày 20/08/2026. Thời gian bắt đầu gợi ý là 09:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "Machine Learning",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về Machine Learning và yêu cầu Ôn tập kiến thức machine learning trước ngày 20/08/2026. Thời gian bắt đầu gợi ý là 09:00. Machine Learning là lĩnh vực cho phép máy tính học từ dữ liệu để đưa ra dự đoán hoặc quyết định mà không cần lập trình cứng từng quy tắc. Quy trình cơ bản gồm thu thập dữ liệu, tiền xử lý, chia tập train/test, huấn luyện mô hình và đánh giá bằng các chỉ số như accuracy, precision, recall và F1-score. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 20/08/2026, bắt đầu từ 09:00. Deadline: 20/08/2026 Giờ bắt đầu gợi ý: 09:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": true,
+        "summaryF1": 0.3448275862068966,
+        "averageTitleF1": 1,
+        "deadlineAccuracy": 1,
+        "startTimeAccuracy": 1
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Ôn tập kiến thức machine learning",
+            "description": "Dựa trên tài liệu về Machine Learning, người dùng cần ôn tập kiến thức Machine Learning.",
+            "deadline": "2026-08-20",
+            "startTime": "09:00",
+            "priority": "medium",
+            "taskType": "study",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "knowledge-task-1",
+            "title": "Ôn tập kiến thức machine learning",
+            "description": "Dựa trên tài liệu về Machine Learning, người dùng cần Ôn tập kiến thức machine learning.",
+            "category": "Study",
+            "type": "Learning",
+            "domain": "General",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2026-08-20",
+            "deadline": "2026-08-20",
+            "startTime": "09:00",
+            "endTime": "10:00",
+            "estimate": "1 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Xác định mục tiêu công việc",
+              "Đọc và kiểm tra yêu cầu",
+              "Chia nhỏ nhiệm vụ cần làm",
+              "Thực hiện từng phần",
+              "Kiểm tra kết quả và cập nhật trạng thái"
+            ],
+            "sourceText": "Tài liệu kiến thức: Machine Learning\nMachine Learning là lĩnh vực cho phép máy tính học từ dữ liệu để đưa ra dự đoán hoặc quyết định mà không cần lập trình cứng từng quy tắc. Quy trình cơ bản gồm thu thập dữ liệu, tiền xử lý, chia tập train/test, huấn luyện mô hình và đánh giá bằng các chỉ số như accuracy, precision, recall và F1-score.\nNhiệm vụ liên quan: Ôn tập kiến thức machine learning. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 20/08/2026, bắt đầu từ 09:00."
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        }
+      ]
+    },
+    {
+      "index": 50,
+      "id": "example-51",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 07/01/2027. Thời gian bắt đầu gợi ý là 19:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 07/01/2027. Thời gian bắt đầu gợi ý là 19:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Deadline: 07/01/2027 Giờ bắt đầu gợi ý: 19:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.4587155963302752,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2027-01-07",
+            "startTime": "19:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 51,
+      "id": "example-52",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 23/09/2026. Thời gian bắt đầu gợi ý là 20:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 23/09/2026. Thời gian bắt đầu gợi ý là 20:00. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 23/09/2026 Giờ bắt đầu gợi ý: 20:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-09-23",
+            "startTime": "20:00",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Yêu cầu hoàn thành trước ngày 23/09/2026. Thời gian bắt đầu gợi ý là 20:00."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 54,
+      "id": "example-55",
+      "expected": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về Kỹ năng quản lý thời gian, nhưng không có nhiệm vụ cụ thể cần tạo lịch.",
+        "metadata": {
+          "language": "vi",
+          "domain": "negative",
+          "documentType": "knowledge_without_task",
+          "topic": "Kỹ năng quản lý thời gian",
+          "hasKnowledgeContent": true,
+          "hasTask": false,
+          "taskCount": 0,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu kiến thức: Kỹ năng quản lý thời gian Quản lý thời gian giúp cá nhân sắp xếp công việc hợp lý, giảm áp lực và tăng hiệu suất. Một số phương pháp phổ biến gồm Eisenhower Matrix, Pomodoro và lập kế hoạch theo tuần. Văn bản này không giao nhiệm vụ. Tài liệu kiến thức: Kỹ năng quản lý thời gian Quản lý thời gian giúp cá nhân sắp xếp công việc hợp lý, giảm áp lực và tăng hiệu suất. Một số phương pháp phổ biến gồm Eisenhower Matrix, Pomodoro và lập kế hoạch theo tuần. Văn bản này không giao nhiệm vụ. Kỹ năng quản lý thời gian Quản lý thời gian giúp cá nhân sắp xếp công việc hợp lý, giảm áp lực và tăng hiệu suất. Một số phương pháp phổ biến gồm Eisenhower Matrix, Pomodoro và lập kế hoạch theo tuần. Văn bản này không giao nhiệm vụ.",
+        "documentType": "PROJECT_PLAN_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.11764705882352941,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": null,
+        "startTimeAccuracy": null
+      },
+      "matchedTasks": []
+    },
+    {
+      "index": 60,
+      "id": "example-61",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 29/08/2026. Thời gian bắt đầu gợi ý là 07:30.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 29/08/2026. Thời gian bắt đầu gợi ý là 07:30. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 29/08/2026, bắt đầu từ 07:30. Deadline: 29/08/2026 Giờ bắt đầu gợi ý: 07:30",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.40983606557377045,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-08-29",
+            "startTime": "07:30",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 65,
+      "id": "example-66",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 19/10/2026. Thời gian bắt đầu gợi ý là 21:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 19/10/2026. Thời gian bắt đầu gợi ý là 21:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Deadline: 19/10/2026 Giờ bắt đầu gợi ý: 21:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.4587155963302752,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-10-19",
+            "startTime": "21:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 85,
+      "id": "example-86",
+      "expected": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về Khái niệm Logistics, nhưng không có nhiệm vụ cụ thể cần tạo lịch.",
+        "metadata": {
+          "language": "vi",
+          "domain": "negative",
+          "documentType": "knowledge_without_task",
+          "topic": "Khái niệm Logistics",
+          "hasKnowledgeContent": true,
+          "hasTask": false,
+          "taskCount": 0,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu kiến thức: Khái niệm Logistics Logistics là quá trình lập kế hoạch, thực hiện và kiểm soát dòng chảy hàng hóa, dịch vụ và thông tin từ điểm xuất phát đến điểm tiêu thụ. Đoạn văn này không yêu cầu người đọc thực hiện công việc cụ thể. Tài liệu kiến thức: Khái niệm Logistics Logistics là quá trình lập kế hoạch, thực hiện và kiểm soát dòng chảy hàng hóa, dịch vụ và thông tin từ điểm xuất phát đến điểm tiêu thụ. Đoạn văn này không yêu cầu người đọc thực hiện công việc cụ thể. Khái niệm Logistics Logistics là quá trình lập kế hoạch, thực hiện và kiểm soát dòng chảy hàng hóa, dịch vụ và thông tin từ điểm xuất phát đến điểm tiêu thụ. Đoạn văn này không yêu cầu người đọc thực hiện công việc cụ thể.",
+        "documentType": "PROJECT_PLAN_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.10370370370370371,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": null,
+        "startTimeAccuracy": null
+      },
+      "matchedTasks": []
+    },
+    {
+      "index": 86,
+      "id": "example-87",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 05/01/2027. Thời gian bắt đầu gợi ý là 08:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 05/01/2027. Thời gian bắt đầu gợi ý là 08:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Nên bắt đầu lúc 08:00 để tránh trễ hạn. Deadline: 05/01/2027 Giờ bắt đầu gợi ý: 08:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.423728813559322,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2027-01-05",
+            "startTime": "08:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 106,
+      "id": "example-107",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 01/12/2026. Thời gian bắt đầu gợi ý là 21:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 01/12/2026. Thời gian bắt đầu gợi ý là 21:00. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 01/12/2026 Giờ bắt đầu gợi ý: 21:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-12-01",
+            "startTime": "21:00",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Người học/người phụ trách cần xử lý nhiệm vụ này vào ngày 01/12/2026, bắt đầu từ 21:00."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 108,
+      "id": "example-109",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 05/12/2026. Thời gian bắt đầu gợi ý là 19:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 05/12/2026. Thời gian bắt đầu gợi ý là 19:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Deadline: 05/12/2026 Giờ bắt đầu gợi ý: 19:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.4587155963302752,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-12-05",
+            "startTime": "19:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 123,
+      "id": "example-124",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 08/11/2026. Thời gian bắt đầu gợi ý là 19:30.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 08/11/2026. Thời gian bắt đầu gợi ý là 19:30. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Deadline: 08/11/2026 Giờ bắt đầu gợi ý: 19:30",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.4587155963302752,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-11-08",
+            "startTime": "19:30",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 124,
+      "id": "example-125",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 14/10/2026. Thời gian bắt đầu gợi ý là 15:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 14/10/2026. Thời gian bắt đầu gợi ý là 15:00. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 14/10/2026 Giờ bắt đầu gợi ý: 15:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-10-14",
+            "startTime": "15:00",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Sau khi đọc phần kiến thức trên, cần hoàn thành nhiệm vụ trước ngày 14/10/2026, thời gian bắt đầu là 15:00."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 126,
+      "id": "example-127",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 01/11/2026. Thời gian bắt đầu gợi ý là 21:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 01/11/2026. Thời gian bắt đầu gợi ý là 21:00. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 01/11/2026 Giờ bắt đầu gợi ý: 21:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-11-01",
+            "startTime": "21:00",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Nội dung này cần được đưa vào lịch với deadline 01/11/2026 và giờ bắt đầu 21:00."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 131,
+      "id": "example-132",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu hoàn thành báo cáo doanh số tháng 7 trước ngày 26/09/2026. Thời gian bắt đầu gợi ý là 20:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "knowledge_with_task",
+          "topic": "báo cáo doanh số",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": false,
+        "taskCount": 0,
+        "summary": "Tài liệu cung cấp kiến thức về báo cáo doanh số và yêu cầu Hoàn thành báo cáo doanh số tháng 7 trước ngày 26/09/2026. Thời gian bắt đầu gợi ý là 20:00. Báo cáo doanh số giúp doanh nghiệp theo dõi tổng doanh thu, số lượng đơn hàng, tỷ lệ hoàn đơn và hiệu quả bán hàng theo từng kênh. Khi lập báo cáo, cần đối chiếu dữ liệu từ hệ thống bán hàng, file vận hành và bảng thanh toán để đảm bảo số liệu chính xác. Nên bắt đầu lúc 20:00 để tránh trễ hạn. Deadline: 26/09/2026 Giờ bắt đầu gợi ý: 20:00",
+        "documentType": "KNOWLEDGE_WITH_TASK"
+      },
+      "metrics": {
+        "hasTaskCorrect": false,
+        "taskCountExact": false,
+        "summaryF1": 0.423728813559322,
+        "averageTitleF1": 0,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo doanh số tháng 7",
+            "description": "Dựa trên tài liệu về báo cáo doanh số, người dùng cần hoàn thành báo cáo doanh số tháng 7.",
+            "deadline": "2026-09-26",
+            "startTime": "20:00",
+            "priority": "high",
+            "taskType": "report",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": null,
+          "titleF1": 0,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    },
+    {
+      "index": 134,
+      "id": "example-135",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 1,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu hoàn thành báo cáo quản lý quán cà phê trước ngày 26/10/2026. Thời gian bắt đầu gợi ý là 08:00.",
+        "metadata": {
+          "language": "vi",
+          "domain": "student",
+          "documentType": "knowledge_with_task",
+          "topic": "quản lý quán cà phê",
+          "hasKnowledgeContent": true,
+          "hasTask": true,
+          "taskCount": 1,
+          "datasetVersion": "TamCam-Vietnamese-Instruction-V2"
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Tài liệu cung cấp kiến thức về quản lý quán cà phê và yêu cầu Hoàn thành báo cáo quản lý quán cà phê trước ngày 26/10/2026. Thời gian bắt đầu gợi ý là 08:00. Quản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống. Deadline: 26/10/2026 Giờ bắt đầu gợi ý: 08:00",
+        "documentType": "PROGRAMMING_PROJECT_DOCUMENT"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": false,
+        "summaryF1": 0.41481481481481475,
+        "averageTitleF1": 0.46153846153846156,
+        "deadlineAccuracy": 0,
+        "startTimeAccuracy": 0
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Hoàn thành báo cáo quản lý quán cà phê",
+            "description": "Dựa trên tài liệu về quản lý quán cà phê, người dùng cần hoàn thành báo cáo quản lý quán cà phê.",
+            "deadline": "2026-10-26",
+            "startTime": "08:00",
+            "priority": "high",
+            "taskType": "assignment",
+            "source": "document",
+            "status": "pending"
+          },
+          "predictedTask": {
+            "id": "programming-project-5",
+            "title": "Hoàn thiện báo cáo",
+            "description": "Bổ sung hướng dẫn sử dụng, mô tả chức năng, hình ảnh minh họa và chỉnh sửa các phần mở đầu/kết luận.",
+            "category": "Study",
+            "type": "Task",
+            "domain": "Software Project",
+            "difficulty": "Dễ",
+            "necessity": "Cao",
+            "priority": "Trung bình",
+            "startDate": "2026-07-18",
+            "deadline": "2026-07-18",
+            "startTime": "19:30",
+            "endTime": "20:30",
+            "estimate": "1-2 giờ",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Viết hướng dẫn chạy chương trình",
+              "Chụp màn hình các chức năng chính",
+              "Bổ sung mô tả database và luồng xử lý",
+              "Rà soát lời cảm ơn, kết luận và định dạng báo cáo"
+            ],
+            "sourceText": "Tài liệu kiến thức: quản lý quán cà phê\nQuản lý quán cà phê là quá trình theo dõi hoạt động bán hàng, nguyên vật liệu, nhân sự, doanh thu và chi phí vận hành. Một hệ thống quản lý tốt thường cần lưu thông tin món uống, hóa đơn, khách hàng, ca làm việc và báo cáo doanh thu theo ngày. Trong môn học, sinh viên cần phân tích yêu cầu, thiết kế cơ sở dữ liệu và mô tả luồng xử lý chính của hệ thống.\nNhiệm vụ liên quan: Hoàn thành báo cáo quản lý quán cà phê. Hạn cuối của nhiệm vụ là 26/10/2026. Nên bắt đầu lúc 08:00 để tránh trễ hạn."
+          },
+          "titleF1": 0.46153846153846156,
+          "deadlineMatch": false,
+          "startTimeMatch": false
+        }
+      ]
+    }
+  ]
+}

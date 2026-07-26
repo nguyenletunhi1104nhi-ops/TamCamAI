@@ -1,61 +1,159 @@
-# Thu-ky
-THƯ KÝ – Trợ lý AI quản lý công việc và nhắc nhở thông minh
-Tổng quan sản phẩm
-Thư Ký là một nền tảng trợ lý AI được phát triển nhằm hỗ trợ sinh viên và nhân viên văn phòng quản lý công việc, lịch trình và deadline một cách hiệu quả. Sản phẩm giải quyết vấn đề quá tải thông tin, quên hạn nộp công việc và mất thời gian nhập liệu thủ công bằng cách sử dụng trí tuệ nhân tạo để tự động đọc hiểu tài liệu, trích xuất nhiệm vụ và tạo lịch nhắc nhở.
-Người dùng chỉ cần tải lên các tài liệu như PDF, Word hoặc các loại văn bản liên quan đến học tập và công việc. Hệ thống sẽ tự động phân tích nội dung, xác định các công việc cần thực hiện, nhận diện thời gian và deadline quan trọng, sau đó tạo danh sách công việc cùng lịch nhắc nhở tương ứng.
-Bên cạnh đó, Thư Ký còn cung cấp chatbot AI giúp người dùng tương tác bằng ngôn ngữ tự nhiên để tra cứu công việc, theo dõi tiến độ và nhận các gợi ý quản lý thời gian phù hợp.
-Vấn đề cần giải quyết
-Trong môi trường học tập và làm việc hiện đại, người dùng thường xuyên phải tiếp nhận một lượng lớn tài liệu, email, thông báo và lịch trình. Điều này dẫn đến các khó khăn như:
-Quên deadline hoặc lịch hẹn quan trọng.
-Mất thời gian đọc và tổng hợp thông tin từ nhiều tài liệu.
-Phải nhập thủ công các công việc vào ứng dụng quản lý.
-Khó theo dõi tiến độ và khối lượng công việc cá nhân.
-Thiếu công cụ hỗ trợ sắp xếp và ưu tiên công việc.
-Giải pháp
-Thư Ký ứng dụng công nghệ AI để tự động hóa quá trình quản lý công việc thông qua các chức năng:
-Tải lên tài liệu học tập hoặc công việc.
-Đọc hiểu và phân tích nội dung tài liệu.
-Trích xuất công việc, deadline và các mốc thời gian quan trọng.
-Tự động tạo danh sách công việc.
-Gửi thông báo nhắc nhở đúng thời điểm.
-Hỗ trợ tra cứu công việc thông qua chatbot AI.
-Thống kê và phân tích hiệu suất làm việc của người dùng.
-Tính năng chính
-1. Phân tích tài liệu bằng AI
-Hỗ trợ PDF và DOCX.
-Trích xuất nội dung văn bản.
-Nhận diện nhiệm vụ và thời hạn thực hiện.
-2. Quản lý công việc
-Tự động tạo task từ tài liệu.
-Chỉnh sửa, cập nhật và đánh dấu hoàn thành.
-Theo dõi trạng thái công việc.
-3. Hệ thống nhắc nhở
-Thông báo trên ứng dụng.
-Gửi email nhắc nhở.
-Tùy chỉnh thời gian nhắc trước deadline.
-4. Chatbot AI
-Trả lời câu hỏi về công việc và deadline.
-Tóm tắt các công việc cần thực hiện.
-Hỗ trợ tìm kiếm thông tin từ tài liệu đã tải lên.
-5. Dashboard phân tích
-Thống kê số lượng công việc.
-Theo dõi tỷ lệ hoàn thành.
-Đánh giá hiệu suất làm việc cá nhân.
-Hiển thị công việc sắp đến hạn.
-Đối tượng sử dụng
-Sinh viên
-Quản lý bài tập, đồ án và lịch học.
-Theo dõi các mốc thời gian quan trọng trong học tập.
-Nhân viên văn phòng
-Quản lý công việc hằng ngày.
-Theo dõi deadline dự án và lịch họp.
-Giảm thời gian nhập liệu và quản lý thủ công.
-Giá trị mang lại
-Tiết kiệm thời gian xử lý thông tin.
-Hạn chế bỏ sót công việc quan trọng.
-Tăng hiệu suất học tập và làm việc.
-Tự động hóa quá trình quản lý nhiệm vụ.
-Tạo trải nghiệm như một thư ký cá nhân hỗ trợ 24/7.
-Tầm nhìn
-Thư Ký hướng đến việc trở thành một trợ lý AI cá nhân toàn diện, có khả năng hiểu tài liệu, quản lý công việc, hỗ trợ ra quyết định và đồng hành cùng người dùng trong học tập cũng như công việc hằng ngày.
+# TamCam AI
 
+TamCam AI is an AI study and work companion for managing tasks, deadlines, reminders, uploaded documents, and personal productivity workflows.
+
+The app helps users upload documents, understand important content, extract actionable tasks, create schedules, chat with an AI assistant, and review productivity through a dashboard.
+
+## Main Features
+
+- AI Chat for task planning, document Q&A, workflow suggestions, and reminders.
+- Document upload and analysis for PDF, DOCX, TXT, XLSX, CSV, and JSON.
+- Task management with priorities, deadlines, reminders, recurring reminders, and completion status.
+- Calendar view with schedule awareness and conflict warnings.
+- Analytics dashboard for task progress and productivity insights.
+- Firebase Auth and Firestore integration.
+- Node/Express upload backend with FastAPI AI service.
+- Groq/OpenAI-compatible AI provider support with local fallback logic.
+
+## Tech Stack
+
+- Frontend: React, Vite, Tailwind CSS, Recharts, Lucide React.
+- Backend: Node.js, Express, Multer, Mammoth, pdf-parse, XLSX.
+- AI Service: FastAPI, Python, Groq `openai/gpt-oss-20b`, Gemini fallback support.
+- Database/Auth: Firebase Authentication and Firestore.
+- Hosting: Firebase Hosting for frontend. Backend services must be deployed separately.
+
+## Project Structure
+
+```text
+TamCamAI-Web/
+├── src/                 React frontend
+├── server/              Node/Express upload and API server
+├── ai-service/          FastAPI AI service
+├── docs/                Deployment and project documentation
+├── public/              Static frontend assets
+├── firebase.json        Firebase Hosting and Firestore config
+└── firestore.rules      Firestore security rules
+```
+
+## Local Development
+
+Install frontend dependencies:
+
+```powershell
+npm install
+```
+
+Run the React frontend:
+
+```powershell
+npm run dev
+```
+
+Run the Node/Express server:
+
+```powershell
+cd server
+npm install
+npm start
+```
+
+Run the FastAPI AI service:
+
+```powershell
+cd ai-service
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python -m uvicorn app:app --host 127.0.0.1 --port 8000
+```
+
+## Environment Variables
+
+Frontend production build:
+
+```env
+VITE_API_BASE_URL=https://your-node-server-public-url.example.com
+VITE_AI_SERVICE_BASE_URL=https://your-fastapi-public-url.example.com
+```
+
+Node/Express:
+
+```env
+PORT=5000
+AI_SERVICE_URL=https://your-fastapi-public-url.example.com/analyze-document
+CLIENT_ORIGINS=https://tamcam---ai.web.app,http://localhost:5173
+```
+
+FastAPI AI service:
+
+```env
+AI_PROVIDER=groq
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=openai/gpt-oss-20b
+GROQ_FALLBACK_MODELS=
+CLIENT_ORIGINS=https://tamcam---ai.web.app,http://localhost:5173
+```
+
+## Health Checks
+
+Check local services:
+
+```powershell
+npm run health
+```
+
+Check active AI provider:
+
+```powershell
+npm run health:ai
+```
+
+Health endpoints:
+
+```text
+GET /api/health                 Node/Express
+GET /health                     FastAPI
+GET /health?probe=ai            FastAPI AI provider probe
+```
+
+## Build
+
+```powershell
+npm run build
+```
+
+The production frontend output is generated in `dist/`.
+
+## Firebase Hosting Deploy
+
+Firebase Hosting only deploys the frontend. The Node/Express server and FastAPI AI service must be deployed to public HTTPS URLs first.
+
+After backend URLs are ready, create `.env.production`:
+
+```env
+VITE_API_BASE_URL=https://your-node-server-public-url.example.com
+VITE_AI_SERVICE_BASE_URL=https://your-fastapi-public-url.example.com
+```
+
+Then build and deploy:
+
+```powershell
+npm run build
+firebase.cmd deploy --only hosting
+```
+
+If upload fails on the public website and the popup mentions `localhost:5000`, the frontend was built without real production backend URLs.
+
+## Documentation
+
+- Deployment guide: `docs/DEPLOYMENT.md`
+- Firebase rules guide: `docs/FIREBASE_RULES.md`
+- Product spec: `docs/tamcam-ai-v1-spec.md`
+- AI/data analysis adoption notes: `docs/awesome-llm-apps-adoption.md`
+
+## Notes
+
+Do not commit `.env`, `.env.production`, API keys, Firebase private credentials, or other secrets.
+
+Use `.env.example`, `.env.production.example`, `server/.env.example`, and `ai-service/.env.example` as templates only.

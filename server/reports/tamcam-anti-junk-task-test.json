@@ -1,0 +1,15 @@
+{
+  "input": "server/data/tamcam-anti-junk-task-test.jsonl",
+  "generatedAt": "2026-07-14T07:56:22.564Z",
+  "summary": {
+    "total": 10,
+    "negativeCases": 6,
+    "positiveCases": 4,
+    "passRate": 1,
+    "junkBlockAccuracy": 1,
+    "validActionKeepAccuracy": 1,
+    "forbiddenTitleCleanRate": 1,
+    "requiredTitleCoverage": 1
+  },
+  "failureSamples": []
+}

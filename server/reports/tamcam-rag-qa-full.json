@@ -1,0 +1,842 @@
+{
+  "input": "server/data/tamcam-rag-qa-full.jsonl",
+  "generatedAt": "2026-07-07T05:04:33.846Z",
+  "summary": {
+    "totalQuestions": 62,
+    "evidenceHitRate": 0.9838709677419355,
+    "answerF1": 0.29071992696471116,
+    "mustContainCoverage": 0.9798387096774193,
+    "averageTopScore": 25.887096774193548,
+    "byCategory": {
+      "overview": {
+        "totalQuestions": 12,
+        "evidenceHitRate": 0.9166666666666666,
+        "answerF1": 0.29555531960924075,
+        "mustContainCoverage": 0.9513888888888888,
+        "averageTopScore": 13.5
+      },
+      "detail": {
+        "totalQuestions": 6,
+        "evidenceHitRate": 1,
+        "answerF1": 0.213686783419378,
+        "mustContainCoverage": 0.8888888888888888,
+        "averageTopScore": 20.833333333333332
+      },
+      "workflow": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.46438356164383565,
+        "mustContainCoverage": 1,
+        "averageTopScore": 20
+      },
+      "deadline": {
+        "totalQuestions": 9,
+        "evidenceHitRate": 1,
+        "answerF1": 0.231793196961953,
+        "mustContainCoverage": 1,
+        "averageTopScore": 28.88888888888889
+      },
+      "assignee": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.32720306513409964,
+        "mustContainCoverage": 1,
+        "averageTopScore": 12.5
+      },
+      "risk": {
+        "totalQuestions": 4,
+        "evidenceHitRate": 1,
+        "answerF1": 0.27778193667449436,
+        "mustContainCoverage": 1,
+        "averageTopScore": 28.75
+      },
+      "data_overview": {
+        "totalQuestions": 4,
+        "evidenceHitRate": 1,
+        "answerF1": 0.43715975140947144,
+        "mustContainCoverage": 1,
+        "averageTopScore": 18.5
+      },
+      "data_insight": {
+        "totalQuestions": 6,
+        "evidenceHitRate": 1,
+        "answerF1": 0.245238006085941,
+        "mustContainCoverage": 1,
+        "averageTopScore": 37.666666666666664
+      },
+      "chart": {
+        "totalQuestions": 1,
+        "evidenceHitRate": 1,
+        "answerF1": 0.3943661971830986,
+        "mustContainCoverage": 1,
+        "averageTopScore": 11
+      },
+      "action": {
+        "totalQuestions": 5,
+        "evidenceHitRate": 1,
+        "answerF1": 0.40522278754239893,
+        "mustContainCoverage": 1,
+        "averageTopScore": 53.6
+      },
+      "decision": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.20995741893219783,
+        "mustContainCoverage": 1,
+        "averageTopScore": 22
+      },
+      "priority": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.33465959328028294,
+        "mustContainCoverage": 1,
+        "averageTopScore": 15
+      },
+      "condition": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.2222541690626797,
+        "mustContainCoverage": 1,
+        "averageTopScore": 51.5
+      },
+      "sla": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.17424242424242425,
+        "mustContainCoverage": 1,
+        "averageTopScore": 35
+      },
+      "schedule": {
+        "totalQuestions": 2,
+        "evidenceHitRate": 1,
+        "answerF1": 0.2540106951871658,
+        "mustContainCoverage": 1,
+        "averageTopScore": 20
+      },
+      "data_quality": {
+        "totalQuestions": 1,
+        "evidenceHitRate": 1,
+        "answerF1": 0.3846153846153846,
+        "mustContainCoverage": 1,
+        "averageTopScore": 12
+      }
+    }
+  },
+  "failureSamples": [
+    {
+      "id": "rag-full-001-q1",
+      "fileName": "phuong-phap-karnaugh.docx",
+      "question": "File nay la gi?",
+      "category": "overview",
+      "expectedAnswer": "Tai lieu ly thuyet ve phuong phap Karnaugh/K-map de don gian hoa ham Boolean.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.\n2. PHUONG PHAP KARNAUGH.\n3. Bieu do Karnaugh hay K-map la cong cu truc quan dung de don gian hoa ham Boolean.\n4. Moi o trong K-map bieu dien mot to hop gia tri cua cac bien dau vao.",
+      "retrievedBlocks": [
+        {
+          "index": 6,
+          "text": "Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.",
+          "score": 11
+        },
+        {
+          "index": 0,
+          "text": "PHUONG PHAP KARNAUGH.",
+          "score": 4
+        },
+        {
+          "index": 1,
+          "text": "Bieu do Karnaugh hay K-map la cong cu truc quan dung de don gian hoa ham Boolean.",
+          "score": 3
+        },
+        {
+          "index": 2,
+          "text": "Moi o trong K-map bieu dien mot to hop gia tri cua cac bien dau vao.",
+          "score": 2
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.23880597014925373,
+        "mustContainCoverage": 1,
+        "topScore": 11
+      }
+    },
+    {
+      "id": "rag-full-001-q2",
+      "fileName": "phuong-phap-karnaugh.docx",
+      "question": "K-map dung de lam gi?",
+      "category": "detail",
+      "expectedAnswer": "K-map dung de don gian hoa ham Boolean bang cach nhom cac o co gia tri 1.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. De rut gon bieu thuc, nguoi hoc can nhom cac o co gia tri 1 thanh nhom kich thuoc 1, 2, 4, 8 hoac 16.\n2. Cac o ke nhau chi khac nhau mot bien theo ma Gray.\n3. Nhom cang lon thi bieu thuc cang don gian.\n4. Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "text": "De rut gon bieu thuc, nguoi hoc can nhom cac o co gia tri 1 thanh nhom kich thuoc 1, 2, 4, 8 hoac 16.",
+          "score": 39
+        },
+        {
+          "index": 3,
+          "text": "Cac o ke nhau chi khac nhau mot bien theo ma Gray.",
+          "score": 37
+        },
+        {
+          "index": 5,
+          "text": "Nhom cang lon thi bieu thuc cang don gian.",
+          "score": 37
+        },
+        {
+          "index": 6,
+          "text": "Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.",
+          "score": 32
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.24324324324324326,
+        "mustContainCoverage": 0.3333333333333333,
+        "topScore": 39
+      }
+    },
+    {
+      "id": "rag-full-001-q3",
+      "fileName": "phuong-phap-karnaugh.docx",
+      "question": "Toi can lam bai Karnaugh theo cac buoc nao?",
+      "category": "workflow",
+      "expectedAnswer": "Viet bang chan tri, lap K-map, nhom cac o 1 roi suy ra bieu thuc toi gian.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.\n2. Nhom cang lon thi bieu thuc cang don gian.\n3. Loi thuong gap la nhom sai cac o khong ke nhau hoac bo sot nhom lon.\n4. Moi o trong K-map bieu dien mot to hop gia tri cua cac bien dau vao.",
+      "retrievedBlocks": [
+        {
+          "index": 6,
+          "text": "Khi lam bai, can viet bang chan tri, lap K-map, nhom cac o 1, sau do suy ra bieu thuc toi gian.",
+          "score": 37
+        },
+        {
+          "index": 5,
+          "text": "Nhom cang lon thi bieu thuc cang don gian.",
+          "score": 35
+        },
+        {
+          "index": 7,
+          "text": "Loi thuong gap la nhom sai cac o khong ke nhau hoac bo sot nhom lon.",
+          "score": 35
+        },
+        {
+          "index": 2,
+          "text": "Moi o trong K-map bieu dien mot to hop gia tri cua cac bien dau vao.",
+          "score": 26
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.32876712328767127,
+        "mustContainCoverage": 1,
+        "topScore": 37
+      }
+    },
+    {
+      "id": "rag-full-002-q1",
+      "fileName": "chuong-2-phuong-phap-so-dem.docx",
+      "question": "Day la file gi?",
+      "category": "overview",
+      "expectedAnswer": "File bai tap va dap an chuong 2 ve phuong phap so dem.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Bai 1 yeu cau kiem tra cac tap hop co bang nhau hay khong.\n2. Tai lieu nay la bai tap va dap an, khong phai slide thuyet trinh.\n3. Chuong 2: Phuong phap so dem.\n4. Bai 6 tinh so cach chon va so tap con, trong do so tap con cua tap 7 phan tu la 2^7 = 128.",
+      "retrievedBlocks": [
+        {
+          "index": 1,
+          "text": "Bai 1 yeu cau kiem tra cac tap hop co bang nhau hay khong.",
+          "score": 13
+        },
+        {
+          "index": 5,
+          "text": "Tai lieu nay la bai tap va dap an, khong phai slide thuyet trinh.",
+          "score": 11
+        },
+        {
+          "index": 0,
+          "text": "Chuong 2: Phuong phap so dem.",
+          "score": 4
+        },
+        {
+          "index": 2,
+          "text": "Bai 6 tinh so cach chon va so tap con, trong do so tap con cua tap 7 phan tu la 2^7 = 128.",
+          "score": 2
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.3,
+        "mustContainCoverage": 1,
+        "topScore": 13
+      }
+    },
+    {
+      "id": "rag-full-002-q2",
+      "fileName": "chuong-2-phuong-phap-so-dem.docx",
+      "question": "Bai 6 co ket qua gi dang chu y?",
+      "category": "detail",
+      "expectedAnswer": "So tap con cua tap 7 phan tu la 2^7 = 128.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Bai 1 yeu cau kiem tra cac tap hop co bang nhau hay khong.\n2. Neu muon hoc, nen lam lai cac bai sai, ghi cong thuc dem co ban va tu tao 3 bai tuong tu.\n3. Chuong 2: Phuong phap so dem.\n4. Bai 6 tinh so cach chon va so tap con, trong do so tap con cua tap 7 phan tu la 2^7 = 128.",
+      "retrievedBlocks": [
+        {
+          "index": 1,
+          "text": "Bai 1 yeu cau kiem tra cac tap hop co bang nhau hay khong.",
+          "score": 8
+        },
+        {
+          "index": 6,
+          "text": "Neu muon hoc, nen lam lai cac bai sai, ghi cong thuc dem co ban va tu tao 3 bai tuong tu.",
+          "score": 8
+        },
+        {
+          "index": 0,
+          "text": "Chuong 2: Phuong phap so dem.",
+          "score": 6
+        },
+        {
+          "index": 2,
+          "text": "Bai 6 tinh so cach chon va so tap con, trong do so tap con cua tap 7 phan tu la 2^7 = 128.",
+          "score": 6
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.23529411764705882,
+        "mustContainCoverage": 1,
+        "topScore": 8
+      }
+    },
+    {
+      "id": "rag-full-003-q1",
+      "fileName": "bao-cao-sevt.docx",
+      "question": "Tai lieu nay noi ve gi?",
+      "category": "overview",
+      "expectedAnswer": "Bao cao tong quan ve Samsung Electronics Viet Nam Thai Nguyen SEVT.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Bao cao ve Cong ty TNHH Samsung Electronics Viet Nam Thai Nguyen (SEVT).\n2. Tai lieu trinh bay tong quan ve SEVT, lich su hinh thanh, vai tro trong chuoi cung ung toan cau va dong gop tai Thai Nguyen.\n3. SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.\n4. Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "text": "Bao cao ve Cong ty TNHH Samsung Electronics Viet Nam Thai Nguyen (SEVT).",
+          "score": 14
+        },
+        {
+          "index": 1,
+          "text": "Tai lieu trinh bay tong quan ve SEVT, lich su hinh thanh, vai tro trong chuoi cung ung toan cau va dong gop tai Thai Nguyen.",
+          "score": 3
+        },
+        {
+          "index": 2,
+          "text": "SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.",
+          "score": 2
+        },
+        {
+          "index": 3,
+          "text": "Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.",
+          "score": 1
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.21999999999999997,
+        "mustContainCoverage": 1,
+        "topScore": 14
+      }
+    },
+    {
+      "id": "rag-full-003-q2",
+      "fileName": "bao-cao-sevt.docx",
+      "question": "SEVT thanh lap khi nao?",
+      "category": "detail",
+      "expectedAnswer": "SEVT duoc thanh lap tai Thai Nguyen vao nam 2013.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.\n2. Tai lieu trinh bay tong quan ve SEVT, lich su hinh thanh, vai tro trong chuoi cung ung toan cau va dong gop tai Thai Nguyen.\n3. Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.\n4. Muc tieu cua bao cao la cung cap cai nhin tong quan ve SEVT trong thoi dai cong nghiep 4.0.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "text": "SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.",
+          "score": 16
+        },
+        {
+          "index": 1,
+          "text": "Tai lieu trinh bay tong quan ve SEVT, lich su hinh thanh, vai tro trong chuoi cung ung toan cau va dong gop tai Thai Nguyen.",
+          "score": 14
+        },
+        {
+          "index": 3,
+          "text": "Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.",
+          "score": 14
+        },
+        {
+          "index": 4,
+          "text": "Muc tieu cua bao cao la cung cap cai nhin tong quan ve SEVT trong thoi dai cong nghiep 4.0.",
+          "score": 5
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.17647058823529413,
+        "mustContainCoverage": 1,
+        "topScore": 16
+      }
+    },
+    {
+      "id": "rag-full-003-q3",
+      "fileName": "bao-cao-sevt.docx",
+      "question": "Muc tieu bao cao la gi?",
+      "category": "detail",
+      "expectedAnswer": "Cung cap cai nhin tong quan ve SEVT trong thoi dai cong nghiep 4.0.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Muc tieu cua bao cao la cung cap cai nhin tong quan ve SEVT trong thoi dai cong nghiep 4.0.\n2. Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.\n3. SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.\n4. Bao cao ve Cong ty TNHH Samsung Electronics Viet Nam Thai Nguyen (SEVT).",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "text": "Muc tieu cua bao cao la cung cap cai nhin tong quan ve SEVT trong thoi dai cong nghiep 4.0.",
+          "score": 32
+        },
+        {
+          "index": 3,
+          "text": "Bao cao co cac muc: phuong phap nghien cuu, lich su dung 4, chien luoc gia ca canh tranh, vai tro doi voi dia phuong va ket luan.",
+          "score": 30
+        },
+        {
+          "index": 2,
+          "text": "SEVT duoc thanh lap tai Thai Nguyen vao nam 2013, la mot co so san xuat dien thoai thong minh va thiet bi dien tu lon cua Samsung.",
+          "score": 12
+        },
+        {
+          "index": 0,
+          "text": "Bao cao ve Cong ty TNHH Samsung Electronics Viet Nam Thai Nguyen (SEVT).",
+          "score": 11
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.22916666666666669,
+        "mustContainCoverage": 1,
+        "topScore": 32
+      }
+    },
+    {
+      "id": "rag-full-004-q2",
+      "fileName": "ke-hoach-du-an.docx",
+      "question": "Ai phu trach viec gi?",
+      "category": "assignee",
+      "expectedAnswer": "Nhi phu trach tai lieu, Phat phu trach giao dien, Cam phu trach kiem thu.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Nguoi phu trach: Nhi phu trach tai lieu, Phat phu trach giao dien, Cam phu trach kiem thu.\n2. Cac moc thoi gian: 10/07 hoan thanh phan tich yeu cau, 15/07 hoan thanh giao dien mau, 25/07 kiem thu noi bo, 30/07 nop bao cao tong ket.\n3. Rui ro chinh la cham tien do giao dien va thieu du lieu kiem thu.\n4. Muc tieu la xay dung cong cu quan ly cong viec cho phong hanh chinh.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "text": "Nguoi phu trach: Nhi phu trach tai lieu, Phat phu trach giao dien, Cam phu trach kiem thu.",
+          "score": 14
+        },
+        {
+          "index": 2,
+          "text": "Cac moc thoi gian: 10/07 hoan thanh phan tich yeu cau, 15/07 hoan thanh giao dien mau, 25/07 kiem thu noi bo, 30/07 nop bao cao tong ket.",
+          "score": 12
+        },
+        {
+          "index": 4,
+          "text": "Rui ro chinh la cham tien do giao dien va thieu du lieu kiem thu.",
+          "score": 12
+        },
+        {
+          "index": 1,
+          "text": "Muc tieu la xay dung cong cu quan ly cong viec cho phong hanh chinh.",
+          "score": 3
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.2988505747126437,
+        "mustContainCoverage": 1,
+        "topScore": 14
+      }
+    },
+    {
+      "id": "rag-full-004-q3",
+      "fileName": "ke-hoach-du-an.docx",
+      "question": "Rui ro chinh la gi?",
+      "category": "risk",
+      "expectedAnswer": "Cham tien do giao dien va thieu du lieu kiem thu.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Rui ro chinh la cham tien do giao dien va thieu du lieu kiem thu.\n2. Nguoi phu trach: Nhi phu trach tai lieu, Phat phu trach giao dien, Cam phu trach kiem thu.\n3. Can hop tien do vao moi thu Sau luc 15:00.\n4. Muc tieu la xay dung cong cu quan ly cong viec cho phong hanh chinh.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "text": "Rui ro chinh la cham tien do giao dien va thieu du lieu kiem thu.",
+          "score": 31
+        },
+        {
+          "index": 3,
+          "text": "Nguoi phu trach: Nhi phu trach tai lieu, Phat phu trach giao dien, Cam phu trach kiem thu.",
+          "score": 29
+        },
+        {
+          "index": 5,
+          "text": "Can hop tien do vao moi thu Sau luc 15:00.",
+          "score": 29
+        },
+        {
+          "index": 1,
+          "text": "Muc tieu la xay dung cong cu quan ly cong viec cho phong hanh chinh.",
+          "score": 3
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.26865671641791045,
+        "mustContainCoverage": 1,
+        "topScore": 31
+      }
+    },
+    {
+      "id": "rag-full-005-q2",
+      "fileName": "doanh-thu-thang-6.csv",
+      "question": "Chi nhanh nao cao nhat?",
+      "category": "data_insight",
+      "expectedAnswer": "Chi nhanh A cao nhat voi 190000000 VND.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Chi nhanh A dat 190000000 VND, chi nhanh B dat 150000000 VND, chi nhanh C dat 80000000 VND.\n2. Tong doanh thu la 420000000 VND.\n3. San pham Ban Phim co doanh thu 180000000 VND va tang 18% so voi thang truoc.\n4. Cot du lieu: ngay, chi nhanh, san pham, so luong, doanh thu.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "text": "Chi nhanh A dat 190000000 VND, chi nhanh B dat 150000000 VND, chi nhanh C dat 80000000 VND.",
+          "score": 35
+        },
+        {
+          "index": 2,
+          "text": "Tong doanh thu la 420000000 VND.",
+          "score": 33
+        },
+        {
+          "index": 4,
+          "text": "San pham Ban Phim co doanh thu 180000000 VND va tang 18% so voi thang truoc.",
+          "score": 33
+        },
+        {
+          "index": 1,
+          "text": "Cot du lieu: ngay, chi nhanh, san pham, so luong, doanh thu.",
+          "score": 25
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.16393442622950818,
+        "mustContainCoverage": 1,
+        "topScore": 35
+      }
+    },
+    {
+      "id": "rag-full-005-q4",
+      "fileName": "doanh-thu-thang-6.csv",
+      "question": "Co bat thuong nao khong?",
+      "category": "risk",
+      "expectedAnswer": "Ngay 18/06 doanh thu giam bat thuong con 5000000 VND do loi POS.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Ngay 18/06 doanh thu giam bat thuong chi con 5000000 VND do he thong POS loi.\n2. San pham Ban Phim co doanh thu 180000000 VND va tang 18% so voi thang truoc.\n3. Bieu do nen dung: cot so sanh chi nhanh, duong xu huong doanh thu theo ngay, tron ty trong san pham.\n4. Cot du lieu: ngay, chi nhanh, san pham, so luong, doanh thu.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "text": "Ngay 18/06 doanh thu giam bat thuong chi con 5000000 VND do he thong POS loi.",
+          "score": 28
+        },
+        {
+          "index": 4,
+          "text": "San pham Ban Phim co doanh thu 180000000 VND va tang 18% so voi thang truoc.",
+          "score": 26
+        },
+        {
+          "index": 6,
+          "text": "Bieu do nen dung: cot so sanh chi nhanh, duong xu huong doanh thu theo ngay, tron ty trong san pham.",
+          "score": 26
+        },
+        {
+          "index": 1,
+          "text": "Cot du lieu: ngay, chi nhanh, san pham, so luong, doanh thu.",
+          "score": 17
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.32098765432098764,
+        "mustContainCoverage": 1,
+        "topScore": 28
+      }
+    },
+    {
+      "id": "rag-full-006-q3",
+      "fileName": "danh-sach-nhan-vien.xlsx",
+      "question": "Toi nen lam gi tiep?",
+      "category": "action",
+      "expectedAnswer": "Loc danh sach sap het hop dong, gui HR kiem tra va tao lich nhac truoc 7 ngay.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Viec can lam: loc danh sach sap het hop dong, gui HR kiem tra, tao lich nhac truoc 7 ngay.\n2. Nguyen Van A co KPI 45%, thap nhat va can gap quan ly truc tiep.\n3. File nhan su gom cac cot: ma nhan vien, ho ten, phong ban, ngay vao lam, luong co ban, KPI, trang thai hop dong.\n4. Phong Kinh doanh co 22 nhan vien, Ky thuat co 18, Hanh chinh co 10, Ke toan co 8.",
+      "retrievedBlocks": [
+        {
+          "index": 5,
+          "text": "Viec can lam: loc danh sach sap het hop dong, gui HR kiem tra, tao lich nhac truoc 7 ngay.",
+          "score": 53
+        },
+        {
+          "index": 4,
+          "text": "Nguyen Van A co KPI 45%, thap nhat va can gap quan ly truc tiep.",
+          "score": 51
+        },
+        {
+          "index": 0,
+          "text": "File nhan su gom cac cot: ma nhan vien, ho ten, phong ban, ngay vao lam, luong co ban, KPI, trang thai hop dong.",
+          "score": 29
+        },
+        {
+          "index": 1,
+          "text": "Phong Kinh doanh co 22 nhan vien, Ky thuat co 18, Hanh chinh co 10, Ke toan co 8.",
+          "score": 27
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.3404255319148936,
+        "mustContainCoverage": 1,
+        "topScore": 53
+      }
+    },
+    {
+      "id": "rag-full-007-q2",
+      "fileName": "bien-ban-hop.docx",
+      "question": "V1 co lam OCR anh khong?",
+      "category": "decision",
+      "expectedAnswer": "Khong, V1 chua lam OCR anh.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Quyet dinh: chua lam OCR anh trong V1, chi ho tro PDF, DOCX, TXT, XLSX va CSV.\n2. Noi dung: thong nhat pham vi V1 gom upload tai lieu, AI chat, task list va calendar.\n3. Action item: Nhi hoan thanh test case upload truoc 12/07; Phat sua UI chat truoc 14/07; Cam kiem tra Firebase rules truoc 10/07.\n4. Bien ban hop du an ngay 07/07/2026.",
+      "retrievedBlocks": [
+        {
+          "index": 2,
+          "text": "Quyet dinh: chua lam OCR anh trong V1, chi ho tro PDF, DOCX, TXT, XLSX va CSV.",
+          "score": 32
+        },
+        {
+          "index": 1,
+          "text": "Noi dung: thong nhat pham vi V1 gom upload tai lieu, AI chat, task list va calendar.",
+          "score": 30
+        },
+        {
+          "index": 3,
+          "text": "Action item: Nhi hoan thanh test case upload truoc 12/07; Phat sua UI chat truoc 14/07; Cam kiem tra Firebase rules truoc 10/07.",
+          "score": 30
+        },
+        {
+          "index": 0,
+          "text": "Bien ban hop du an ngay 07/07/2026.",
+          "score": 11
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.14084507042253522,
+        "mustContainCoverage": 1,
+        "topScore": 32
+      }
+    },
+    {
+      "id": "rag-full-007-q3",
+      "fileName": "bien-ban-hop.docx",
+      "question": "Action item co han nao?",
+      "category": "deadline",
+      "expectedAnswer": "Nhi truoc 12/07, Phat truoc 14/07, Cam truoc 10/07.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Action item: Nhi hoan thanh test case upload truoc 12/07; Phat sua UI chat truoc 14/07; Cam kiem tra Firebase rules truoc 10/07.\n2. Quyet dinh: chua lam OCR anh trong V1, chi ho tro PDF, DOCX, TXT, XLSX va CSV.\n3. Bien ban hop du an ngay 07/07/2026.\n4. Noi dung: thong nhat pham vi V1 gom upload tai lieu, AI chat, task list va calendar.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "text": "Action item: Nhi hoan thanh test case upload truoc 12/07; Phat sua UI chat truoc 14/07; Cam kiem tra Firebase rules truoc 10/07.",
+          "score": 66
+        },
+        {
+          "index": 2,
+          "text": "Quyet dinh: chua lam OCR anh trong V1, chi ho tro PDF, DOCX, TXT, XLSX va CSV.",
+          "score": 64
+        },
+        {
+          "index": 0,
+          "text": "Bien ban hop du an ngay 07/07/2026.",
+          "score": 28
+        },
+        {
+          "index": 1,
+          "text": "Noi dung: thong nhat pham vi V1 gom upload tai lieu, AI chat, task list va calendar.",
+          "score": 26
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.24324324324324326,
+        "mustContainCoverage": 1,
+        "topScore": 66
+      }
+    },
+    {
+      "id": "rag-full-008-q2",
+      "fileName": "email-khach-hang.txt",
+      "question": "Can tra loi truoc khi nao?",
+      "category": "deadline",
+      "expectedAnswer": "Truoc 17:00 ngay 08/07/2026.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Noi dung: de nghi bao gia goi bao tri website 12 thang, yeu cau gui truoc 17:00 ngay 08/07/2026.\n2. Email tu khach hang Minh Anh gui ngay 06/07/2026.\n3. Khach hang can 3 muc gia: co ban, tieu chuan, nang cao.",
+      "retrievedBlocks": [
+        {
+          "index": 1,
+          "text": "Noi dung: de nghi bao gia goi bao tri website 12 thang, yeu cau gui truoc 17:00 ngay 08/07/2026.",
+          "score": 3
+        },
+        {
+          "index": 0,
+          "text": "Email tu khach hang Minh Anh gui ngay 06/07/2026.",
+          "score": 1
+        },
+        {
+          "index": 2,
+          "text": "Khach hang can 3 muc gia: co ban, tieu chuan, nang cao.",
+          "score": 1
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.19999999999999998,
+        "mustContainCoverage": 1,
+        "topScore": 3
+      }
+    },
+    {
+      "id": "rag-full-009-q1",
+      "fileName": "quy-dinh-nghi-phep.docx",
+      "question": "Tai lieu nay la quy dinh gi?",
+      "category": "overview",
+      "expectedAnswer": "Quy dinh nghi phep noi bo.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Quy dinh nghi phep noi bo.\n2. Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.\n3. Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.\n4. Nhan vien can gui don nghi phep truoc it nhat 3 ngay lam viec, tru truong hop khan cap.",
+      "retrievedBlocks": [
+        {
+          "index": 0,
+          "text": "Quy dinh nghi phep noi bo.",
+          "score": 14
+        },
+        {
+          "index": 4,
+          "text": "Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.",
+          "score": 11
+        },
+        {
+          "index": 5,
+          "text": "Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.",
+          "score": 11
+        },
+        {
+          "index": 1,
+          "text": "Nhan vien can gui don nghi phep truoc it nhat 3 ngay lam viec, tru truong hop khan cap.",
+          "score": 3
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.1515151515151515,
+        "mustContainCoverage": 1,
+        "topScore": 14
+      }
+    },
+    {
+      "id": "rag-full-009-q2",
+      "fileName": "quy-dinh-nghi-phep.docx",
+      "question": "Neu nghi tren 5 ngay thi can lam gi?",
+      "category": "condition",
+      "expectedAnswer": "Can ban giao cong viec bang van ban.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.\n2. Truong phong phe duyet tren he thong HRM trong vong 24 gio.\n3. Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.\n4. Nhan vien can gui don nghi phep truoc it nhat 3 ngay lam viec, tru truong hop khan cap.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "text": "Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.",
+          "score": 50
+        },
+        {
+          "index": 3,
+          "text": "Truong phong phe duyet tren he thong HRM trong vong 24 gio.",
+          "score": 48
+        },
+        {
+          "index": 5,
+          "text": "Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.",
+          "score": 48
+        },
+        {
+          "index": 1,
+          "text": "Nhan vien can gui don nghi phep truoc it nhat 3 ngay lam viec, tru truong hop khan cap.",
+          "score": 37
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.18918918918918917,
+        "mustContainCoverage": 1,
+        "topScore": 50
+      }
+    },
+    {
+      "id": "rag-full-009-q3",
+      "fileName": "quy-dinh-nghi-phep.docx",
+      "question": "Truong phong phe duyet trong bao lau?",
+      "category": "sla",
+      "expectedAnswer": "Trong vong 24 gio tren he thong HRM.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Truong phong phe duyet tren he thong HRM trong vong 24 gio.\n2. Don nghi phep phai co ly do, thoi gian bat dau, thoi gian ket thuc va nguoi ban giao cong viec.\n3. Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.\n4. Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.",
+      "retrievedBlocks": [
+        {
+          "index": 3,
+          "text": "Truong phong phe duyet tren he thong HRM trong vong 24 gio.",
+          "score": 27
+        },
+        {
+          "index": 2,
+          "text": "Don nghi phep phai co ly do, thoi gian bat dau, thoi gian ket thuc va nguoi ban giao cong viec.",
+          "score": 25
+        },
+        {
+          "index": 4,
+          "text": "Neu nghi tren 5 ngay lien tiep, nhan vien can ban giao cong viec bang van ban.",
+          "score": 25
+        },
+        {
+          "index": 5,
+          "text": "Vi pham quy dinh co the bi tu choi phe duyet hoac tru vao ngay phep nam.",
+          "score": 11
+        }
+      ],
+      "metrics": {
+        "evidenceHit": true,
+        "answerF1": 0.18181818181818182,
+        "mustContainCoverage": 1,
+        "topScore": 27
+      }
+    },
+    {
+      "id": "rag-full-010-q1",
+      "fileName": "ke-hoach-on-thi.docx",
+      "question": "Ke hoach nay de lam gi?",
+      "category": "overview",
+      "expectedAnswer": "On thi cuoi ky trong 20 ngay cho Machine Learning, Database va English.",
+      "answer": "Dá»±a trÃªn cÃ¡c Ä‘oáº¡n liÃªn quan trong tÃ i liá»‡u:\n1. Database nen hoc xen ke bai tap SQL va ly thuyet chuan hoa du lieu.\n2. Uu tien Machine Learning trong 5 ngay dau vi diem hien tai thap nhat.\n3. English nen hoc tu vung va luyen noi moi toi 30 phut.\n4. Mon Machine Learning can 8 ngay, Database can 7 ngay, English can 5 ngay.",
+      "retrievedBlocks": [
+        {
+          "index": 4,
+          "text": "Database nen hoc xen ke bai tap SQL va ly thuyet chuan hoa du lieu.",
+          "score": 29
+        },
+        {
+          "index": 3,
+          "text": "Uu tien Machine Learning trong 5 ngay dau vi diem hien tai thap nhat.",
+          "score": 27
+        },
+        {
+          "index": 5,
+          "text": "English nen hoc tu vung va luyen noi moi toi 30 phut.",
+          "score": 27
+        },
+        {
+          "index": 1,
+          "text": "Mon Machine Learning can 8 ngay, Database can 7 ngay, English can 5 ngay.",
+          "score": 26
+        }
+      ],
+      "metrics": {
+        "evidenceHit": false,
+        "answerF1": 0.17543859649122806,
+        "mustContainCoverage": 0.75,
+        "topScore": 29
+      }
+    }
+  ]
+}

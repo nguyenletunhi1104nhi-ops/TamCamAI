@@ -1,0 +1,31 @@
+{
+  "name": "tamcam-ai-server",
+  "version": "1.0.0",
+  "description": "Backend API for TamCam AI",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "prepare:dataset": "node scripts/prepareDataset.js",
+    "evaluate:dataset": "node scripts/evaluateDataset.js",
+    "build:rag-v2": "node scripts/buildRagQaV2Dataset.js",
+    "evaluate:rag": "node scripts/evaluateRagQa.js",
+    "evaluate:rag:full": "node scripts/evaluateRagQa.js --input server/data/tamcam-rag-qa-full.jsonl --output server/reports/tamcam-rag-qa-full.json --top-k 4",
+    "evaluate:anti-junk": "node scripts/evaluateAntiJunkTasks.js",
+    "evaluate:birthday": "node scripts/evaluateDataset.js --input server/data/tamcam-birthday-reminder-test.jsonl --output server/reports/tamcam-birthday-reminder-test.json",
+    "evaluate:predictive": "node scripts/evaluatePredictiveAnalytics.js",
+    "evaluate:data-agent": "node scripts/evaluateDataAnalysisAgent.js",
+    "evaluate:all": "node scripts/evaluateAll.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mammoth": "^1.12.0",
+    "multer": "^2.2.0",
+    "openai": "^6.45.0",
+    "pdf-parse": "^2.4.5",
+    "xlsx": "^0.18.5"
+  }
+}

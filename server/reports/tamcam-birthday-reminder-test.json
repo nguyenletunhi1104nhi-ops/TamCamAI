@@ -1,0 +1,257 @@
+{
+  "input": "server/data/tamcam-birthday-reminder-test.jsonl",
+  "generatedAt": "2026-07-14T07:56:22.793Z",
+  "summary": {
+    "total": 2,
+    "hasTaskAccuracy": 1,
+    "taskCountExactAccuracy": 1,
+    "summaryF1": 0.04789826378312519,
+    "titleF1": 1,
+    "deadlineAccuracy": 0.8333333333333333,
+    "startTimeAccuracy": 1
+  },
+  "failureSamples": [
+    {
+      "index": 0,
+      "id": "birthday-employees-1",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Danh sách nhân viên có 3 ngày sinh cần tạo reminder sinh nhật.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "employee_birthday_list",
+          "taskCount": 3
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 3,
+        "summary": "Danh sách nhân viên Mã nhân viên: NV001 | Họ và tên: Nguyễn Minh Anh | Ngày sinh: 10/07/1996 | Phòng ban: Kinh doanh | Chức vụ: Nhân viên Mã nhân viên: NV002 | Họ và tên: Trần Thu Hà | Ngày sinh: 15/07/1997 | Phòng ban: Kho vận | Chức vụ: Tổ trưởng Mã nhân viên: NV003 | Họ và tên: Phạm Ngọc Linh | Ngày sinh: 22/07/2004 | Phòng ban: Vận hành | Chức vụ: Nhân viên Danh sách nhân viên Mã nhân viên: NV001 | Họ và tên: Nguyễn Minh Anh | Ngày sinh: 10/07/1996 | Phòng ban: Kinh doanh | Chức vụ: Nhân viên Mã nhân viên: NV002 | Họ và tên: Trần Thu Hà | Ngày sinh: 15/07/1997 | Phòng ban: Kho vận | Chức vụ: Tổ trưởng Mã nhân viên: NV003 | Họ và tên: Phạm Ngọc Linh | Ngày sinh: 22/07/2004 | Phòng ban: Vận hành | Chức vụ: Nhân viên NV001 | Họ và tên: Nguyễn Minh Anh | Ngày sinh: 10/07/1996 | Phòng ban: Kinh doanh | Chức vụ: Nhân viên Mã nhân viên: NV002 | Họ và tên: Trần Thu Hà | Ngày sinh: 15/07/1997 | Phòng ban: Kho vận | Chức vụ: Tổ trưởng Mã nhân viên: NV003 | Họ và tên: Phạm Ngọc Linh | Ngày sinh: 22/07/2004 | Phòng ban: Vận hành | Chức vụ: Nhân viên",
+        "documentType": "EMPLOYEE_BIRTHDAY_LIST"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": true,
+        "summaryF1": 0.051020408163265314,
+        "averageTitleF1": 1,
+        "deadlineAccuracy": 0.6666666666666666,
+        "startTimeAccuracy": 1
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Nhắc sinh nhật Nguyễn Minh Anh",
+            "deadline": "2026-07-10",
+            "startTime": "09:00"
+          },
+          "predictedTask": {
+            "id": "birthday-nv001",
+            "title": "Nhắc sinh nhật Nguyễn Minh Anh",
+            "description": "Sinh nhật: 10/07/1996.\nMã nhân viên: NV001.\nPhòng ban: Kinh doanh.\nChức vụ: Nhân viên.\nNguồn dữ liệu: Mã nhân viên: NV001 | Họ và tên: Nguyễn Minh Anh | Ngày sinh: 10/07/1996 | Phòng ban: Kinh doanh | Chức vụ: Nhân viên",
+            "category": "Work",
+            "type": "Reminder",
+            "domain": "Human Resources",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2027-07-10",
+            "deadline": "2027-07-10",
+            "startTime": "09:00",
+            "endTime": "09:15",
+            "estimate": "15 phút",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Kiểm tra lại thông tin ngày sinh trong file gốc.",
+              "Chuẩn bị lời chúc hoặc thông báo nội bộ nếu cần.",
+              "Cập nhật trạng thái sau khi đã nhắc/chúc mừng."
+            ],
+            "sourceText": "Mã nhân viên: NV001 | Họ và tên: Nguyễn Minh Anh | Ngày sinh: 10/07/1996 | Phòng ban: Kinh doanh | Chức vụ: Nhân viên"
+          },
+          "titleF1": 1,
+          "deadlineMatch": false,
+          "startTimeMatch": true
+        },
+        {
+          "expectedTask": {
+            "title": "Nhắc sinh nhật Trần Thu Hà",
+            "deadline": "2026-07-15",
+            "startTime": "09:00"
+          },
+          "predictedTask": {
+            "id": "birthday-nv002",
+            "title": "Nhắc sinh nhật Trần Thu Hà",
+            "description": "Sinh nhật: 15/07/1997.\nMã nhân viên: NV002.\nPhòng ban: Kho vận.\nChức vụ: Tổ trưởng.\nNguồn dữ liệu: Mã nhân viên: NV002 | Họ và tên: Trần Thu Hà | Ngày sinh: 15/07/1997 | Phòng ban: Kho vận | Chức vụ: Tổ trưởng",
+            "category": "Work",
+            "type": "Reminder",
+            "domain": "Human Resources",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2026-07-15",
+            "deadline": "2026-07-15",
+            "startTime": "09:00",
+            "endTime": "09:15",
+            "estimate": "15 phút",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Kiểm tra lại thông tin ngày sinh trong file gốc.",
+              "Chuẩn bị lời chúc hoặc thông báo nội bộ nếu cần.",
+              "Cập nhật trạng thái sau khi đã nhắc/chúc mừng."
+            ],
+            "sourceText": "Mã nhân viên: NV002 | Họ và tên: Trần Thu Hà | Ngày sinh: 15/07/1997 | Phòng ban: Kho vận | Chức vụ: Tổ trưởng"
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        },
+        {
+          "expectedTask": {
+            "title": "Nhắc sinh nhật Phạm Ngọc Linh",
+            "deadline": "2026-07-22",
+            "startTime": "09:00"
+          },
+          "predictedTask": {
+            "id": "birthday-nv003",
+            "title": "Nhắc sinh nhật Phạm Ngọc Linh",
+            "description": "Sinh nhật: 22/07/2004.\nMã nhân viên: NV003.\nPhòng ban: Vận hành.\nChức vụ: Nhân viên.\nNguồn dữ liệu: Mã nhân viên: NV003 | Họ và tên: Phạm Ngọc Linh | Ngày sinh: 22/07/2004 | Phòng ban: Vận hành | Chức vụ: Nhân viên",
+            "category": "Work",
+            "type": "Reminder",
+            "domain": "Human Resources",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2026-07-22",
+            "deadline": "2026-07-22",
+            "startTime": "09:00",
+            "endTime": "09:15",
+            "estimate": "15 phút",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Kiểm tra lại thông tin ngày sinh trong file gốc.",
+              "Chuẩn bị lời chúc hoặc thông báo nội bộ nếu cần.",
+              "Cập nhật trạng thái sau khi đã nhắc/chúc mừng."
+            ],
+            "sourceText": "Mã nhân viên: NV003 | Họ và tên: Phạm Ngọc Linh | Ngày sinh: 22/07/2004 | Phòng ban: Vận hành | Chức vụ: Nhân viên"
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "id": "birthday-employees-2",
+      "expected": {
+        "hasTask": true,
+        "taskCount": 2,
+        "summary": "Danh sách nhân viên có 2 ngày sinh cần tạo reminder sinh nhật.",
+        "metadata": {
+          "language": "vi",
+          "domain": "office",
+          "documentType": "employee_birthday_list",
+          "taskCount": 2
+        }
+      },
+      "predicted": {
+        "hasTask": true,
+        "taskCount": 2,
+        "summary": "Bảng nhân sự Mã nhân viên: HC01 | Họ và tên: Lê Bảo Ngọc | Ngày sinh: 05/01/1992 | Phòng ban: Hành chính | Chức vụ: Chuyên viên Mã nhân viên: HC02 | Họ và tên: Võ Hải Nam | Ngày sinh: 30/12/1989 | Phòng ban: Tổ chức | Chức vụ: Trưởng nhóm Bảng nhân sự Mã nhân viên: HC01 | Họ và tên: Lê Bảo Ngọc | Ngày sinh: 05/01/1992 | Phòng ban: Hành chính | Chức vụ: Chuyên viên Mã nhân viên: HC02 | Họ và tên: Võ Hải Nam | Ngày sinh: 30/12/1989 | Phòng ban: Tổ chức | Chức vụ: Trưởng nhóm HC01 | Họ và tên: Lê Bảo Ngọc | Ngày sinh: 05/01/1992 | Phòng ban: Hành chính | Chức vụ: Chuyên viên Mã nhân viên: HC02 | Họ và tên: Võ Hải Nam | Ngày sinh: 30/12/1989 | Phòng ban: Tổ chức | Chức vụ: Trưởng nhóm",
+        "documentType": "EMPLOYEE_BIRTHDAY_LIST"
+      },
+      "metrics": {
+        "hasTaskCorrect": true,
+        "taskCountExact": true,
+        "summaryF1": 0.04477611940298507,
+        "averageTitleF1": 1,
+        "deadlineAccuracy": 1,
+        "startTimeAccuracy": 1
+      },
+      "matchedTasks": [
+        {
+          "expectedTask": {
+            "title": "Nhắc sinh nhật Lê Bảo Ngọc",
+            "deadline": "2027-01-05",
+            "startTime": "09:00"
+          },
+          "predictedTask": {
+            "id": "birthday-hc01",
+            "title": "Nhắc sinh nhật Lê Bảo Ngọc",
+            "description": "Sinh nhật: 05/01/1992.\nMã nhân viên: HC01.\nPhòng ban: Hành chính.\nChức vụ: Chuyên viên.\nNguồn dữ liệu: Mã nhân viên: HC01 | Họ và tên: Lê Bảo Ngọc | Ngày sinh: 05/01/1992 | Phòng ban: Hành chính | Chức vụ: Chuyên viên",
+            "category": "Work",
+            "type": "Reminder",
+            "domain": "Human Resources",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2027-01-05",
+            "deadline": "2027-01-05",
+            "startTime": "09:00",
+            "endTime": "09:15",
+            "estimate": "15 phút",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Kiểm tra lại thông tin ngày sinh trong file gốc.",
+              "Chuẩn bị lời chúc hoặc thông báo nội bộ nếu cần.",
+              "Cập nhật trạng thái sau khi đã nhắc/chúc mừng."
+            ],
+            "sourceText": "Mã nhân viên: HC01 | Họ và tên: Lê Bảo Ngọc | Ngày sinh: 05/01/1992 | Phòng ban: Hành chính | Chức vụ: Chuyên viên"
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        },
+        {
+          "expectedTask": {
+            "title": "Nhắc sinh nhật Võ Hải Nam",
+            "deadline": "2026-12-30",
+            "startTime": "09:00"
+          },
+          "predictedTask": {
+            "id": "birthday-hc02",
+            "title": "Nhắc sinh nhật Võ Hải Nam",
+            "description": "Sinh nhật: 30/12/1989.\nMã nhân viên: HC02.\nPhòng ban: Tổ chức.\nChức vụ: Trưởng nhóm.\nNguồn dữ liệu: Mã nhân viên: HC02 | Họ và tên: Võ Hải Nam | Ngày sinh: 30/12/1989 | Phòng ban: Tổ chức | Chức vụ: Trưởng nhóm",
+            "category": "Work",
+            "type": "Reminder",
+            "domain": "Human Resources",
+            "difficulty": "Dễ",
+            "necessity": "Trung bình",
+            "priority": "Trung bình",
+            "startDate": "2026-12-30",
+            "deadline": "2026-12-30",
+            "startTime": "09:00",
+            "endTime": "09:15",
+            "estimate": "15 phút",
+            "reminder": "Trước 1 ngày",
+            "assignee": "Tôi",
+            "status": "To do",
+            "completed": false,
+            "suggestedSteps": [
+              "Kiểm tra lại thông tin ngày sinh trong file gốc.",
+              "Chuẩn bị lời chúc hoặc thông báo nội bộ nếu cần.",
+              "Cập nhật trạng thái sau khi đã nhắc/chúc mừng."
+            ],
+            "sourceText": "Mã nhân viên: HC02 | Họ và tên: Võ Hải Nam | Ngày sinh: 30/12/1989 | Phòng ban: Tổ chức | Chức vụ: Trưởng nhóm"
+          },
+          "titleF1": 1,
+          "deadlineMatch": true,
+          "startTimeMatch": true
+        }
+      ]
+    }
+  ]
+}

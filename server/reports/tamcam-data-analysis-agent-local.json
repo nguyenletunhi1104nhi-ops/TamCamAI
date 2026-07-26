@@ -1,0 +1,1007 @@
+{
+  "generatedAt": "2026-07-14T07:56:23.191Z",
+  "module": "data-analysis-agent",
+  "domains": [
+    "Payroll",
+    "Sales",
+    "Orders",
+    "KPI",
+    "Student scores"
+  ],
+  "summary": {
+    "totalCases": 50,
+    "intentAccuracy": 0.9,
+    "columnSelectionAccuracy": 0.9,
+    "operationAccuracy": 0.9,
+    "numericAnswerAccuracy": 1,
+    "topKAccuracy": 1,
+    "fallbackRate": 0
+  },
+  "cases": [
+    {
+      "id": "payroll-1",
+      "domain": "Payroll",
+      "question": "Tóm tắt nhanh dữ liệu Payroll",
+      "expectedOperation": "SUMMARY",
+      "actualOperation": "SUMMARY",
+      "expectedColumns": [],
+      "selectedColumns": [],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-2",
+      "domain": "Payroll",
+      "question": "Phòng ban nào có tổng Thực nhận cao nhất?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Phòng ban",
+        "Thực nhận"
+      ],
+      "selectedColumns": [
+        "Phòng ban",
+        "Thực nhận"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-3",
+      "domain": "Payroll",
+      "question": "So sánh Thực nhận theo Phòng ban",
+      "expectedOperation": "COMPARE",
+      "actualOperation": "COMPARE",
+      "expectedColumns": [
+        "Thực nhận",
+        "Phòng ban"
+      ],
+      "selectedColumns": [
+        "Phòng ban",
+        "Thực nhận"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-4",
+      "domain": "Payroll",
+      "question": "Dòng nào có Giờ tăng ca cao bất thường?",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Giờ tăng ca"
+      ],
+      "selectedColumns": [
+        "Giờ tăng ca"
+      ],
+      "intentHit": false,
+      "operationHit": false,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-5",
+      "domain": "Payroll",
+      "question": "Có giá trị bất thường ở Giờ tăng ca không?",
+      "expectedOperation": "OUTLIER",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Giờ tăng ca"
+      ],
+      "selectedColumns": [
+        "Giờ tăng ca"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-6",
+      "domain": "Payroll",
+      "question": "Thực nhận và Giờ tăng ca có tương quan không?",
+      "expectedOperation": "CORRELATION",
+      "actualOperation": "CORRELATION",
+      "expectedColumns": [
+        "Thực nhận",
+        "Giờ tăng ca"
+      ],
+      "selectedColumns": [
+        "Thực nhận",
+        "Giờ tăng ca"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-7",
+      "domain": "Payroll",
+      "question": "Xu hướng Thực nhận theo Tháng như thế nào?",
+      "expectedOperation": "TREND",
+      "actualOperation": "TREND",
+      "expectedColumns": [
+        "Thực nhận",
+        "Tháng"
+      ],
+      "selectedColumns": [
+        "Thực nhận",
+        "Tháng"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-8",
+      "domain": "Payroll",
+      "question": "Dự báo Thực nhận kỳ tới",
+      "expectedOperation": "FORECAST",
+      "actualOperation": "FORECAST",
+      "expectedColumns": [
+        "Thực nhận",
+        "Tháng"
+      ],
+      "selectedColumns": [
+        "Thực nhận"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": false,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-9",
+      "domain": "Payroll",
+      "question": "Nhân viên nào nổi bật nhất theo Thực nhận?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Nhân viên",
+        "Thực nhận"
+      ],
+      "selectedColumns": [
+        "Nhân viên",
+        "Thực nhận"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "payroll-10",
+      "domain": "Payroll",
+      "question": "Sắp xếp Ngày công thực tế từ cao xuống thấp",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "FILTER_SORT",
+      "expectedColumns": [
+        "Ngày công thực tế"
+      ],
+      "selectedColumns": [
+        "Ngày công thực tế"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-1",
+      "domain": "Sales",
+      "question": "Tóm tắt nhanh dữ liệu Sales",
+      "expectedOperation": "SUMMARY",
+      "actualOperation": "SUMMARY",
+      "expectedColumns": [],
+      "selectedColumns": [],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-2",
+      "domain": "Sales",
+      "question": "Chi nhánh nào có tổng Doanh thu cao nhất?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Chi nhánh",
+        "Doanh thu"
+      ],
+      "selectedColumns": [
+        "Chi nhánh",
+        "Doanh thu"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-3",
+      "domain": "Sales",
+      "question": "So sánh Doanh thu theo Chi nhánh",
+      "expectedOperation": "COMPARE",
+      "actualOperation": "COMPARE",
+      "expectedColumns": [
+        "Doanh thu",
+        "Chi nhánh"
+      ],
+      "selectedColumns": [
+        "Chi nhánh",
+        "Doanh thu"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-4",
+      "domain": "Sales",
+      "question": "Dòng nào có Số lượng cao bất thường?",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Số lượng"
+      ],
+      "selectedColumns": [
+        "Số lượng"
+      ],
+      "intentHit": false,
+      "operationHit": false,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-5",
+      "domain": "Sales",
+      "question": "Có giá trị bất thường ở Số lượng không?",
+      "expectedOperation": "OUTLIER",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Số lượng"
+      ],
+      "selectedColumns": [
+        "Số lượng"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-6",
+      "domain": "Sales",
+      "question": "Doanh thu và Số lượng có tương quan không?",
+      "expectedOperation": "CORRELATION",
+      "actualOperation": "CORRELATION",
+      "expectedColumns": [
+        "Doanh thu",
+        "Số lượng"
+      ],
+      "selectedColumns": [
+        "Doanh thu",
+        "Số lượng"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-7",
+      "domain": "Sales",
+      "question": "Xu hướng Doanh thu theo Ngày như thế nào?",
+      "expectedOperation": "TREND",
+      "actualOperation": "TREND",
+      "expectedColumns": [
+        "Doanh thu",
+        "Ngày"
+      ],
+      "selectedColumns": [
+        "Doanh thu",
+        "Ngày"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-8",
+      "domain": "Sales",
+      "question": "Dự báo Doanh thu kỳ tới",
+      "expectedOperation": "FORECAST",
+      "actualOperation": "FORECAST",
+      "expectedColumns": [
+        "Doanh thu",
+        "Ngày"
+      ],
+      "selectedColumns": [
+        "Doanh thu"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": false,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-9",
+      "domain": "Sales",
+      "question": "Sản phẩm nào nổi bật nhất theo Doanh thu?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Sản phẩm",
+        "Doanh thu"
+      ],
+      "selectedColumns": [
+        "Sản phẩm",
+        "Doanh thu"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "sales-10",
+      "domain": "Sales",
+      "question": "Sắp xếp Tỷ lệ hoàn từ cao xuống thấp",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "FILTER_SORT",
+      "expectedColumns": [
+        "Tỷ lệ hoàn"
+      ],
+      "selectedColumns": [
+        "Tỷ lệ hoàn"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-1",
+      "domain": "Orders",
+      "question": "Tóm tắt nhanh dữ liệu Orders",
+      "expectedOperation": "SUMMARY",
+      "actualOperation": "SUMMARY",
+      "expectedColumns": [],
+      "selectedColumns": [],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-2",
+      "domain": "Orders",
+      "question": "Trạng thái nào có tổng Số đơn cao nhất?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Trạng thái",
+        "Số đơn"
+      ],
+      "selectedColumns": [
+        "Trạng thái",
+        "Số đơn"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-3",
+      "domain": "Orders",
+      "question": "So sánh Số đơn theo Trạng thái",
+      "expectedOperation": "COMPARE",
+      "actualOperation": "COMPARE",
+      "expectedColumns": [
+        "Số đơn",
+        "Trạng thái"
+      ],
+      "selectedColumns": [
+        "Trạng thái",
+        "Số đơn"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-4",
+      "domain": "Orders",
+      "question": "Dòng nào có Thời gian xử lý cao bất thường?",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Thời gian xử lý"
+      ],
+      "selectedColumns": [
+        "Thời gian xử lý"
+      ],
+      "intentHit": false,
+      "operationHit": false,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-5",
+      "domain": "Orders",
+      "question": "Có giá trị bất thường ở Thời gian xử lý không?",
+      "expectedOperation": "OUTLIER",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Thời gian xử lý"
+      ],
+      "selectedColumns": [
+        "Thời gian xử lý"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-6",
+      "domain": "Orders",
+      "question": "Số đơn và Thời gian xử lý có tương quan không?",
+      "expectedOperation": "CORRELATION",
+      "actualOperation": "CORRELATION",
+      "expectedColumns": [
+        "Số đơn",
+        "Thời gian xử lý"
+      ],
+      "selectedColumns": [
+        "Số đơn",
+        "Thời gian xử lý"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-7",
+      "domain": "Orders",
+      "question": "Xu hướng Số đơn theo Ngày như thế nào?",
+      "expectedOperation": "TREND",
+      "actualOperation": "TREND",
+      "expectedColumns": [
+        "Số đơn",
+        "Ngày"
+      ],
+      "selectedColumns": [
+        "Số đơn",
+        "Ngày"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-8",
+      "domain": "Orders",
+      "question": "Dự báo Số đơn kỳ tới",
+      "expectedOperation": "FORECAST",
+      "actualOperation": "FORECAST",
+      "expectedColumns": [
+        "Số đơn",
+        "Ngày"
+      ],
+      "selectedColumns": [
+        "Số đơn"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": false,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-9",
+      "domain": "Orders",
+      "question": "Khu vực nào nổi bật nhất theo Số đơn?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Khu vực",
+        "Số đơn"
+      ],
+      "selectedColumns": [
+        "Khu vực",
+        "Số đơn"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "orders-10",
+      "domain": "Orders",
+      "question": "Sắp xếp Phí vận chuyển từ cao xuống thấp",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "FILTER_SORT",
+      "expectedColumns": [
+        "Phí vận chuyển"
+      ],
+      "selectedColumns": [
+        "Phí vận chuyển"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-1",
+      "domain": "KPI",
+      "question": "Tóm tắt nhanh dữ liệu KPI",
+      "expectedOperation": "SUMMARY",
+      "actualOperation": "SUMMARY",
+      "expectedColumns": [],
+      "selectedColumns": [],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-2",
+      "domain": "KPI",
+      "question": "Phòng ban nào có tổng Điểm KPI cao nhất?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Phòng ban",
+        "Điểm KPI"
+      ],
+      "selectedColumns": [
+        "Phòng ban",
+        "Điểm KPI"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-3",
+      "domain": "KPI",
+      "question": "So sánh Điểm KPI theo Phòng ban",
+      "expectedOperation": "COMPARE",
+      "actualOperation": "COMPARE",
+      "expectedColumns": [
+        "Điểm KPI",
+        "Phòng ban"
+      ],
+      "selectedColumns": [
+        "Phòng ban",
+        "Điểm KPI"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-4",
+      "domain": "KPI",
+      "question": "Dòng nào có Tỷ lệ hoàn thành cao bất thường?",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Tỷ lệ hoàn thành"
+      ],
+      "selectedColumns": [
+        "Tỷ lệ hoàn thành"
+      ],
+      "intentHit": false,
+      "operationHit": false,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-5",
+      "domain": "KPI",
+      "question": "Có giá trị bất thường ở Tỷ lệ hoàn thành không?",
+      "expectedOperation": "OUTLIER",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Tỷ lệ hoàn thành"
+      ],
+      "selectedColumns": [
+        "Tỷ lệ hoàn thành"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-6",
+      "domain": "KPI",
+      "question": "Điểm KPI và Tỷ lệ hoàn thành có tương quan không?",
+      "expectedOperation": "CORRELATION",
+      "actualOperation": "CORRELATION",
+      "expectedColumns": [
+        "Điểm KPI",
+        "Tỷ lệ hoàn thành"
+      ],
+      "selectedColumns": [
+        "Điểm KPI",
+        "Tỷ lệ hoàn thành"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-7",
+      "domain": "KPI",
+      "question": "Xu hướng Điểm KPI theo Tháng như thế nào?",
+      "expectedOperation": "TREND",
+      "actualOperation": "TREND",
+      "expectedColumns": [
+        "Điểm KPI",
+        "Tháng"
+      ],
+      "selectedColumns": [
+        "Điểm KPI",
+        "Tháng"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-8",
+      "domain": "KPI",
+      "question": "Dự báo Điểm KPI kỳ tới",
+      "expectedOperation": "FORECAST",
+      "actualOperation": "FORECAST",
+      "expectedColumns": [
+        "Điểm KPI",
+        "Tháng"
+      ],
+      "selectedColumns": [
+        "Điểm KPI"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": false,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-9",
+      "domain": "KPI",
+      "question": "Chỉ số KPI nào nổi bật nhất theo Điểm KPI?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Chỉ số KPI",
+        "Điểm KPI"
+      ],
+      "selectedColumns": [
+        "Chỉ số KPI",
+        "Điểm KPI"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "kpi-10",
+      "domain": "KPI",
+      "question": "Sắp xếp Số hồ sơ từ cao xuống thấp",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "FILTER_SORT",
+      "expectedColumns": [
+        "Số hồ sơ"
+      ],
+      "selectedColumns": [
+        "Số hồ sơ"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-1",
+      "domain": "Student scores",
+      "question": "Tóm tắt nhanh dữ liệu Student scores",
+      "expectedOperation": "SUMMARY",
+      "actualOperation": "SUMMARY",
+      "expectedColumns": [],
+      "selectedColumns": [],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-2",
+      "domain": "Student scores",
+      "question": "Lớp nào có tổng Điểm trung bình cao nhất?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Lớp",
+        "Điểm trung bình"
+      ],
+      "selectedColumns": [
+        "Lớp",
+        "Điểm trung bình"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-3",
+      "domain": "Student scores",
+      "question": "So sánh Điểm trung bình theo Lớp",
+      "expectedOperation": "COMPARE",
+      "actualOperation": "COMPARE",
+      "expectedColumns": [
+        "Điểm trung bình",
+        "Lớp"
+      ],
+      "selectedColumns": [
+        "Lớp",
+        "Điểm trung bình"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-4",
+      "domain": "Student scores",
+      "question": "Dòng nào có Số bài nộp cao bất thường?",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Số bài nộp"
+      ],
+      "selectedColumns": [
+        "Số bài nộp"
+      ],
+      "intentHit": false,
+      "operationHit": false,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-5",
+      "domain": "Student scores",
+      "question": "Có giá trị bất thường ở Số bài nộp không?",
+      "expectedOperation": "OUTLIER",
+      "actualOperation": "OUTLIER",
+      "expectedColumns": [
+        "Số bài nộp"
+      ],
+      "selectedColumns": [
+        "Số bài nộp"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-6",
+      "domain": "Student scores",
+      "question": "Điểm trung bình và Số bài nộp có tương quan không?",
+      "expectedOperation": "CORRELATION",
+      "actualOperation": "CORRELATION",
+      "expectedColumns": [
+        "Điểm trung bình",
+        "Số bài nộp"
+      ],
+      "selectedColumns": [
+        "Điểm trung bình",
+        "Số bài nộp"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-7",
+      "domain": "Student scores",
+      "question": "Xu hướng Điểm trung bình theo Tuần như thế nào?",
+      "expectedOperation": "TREND",
+      "actualOperation": "TREND",
+      "expectedColumns": [
+        "Điểm trung bình",
+        "Tuần"
+      ],
+      "selectedColumns": [
+        "Điểm trung bình",
+        "Tuần"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-8",
+      "domain": "Student scores",
+      "question": "Dự báo Điểm trung bình kỳ tới",
+      "expectedOperation": "FORECAST",
+      "actualOperation": "FORECAST",
+      "expectedColumns": [
+        "Điểm trung bình",
+        "Tuần"
+      ],
+      "selectedColumns": [
+        "Điểm trung bình"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": false,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-9",
+      "domain": "Student scores",
+      "question": "Môn học nào nổi bật nhất theo Điểm trung bình?",
+      "expectedOperation": "GROUP_AGGREGATE",
+      "actualOperation": "GROUP_AGGREGATE",
+      "expectedColumns": [
+        "Môn học",
+        "Điểm trung bình"
+      ],
+      "selectedColumns": [
+        "Môn học",
+        "Điểm trung bình"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    },
+    {
+      "id": "student-scores-10",
+      "domain": "Student scores",
+      "question": "Sắp xếp Số buổi vắng từ cao xuống thấp",
+      "expectedOperation": "FILTER_SORT",
+      "actualOperation": "FILTER_SORT",
+      "expectedColumns": [
+        "Số buổi vắng"
+      ],
+      "selectedColumns": [
+        "Số buổi vắng"
+      ],
+      "intentHit": true,
+      "operationHit": true,
+      "columnHit": true,
+      "topKHit": true,
+      "numericHit": true,
+      "fallbackUsed": false
+    }
+  ]
+}
