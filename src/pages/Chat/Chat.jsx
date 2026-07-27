@@ -3101,6 +3101,12 @@ function Chat() {
   };
 
   const createDocumentSuggestedTasks = (document) => {
+    const documentText = getDocumentText(document);
+    const birthdayReminderTasks = createBirthdayReminderTasks(documentText);
+    if (birthdayReminderTasks.length > 0) {
+      return birthdayReminderTasks;
+    }
+
     const explicitSuggestedTasks = Array.isArray(document?.suggestedTasks)
       ? document.suggestedTasks
       : [];
@@ -3118,7 +3124,6 @@ function Chat() {
 
     const fileName = getDocumentFileName(document, "tài liệu");
     const documentTasks = Array.isArray(document?.tasks) ? document.tasks : [];
-    const documentText = getDocumentText(document);
     const dataInsights =
       document?.dataInsights && typeof document.dataInsights === "object"
         ? document.dataInsights
