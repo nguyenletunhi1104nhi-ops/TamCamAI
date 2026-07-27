@@ -40,7 +40,7 @@ GROQ_FALLBACK_MODELS = [
 ]
 AI_PROVIDER = os.getenv(
     "AI_PROVIDER",
-    "gemini" if GEMINI_API_KEY else ("groq" if GROQ_API_KEY else "gemini"),
+    "groq" if GROQ_API_KEY else "gemini",
 ).lower().strip()
 CLIENT_ORIGINS = [
     origin.strip()
