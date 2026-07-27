@@ -6751,6 +6751,79 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
     },
   ];
 
+  const renderFormattedMessage = (content, role) => {
+    const text = fixMojibake(content || "");
+
+    if (role === "user") {
+      return text;
+    }
+
+    return text
+      .split(/\n/)
+      .map((rawLine, index) => {
+        const line = rawLine.trim();
+
+        if (!line) {
+          return <div key={`gap-${index}`} className="h-2" />;
+        }
+
+        const heading = line.match(/^#{1,3}\s+(.+)/);
+        if (heading || /^[^:]{3,64}:$/.test(line)) {
+          return (
+            <p key={index} className="mt-2 first:mt-0 font-bold text-gray-900">
+              {heading ? heading[1] : line}
+            </p>
+          );
+        }
+
+        const checklist = line.match(/^\[\s?([xX]?)\]\s+(.+)/);
+        if (checklist) {
+          return (
+            <div key={index} className="mt-1.5 flex items-start gap-2">
+              <span
+                className={`mt-1 inline-flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border ${
+                  checklist[1]
+                    ? "border-pink-500 bg-pink-500 text-white"
+                    : "border-pink-200 bg-white"
+                }`}
+              >
+                {checklist[1] ? "✓" : ""}
+              </span>
+              <span>{checklist[2]}</span>
+            </div>
+          );
+        }
+
+        const bullet = line.match(/^[-*•]\s+(.+)/);
+        if (bullet) {
+          return (
+            <div key={index} className="mt-1.5 flex items-start gap-2">
+              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-pink-400" />
+              <span>{bullet[1]}</span>
+            </div>
+          );
+        }
+
+        const numbered = line.match(/^(\d+)[.)]\s+(.+)/);
+        if (numbered) {
+          return (
+            <div key={index} className="mt-1.5 flex items-start gap-2">
+              <span className="mt-0.5 inline-flex h-6 min-w-6 flex-shrink-0 items-center justify-center rounded-full bg-pink-50 px-2 text-xs font-bold text-pink-600">
+                {numbered[1]}
+              </span>
+              <span>{numbered[2]}</span>
+            </div>
+          );
+        }
+
+        return (
+          <p key={index} className="mt-2 first:mt-0">
+            {line}
+          </p>
+        );
+      });
+  };
+
   return (
     <>
     <div className="h-full min-h-[520px] bg-white border border-pink-100 rounded-3xl overflow-hidden flex flex-col">
@@ -6861,7 +6934,7 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
                   }
                 `}
               >
-                {fixMojibake(item.content)}
+                {renderFormattedMessage(item.content, item.role)}
               </div>
 
               {item.role === "assistant" && (
