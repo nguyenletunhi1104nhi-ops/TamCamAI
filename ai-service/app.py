@@ -886,6 +886,378 @@ def build_recurring_reminder_from_message(original_message: str):
     }
 
 
+def is_employee_birthday_reminder_request(original_message: str):
+    normalized = normalize_question_text(original_message)
+    has_birthday_signal = any(
+        term in normalized
+        for term in ["sinh nhat", "ngay sinh", "birthday"]
+    )
+    has_action_signal = any(
+        term in normalized
+        for term in ["tao", "lich", "nhac", "reminder", "task", "thong bao"]
+    )
+    has_people_signal = any(
+        term in normalized
+        for term in ["nhan vien", "can bo", "nguoi", "ca nhan", "danh sach"]
+    )
+
+    return has_birthday_signal and has_action_signal and has_people_signal
+
+
+def get_document_text_candidates(documents):
+    candidates = []
+
+    for document_index, document in enumerate(documents or []):
+        if not isinstance(document, dict):
+            continue
+
+        file_name = str(
+            document.get("fileName")
+            or document.get("name")
+            or document.get("file")
+            or "Tai lieu"
+        )
+        text_parts = []
+
+        for chunk in document.get("documentChunks") or []:
+            if isinstance(chunk, dict):
+                text = str(chunk.get("text") or chunk.get("content") or "").strip()
+                if text:
+                    text_parts.append(text)
+
+        for key in [
+            "documentText",
+            "text",
+            "fullText",
+            "textPreview",
+            "documentSummaryText",
+            "summary",
+            "content",
+        ]:
+            value = str(document.get(key) or "").strip()
+            if value:
+                text_parts.append(value)
+
+        combined_text = "\n".join(dict.fromkeys(text_parts)).strip()
+        if combined_text:
+            candidates.append(
+                {
+                    "fileName": file_name,
+                    "text": combined_text,
+                    "documentIndex": document_index,
+                }
+            )
+
+    return candidates
+
+
+def parse_birthday_date(raw_date: str):
+    value = str(raw_date or "").strip()
+    patterns = [
+        r"(?P<day>\d{1,2})[/-](?P<month>\d{1,2})(?:[/-](?P<year>\d{2,4}))?",
+        r"(?P<year>\d{4})-(?P<month>\d{1,2})-(?P<day>\d{1,2})",
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, value)
+        if not match:
+            continue
+
+        try:
+            day = int(match.group("day"))
+            month = int(match.group("month"))
+            year = match.groupdict().get("year") or ""
+            year_text = str(year)
+            if len(year_text) == 2:
+                year_text = f"19{year_text}" if int(year_text) > 40 else f"20{year_text}"
+            date(2024, month, day)
+            return {
+                "day": day,
+                "month": month,
+                "year": year_text,
+                "text": f"{day:02d}/{month:02d}{f'/{year_text}' if year_text else ''}",
+            }
+        except Exception:
+            continue
+
+    return None
+
+
+def next_annual_date(day: int, month: int):
+    today = date.today()
+    try:
+        candidate = date(today.year, month, day)
+    except ValueError:
+        if month == 2 and day == 29:
+            candidate = date(today.year, 2, 28)
+        else:
+            return ""
+
+    if candidate < today:
+        try:
+            candidate = date(today.year + 1, month, day)
+        except ValueError:
+            candidate = date(today.year + 1, 2, 28)
+
+    return candidate.isoformat()
+
+
+def clean_employee_field(value: str):
+    return re.sub(r"\s+", " ", str(value or "").strip(" |,;:-\t"))
+
+
+def extract_employee_birthday_rows_from_text(text: str, file_name: str):
+    raw_text = str(text or "")
+    normalized_text = raw_text.replace("\r", "\n")
+    split_pattern = (
+        r"\n+|(?=Mã\s*nhân\s*viên\s*:)|(?=Ma\s*nhan\s*vien\s*:)|"
+        r"(?=Họ\s*và\s*tên\s*:)|(?=Ho\s*va\s*ten\s*:)"
+    )
+    lines = [
+        re.sub(r"\s+", " ", line).strip()
+        for line in re.split(split_pattern, normalized_text, flags=re.IGNORECASE)
+        if re.sub(r"\s+", " ", line).strip()
+    ]
+
+    rows = []
+    for index, line in enumerate(lines):
+        normalized_line = normalize_question_text(line)
+        if not any(term in normalized_line for term in ["ngay sinh", "birthday"]):
+            continue
+
+        name_match = re.search(
+            r"(?:Họ\s*và\s*tên|Ho\s*va\s*ten|Họ\s*tên|Ho\s*ten|Tên|Ten)\s*:\s*([^|,;\n]+)",
+            line,
+            re.IGNORECASE,
+        )
+        birthday_match = re.search(
+            r"(?:Ngày\s*sinh|Ngay\s*sinh|Birthday)\s*:\s*([^|,;\n]+)",
+            line,
+            re.IGNORECASE,
+        )
+
+        if not name_match or not birthday_match:
+            compact_match = re.search(
+                r"(?P<name>[A-ZÀ-Ỹ][A-Za-zÀ-ỹ\s]{4,60})\s*[|,;]\s*(?P<date>\d{1,2}[/-]\d{1,2}(?:[/-]\d{2,4})?)",
+                line,
+            )
+            if not compact_match:
+                continue
+            raw_name = compact_match.group("name")
+            raw_birthday = compact_match.group("date")
+        else:
+            raw_name = name_match.group(1)
+            raw_birthday = birthday_match.group(1)
+
+        birthday = parse_birthday_date(raw_birthday)
+        name = clean_employee_field(raw_name)
+        if not birthday or not name or len(name) < 3:
+            continue
+
+        employee_id = clean_employee_field(
+            (re.search(
+                r"(?:Mã\s*nhân\s*viên|Ma\s*nhan\s*vien|MNV|Employee\s*ID)\s*:\s*([^|,;\n]+)",
+                line,
+                re.IGNORECASE,
+            ) or ["", ""])[1]
+        )
+        department = clean_employee_field(
+            (re.search(
+                r"(?:Phòng\s*ban|Phong\s*ban|Department)\s*:\s*([^|,;\n]+)",
+                line,
+                re.IGNORECASE,
+            ) or ["", ""])[1]
+        )
+        role = clean_employee_field(
+            (re.search(
+                r"(?:Chức\s*vụ|Chuc\s*vu|Vai\s*trò|Vai\s*tro|Role|Position)\s*:\s*([^|,;\n]+)",
+                line,
+                re.IGNORECASE,
+            ) or ["", ""])[1]
+        )
+
+        rows.append(
+            {
+                "name": name,
+                "employeeId": employee_id,
+                "department": department,
+                "role": role,
+                "birthdayText": birthday["text"],
+                "day": birthday["day"],
+                "month": birthday["month"],
+                "year": birthday["year"],
+                "nextBirthday": next_annual_date(birthday["day"], birthday["month"]),
+                "sourceText": line[:500],
+                "fileName": file_name,
+                "sourceIndex": index,
+            }
+        )
+
+    deduped = []
+    seen = set()
+    for row in rows:
+        key = (
+            normalize_question_text(row.get("employeeId") or ""),
+            normalize_question_text(row.get("name") or ""),
+            row.get("birthdayText") or "",
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
+
+    return deduped
+
+
+def build_employee_birthday_reminder_reply(original_message: str, documents, conversation_id="", user_id=""):
+    if not is_employee_birthday_reminder_request(original_message):
+        return None
+
+    all_rows = []
+    source_files = []
+    for candidate in get_document_text_candidates(documents):
+        rows = extract_employee_birthday_rows_from_text(
+            candidate.get("text", ""),
+            candidate.get("fileName", "Tai lieu"),
+        )
+        if rows:
+            all_rows.extend(rows)
+            source_files.append(candidate.get("fileName", "Tai lieu"))
+
+    if not all_rows:
+        answer = (
+            "Mình hiểu bạn muốn tạo lịch nhắc sinh nhật cho từng nhân viên, "
+            "nhưng hiện mình chưa đọc được cặp dữ liệu Họ tên + Ngày sinh trong file gần nhất.\n\n"
+            "Bạn hãy kiểm tra file có cột/dòng như 'Họ và tên' và 'Ngày sinh', rồi upload lại hoặc hỏi lại theo tên file nhé."
+        )
+        return {
+            "success": True,
+            "conversationId": conversation_id,
+            "intent": "CLARIFY",
+            "answer": answer,
+            "reply": answer,
+            "confidenceLevel": "LOW",
+            "requiresClarification": True,
+            "clarificationQuestion": "Bạn muốn mình dùng file nhân sự nào để tách ngày sinh?",
+            "requiresConfirmation": False,
+            "sources": [],
+            "suggestedActions": [],
+            "suggestedTasks": [],
+            "memoryCandidates": [],
+            "metadata": {
+                "provider": "local-guard",
+                "model": "employee-birthday-parser",
+                "userId": user_id,
+            },
+        }
+
+    capped_rows = all_rows[:40]
+    suggested_tasks = []
+    for index, person in enumerate(capped_rows, start=1):
+        task_date = person.get("nextBirthday") or ""
+        name = person.get("name") or f"Nhan vien {index}"
+        description_parts = [
+            f"Nhac sinh nhat hang nam cho {name}.",
+            f"Ngay sinh goc: {person.get('birthdayText')}.",
+            f"Nguon file: {person.get('fileName')}.",
+        ]
+        if person.get("employeeId"):
+            description_parts.append(f"Ma nhan vien: {person.get('employeeId')}.")
+        if person.get("department"):
+            description_parts.append(f"Phong ban: {person.get('department')}.")
+        if person.get("role"):
+            description_parts.append(f"Chuc vu: {person.get('role')}.")
+
+        suggested_tasks.append(
+            {
+                "id": f"birthday-{index}-{person.get('day')}-{person.get('month')}",
+                "title": f"Sinh nhat {name}"[:80],
+                "description": "\n".join(description_parts),
+                "category": "Work",
+                "type": "Reminder",
+                "domain": "Human Resources",
+                "difficulty": "De",
+                "necessity": "Trung binh",
+                "priority": "Trung binh",
+                "startDate": task_date,
+                "deadline": task_date,
+                "startTime": "09:00",
+                "endTime": "09:15",
+                "estimate": "15 phut",
+                "reminder": "Truoc 1 ngay",
+                "assignee": "Toi",
+                "status": "To do",
+                "completed": False,
+                "repeat": "yearly",
+                "recurrence": {
+                    "frequency": "YEARLY",
+                    "interval": 1,
+                },
+                "suggestedSteps": [
+                    "Kiem tra lai ngay sinh trong file goc.",
+                    "Chuan bi loi chuc hoac thong bao noi bo.",
+                    "Danh dau hoan thanh sau khi da nhac/chuc mung.",
+                ],
+            }
+        )
+
+    preview_lines = [
+        f"{index}. {row.get('name')} - {row.get('birthdayText')} - nhac ngay {row.get('nextBirthday') or 'chua ro'}"
+        for index, row in enumerate(capped_rows[:8], start=1)
+    ]
+    if len(all_rows) > len(capped_rows):
+        preview_lines.append(f"... va {len(all_rows) - len(capped_rows)} nhan vien khac.")
+
+    answer = "\n".join(
+        [
+            f"Mình tìm thấy {len(all_rows)} nhân viên có ngày sinh trong file.",
+            "Mình đã tách thành từng reminder sinh nhật riêng, lặp lại hằng năm, để bạn duyệt trước khi lưu vào Task List/Calendar.",
+            "",
+            *preview_lines,
+        ]
+    )
+
+    return {
+        "success": True,
+        "conversationId": conversation_id,
+        "intent": "CREATE_TASK_DRAFT",
+        "answer": answer,
+        "reply": answer,
+        "confidenceLevel": "HIGH" if len(all_rows) >= 2 else "MEDIUM",
+        "requiresClarification": False,
+        "clarificationQuestion": "",
+        "requiresConfirmation": True,
+        "sources": [
+            {
+                "fileName": file_name,
+                "type": "document",
+                "matchedRows": sum(1 for row in all_rows if row.get("fileName") == file_name),
+            }
+            for file_name in sorted(set(source_files))
+        ],
+        "suggestedActions": [
+            {
+                "type": "CREATE_TASK_DRAFTS",
+                "label": "Duyet lich sinh nhat",
+            }
+        ],
+        "suggestedTasks": suggested_tasks,
+        "memoryCandidates": [
+            {
+                "type": "workflow_preference",
+                "text": "Khi file nhan su co ngay sinh, nguoi dung muon tach tung nhan vien thanh tung reminder sinh nhat hang nam.",
+            }
+        ],
+        "metadata": {
+            "provider": "local-guard",
+            "model": "employee-birthday-parser",
+            "userId": user_id,
+            "matchedRows": len(all_rows),
+            "cappedRows": len(capped_rows),
+        },
+    }
+
+
 def build_history_context(history):
     if not history:
         return "Chưa có lịch sử chat trong request này."
@@ -3093,6 +3465,15 @@ def chat(request: ChatRequest):
             "userId": request.userId,
         }
         return recurring_reminder_reply
+
+    employee_birthday_reply = build_employee_birthday_reminder_reply(
+        request.message,
+        documents,
+        request.conversationId,
+        request.userId,
+    )
+    if employee_birthday_reply:
+        return employee_birthday_reply
 
     incomplete_tasks = [
         task
