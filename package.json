@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "eval:ai-chat": "node scripts/ai-chat-eval.mjs",
     "health": "node scripts/health-check.mjs",
     "health:ai": "node scripts/health-check.mjs --probe-ai",
     "health:gemini": "node scripts/health-check.mjs --probe-gemini",
