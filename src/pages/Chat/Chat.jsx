@@ -1324,12 +1324,18 @@ function Chat() {
     return (
       text.includes("dat thong bao") ||
       text.includes("tao thong bao") ||
+      text.includes("tao lich nhac") ||
+      text.includes("tao lich nhac nho") ||
+      text.includes("dat lich nhac") ||
+      text.includes("dat lich nhac nho") ||
       text.includes("dat nhac") ||
       text.includes("tao nhac") ||
+      text.includes("nhac nho") ||
       text.includes("bao thuc") ||
       text.includes("nhac toi") ||
       text.includes("nhac minh") ||
       text.includes("nhac em") ||
+      text.includes("toi phai") ||
       text.includes("phai nhac")
     );
   };
@@ -1449,13 +1455,21 @@ function Chat() {
       .replace(/ghi\s+nho\s+(la\s+)?/g, "")
       .replace(/dat\s+thong\s+bao\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/tao\s+thong\s+bao\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/tao\s+lich\s+nhac\s+nho\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/tao\s+lich\s+nhac\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/dat\s+lich\s+nhac\s+nho\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/dat\s+lich\s+nhac\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/dat\s+nhac\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/tao\s+nhac\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/nhac\s+nho\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/bao\s+thuc\s+(cho\s+)?(toi|minh|em)?/g, "")
+      .replace(/tao\s+lich\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/tao\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/them\s+(cho\s+)?(toi|minh|em)?/g, "")
       .replace(/phai\s+nhac\s+(toi|minh|em|me)?/g, "")
       .replace(/nhac\s+(toi|minh|em|me)?/g, "")
+      .replace(/\btoi\s+phai\b/g, "")
+      .replace(/\bphai\b/g, "")
       .replace(/toi\s+co\s+/g, "")
       .replace(/co\s+/g, "")
       .replace(/\b(task|viec)\b/g, "")
@@ -1486,13 +1500,21 @@ function Chat() {
       .replace(/ghi nhớ\s+(là\s+)?/gi, "")
       .replace(/đặt\s+thông\s+báo\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/tạo\s+thông\s+báo\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/tạo\s+lịch\s+nhắc\s+nhở\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/tạo\s+lịch\s+nhắc\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/đặt\s+lịch\s+nhắc\s+nhở\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/đặt\s+lịch\s+nhắc\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/đặt\s+nhắc\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/tạo\s+nhắc\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/nhắc\s+nhở\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/báo\s+thức\s+(cho\s+)?(tôi|mình|em)?/gi, "")
+      .replace(/tạo\s+lịch\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/tạo\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/thêm\s+(cho\s+)?(tôi|mình|em)?/gi, "")
       .replace(/phải\s+nhắc\s+(tôi|mình|em|mẹ)?/gi, "")
       .replace(/nhắc\s+(tôi|mình|em|mẹ)?/gi, "")
+      .replace(/\btôi\s+phải\b/gi, "")
+      .replace(/\bphải\b/gi, "")
       .replace(/hằng ngày|mỗi ngày|mỗi sáng|mỗi chiều|mỗi tối/gi, "")
       .replace(/hằng tuần|mỗi tuần|hằng tháng|mỗi tháng/gi, "")
       .replace(/hằng năm|mỗi năm/gi, "")
@@ -1539,16 +1561,21 @@ function Chat() {
       text.includes("them viec") ||
       text.includes("co viec") ||
       text.includes("co lich") ||
+      text.includes("tao lich") ||
       text.includes("dat lich") ||
       text.includes("dat thong bao") ||
       text.includes("tao thong bao") ||
+      text.includes("tao lich nhac") ||
+      text.includes("dat lich nhac") ||
       text.includes("dat nhac") ||
       text.includes("tao nhac") ||
+      text.includes("nhac nho") ||
       text.includes("bao thuc") ||
       text.includes("nhac toi") ||
       text.includes("nhac minh") ||
       text.includes("nhac em") ||
       text.includes("nhac me") ||
+      text.includes("toi phai") ||
       text.includes("phai nhac") ||
       text.includes("ghi nho")
     );
