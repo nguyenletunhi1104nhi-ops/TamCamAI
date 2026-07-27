@@ -1340,6 +1340,62 @@ function Chat() {
     );
   };
 
+  const classifyLocalChatIntent = (userMessage) => {
+    const text = normalizeIntentText(userMessage);
+    const hasCreateSignal =
+      text.includes("tao") ||
+      text.includes("them") ||
+      text.includes("dat") ||
+      text.includes("ghi nho") ||
+      text.includes("bao thuc") ||
+      text.includes("toi phai") ||
+      text.includes("phai nhac");
+    const hasReminderSignal =
+      text.includes("nhac") ||
+      text.includes("nhac nho") ||
+      text.includes("reminder") ||
+      text.includes("thong bao") ||
+      text.includes("bao thuc");
+    const hasScheduleSignal =
+      parseTimeFromMessage(userMessage) ||
+      parseDateFromMessage(userMessage) ||
+      parseRecurrenceFromMessage(userMessage);
+    const asksExistingTask =
+      text.includes("viec gi") ||
+      text.includes("nhiem vu gi") ||
+      text.includes("task nao") ||
+      text.includes("lich gi") ||
+      text.includes("co gi khong") ||
+      text.includes("co gi ko") ||
+      text.includes("co viec nao") ||
+      text.includes("co lich nao");
+
+    if (isBirthdayTaskRequest(userMessage)) {
+      return "DOCUMENT_BIRTHDAY_REMINDERS";
+    }
+
+    if (
+      !asksExistingTask &&
+      (isReminderCreationRequest(userMessage) ||
+        shouldCreateTaskFromMessage(userMessage) ||
+        (hasCreateSignal && (hasReminderSignal || hasScheduleSignal)))
+    ) {
+      return "CREATE_TASK_OR_REMINDER";
+    }
+
+    if (
+      hasReminderSignal &&
+      (text.includes("doi") ||
+        text.includes("sua") ||
+        text.includes("chinh") ||
+        text.includes("cap nhat"))
+    ) {
+      return "UPDATE_REMINDER";
+    }
+
+    return "";
+  };
+
   const findTaskFromMessage = (userMessage, candidates = tasks) => {
     const text = normalizeIntentText(userMessage);
     const activeTasks = candidates.filter(
@@ -1486,6 +1542,10 @@ function Chat() {
 
     if (cleanedTitle.includes("check in")) {
       return "Check in ca làm";
+    }
+
+    if (cleanedTitle.includes("cham cong")) {
+      return "Chấm công";
     }
 
     if (cleanedTitle.includes("lich hoc")) {
@@ -1734,7 +1794,8 @@ function Chat() {
         )
       : suggestedSchedule.endTime;
     const finalReminder = reminder || suggestedSchedule.reminder;
-    const hasSuggestedSchedule = !date || !time || (!reminder && !recurrence);
+    const hasSuggestedSchedule =
+      (!date && !recurrence) || !time || (!reminder && !recurrence);
 
     const newTask = {
       title,
@@ -4664,6 +4725,7 @@ function Chat() {
 
   const handleLocalChatAction = async (userMessage) => {
     const text = normalizeMessage(userMessage);
+    const localIntent = classifyLocalChatIntent(userMessage);
     const task = findTaskFromMessage(userMessage);
 
     const permissionHelpReply = createPermissionHelpReply(userMessage);
@@ -4676,6 +4738,10 @@ function Chat() {
 
     if (pendingScheduleReply) {
       return pendingScheduleReply;
+    }
+
+    if (localIntent === "CREATE_TASK_OR_REMINDER") {
+      return createLocalTaskFromMessage(userMessage);
     }
 
     const documentReply = answerDocumentQuestion(userMessage);
@@ -4729,6 +4795,7 @@ function Chat() {
     }
 
     if (
+      localIntent === "UPDATE_REMINDER" ||
       text.includes("nhac") ||
       text.includes("reminder")
     ) {
@@ -5341,6 +5408,7 @@ function Chat() {
   };
 
   const handleImmediateLocalAction = async (userMessage) => {
+    const localIntent = classifyLocalChatIntent(userMessage);
     const permissionHelpReply = createPermissionHelpReply(userMessage);
 
     if (permissionHelpReply) {
@@ -5353,7 +5421,7 @@ function Chat() {
       return pendingScheduleReply;
     }
 
-    const documentBirthdayReply = isBirthdayTaskRequest(userMessage)
+    const documentBirthdayReply = localIntent === "DOCUMENT_BIRTHDAY_REMINDERS"
       ? answerDocumentQuestion(userMessage)
       : "";
 
@@ -5361,7 +5429,7 @@ function Chat() {
       return documentBirthdayReply;
     }
 
-    if (isReminderCreationRequest(userMessage)) {
+    if (localIntent === "CREATE_TASK_OR_REMINDER") {
       return createLocalTaskFromMessage(userMessage);
     }
 
@@ -6570,6 +6638,22 @@ if (data.task) {
   assistantReply = savedToFirebase
     ? `${assistantReply} Tôi đã thêm công việc này vào danh sách Tasks của bạn.`
     : `${assistantReply} Hiện Firebase chưa cho lưu, nên tôi đã thêm tạm vào phiên hiện tại.`;
+}
+
+if (
+  classifyLocalChatIntent(cleanMessage) === "CREATE_TASK_OR_REMINDER" &&
+  isWeakAssistantReply(assistantReply) &&
+  suggestedTasks.length === 0 &&
+  !data.task
+) {
+  const localTaskPayload = normalizeAssistantResult(
+    await createLocalTaskFromMessage(cleanMessage)
+  );
+
+  if (localTaskPayload.content) {
+    assistantReply = localTaskPayload.content;
+    suggestedTasks = localTaskPayload.suggestedTasks;
+  }
 }
 
 if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistantReply)) {
