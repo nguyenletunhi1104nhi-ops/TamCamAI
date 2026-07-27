@@ -4453,7 +4453,7 @@ function Chat() {
   };
 
   const answerDocumentQuestion = (userMessage) => {
-    if (!shouldAnswerDocumentQuestion(userMessage)) {
+    if (!shouldAnswerDocumentQuestion(userMessage) && !isBirthdayTaskRequest(userMessage)) {
       return "";
     }
 
@@ -5322,6 +5322,14 @@ function Chat() {
 
     if (pendingScheduleReply) {
       return pendingScheduleReply;
+    }
+
+    const documentBirthdayReply = isBirthdayTaskRequest(userMessage)
+      ? answerDocumentQuestion(userMessage)
+      : "";
+
+    if (documentBirthdayReply) {
+      return documentBirthdayReply;
     }
 
     if (isReminderCreationRequest(userMessage)) {

@@ -328,6 +328,57 @@ function computeLinearForecast(points) {
   };
 }
 
+function normalizeColumnNameForAnalysis(name) {
+  return String(name || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/đ/g, "d")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function isBusinessMetricColumn(header) {
+  const normalized = normalizeColumnNameForAnalysis(header);
+  return /\b(doanh thu|revenue|sales|chi phi|cost|expense|so luong|quantity|amount|qty|tong|total|gia|price|luong|salary|kpi|diem|score|ty le|rate|percent|phan tram|loi nhuan|profit)\b/i.test(
+    normalized
+  );
+}
+
+function isIdentifierLikeColumn(header, rawValues = []) {
+  const normalized = normalizeColumnNameForAnalysis(header);
+
+  if (isBusinessMetricColumn(header)) {
+    return false;
+  }
+
+  if (
+    /\b(stt|tt|id|ma|ma so|ma nv|ma nhan vien|employee id|code|cccd|cmnd|can cuoc|can cuoc cong dan|so dien thoai|dien thoai|sdt|phone|tel|mobile|email|ngay sinh|nam sinh|birth|dob|tax|mst)\b/i.test(
+      normalized
+    )
+  ) {
+    return true;
+  }
+
+  const filledValues = rawValues
+    .map((value) => String(value || "").trim())
+    .filter(Boolean);
+
+  if (filledValues.length === 0) {
+    return false;
+  }
+
+  const digitOnlyValues = filledValues.filter((value) =>
+    /^\d{7,}$/.test(value.replace(/\D/g, ""))
+  );
+  const uniqueRatio = new Set(filledValues).size / filledValues.length;
+
+  return (
+    digitOnlyValues.length >= Math.ceil(filledValues.length * 0.7) &&
+    uniqueRatio >= 0.8
+  );
+}
+
 function analyzeSpreadsheetRows(rows, sheetName = "Sheet1") {
   if (!Array.isArray(rows) || rows.length === 0) {
     return {
@@ -346,6 +397,12 @@ function analyzeSpreadsheetRows(rows, sheetName = "Sheet1") {
   const dataRows = rows.slice(1).filter((row) => row.some((cell) => String(cell || "").trim()));
   const numericColumns = headers
     .map((header, columnIndex) => {
+      const rawValues = dataRows.map((row) => row[columnIndex]);
+
+      if (isIdentifierLikeColumn(header, rawValues)) {
+        return null;
+      }
+
       const values = dataRows
         .map((row) => parseNumberValue(row[columnIndex]))
         .filter((value) => value !== null);
