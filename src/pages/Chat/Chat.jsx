@@ -3314,12 +3314,41 @@ function Chat() {
     const recommendedActions = Array.isArray(dataInsights.recommendedActions)
       ? dataInsights.recommendedActions
       : [];
+    const analysisRouter =
+      dataInsights.analysisRouter && typeof dataInsights.analysisRouter === "object"
+        ? dataInsights.analysisRouter
+        : null;
+    const excludedIdentifierColumns = Array.isArray(dataInsights.excludedIdentifierColumns)
+      ? dataInsights.excludedIdentifierColumns
+      : Array.isArray(analysisRouter?.excludedIdentifierColumns)
+      ? analysisRouter.excludedIdentifierColumns
+      : [];
+
+    if (analysisRouter?.reason) {
+      lines.push("Luồng xử lý TamCam chọn:");
+      lines.push(`- ${analysisRouter.reason}`);
+    }
 
     if (summary.length > 0) {
+      if (lines.length > 0) {
+        lines.push("");
+      }
       lines.push("Phân tích số liệu:");
       summary.slice(0, 4).forEach((item, index) => {
         lines.push(`${index + 1}. ${item}`);
       });
+    }
+
+    if (excludedIdentifierColumns.length > 0) {
+      lines.push("");
+      lines.push("Cột định danh đã loại khỏi phân tích số liệu:");
+      lines.push(
+        excludedIdentifierColumns
+          .slice(0, 8)
+          .map((column) => column.name)
+          .filter(Boolean)
+          .join(", ")
+      );
     }
 
     if (columnRoles.length > 0) {

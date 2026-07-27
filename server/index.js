@@ -379,6 +379,81 @@ function isIdentifierLikeColumn(header, rawValues = []) {
   );
 }
 
+function inferSpreadsheetRouter({ file, text, sheets = [], numericColumns = [], predictions = [] }) {
+  const metadata = inferLocalDocumentMetadata(text, file);
+  const allColumns = sheets.flatMap((sheet) => sheet.columns || []);
+  const searchableColumns = allColumns
+    .map((column) => normalizeColumnNameForAnalysis(column))
+    .join(" ");
+  const hasEmployeeColumns =
+    /\b(ho va ten|ten nhan vien|nhan vien|ma nhan vien|phong ban|chuc vu|cccd|cmnd)\b/i.test(
+      searchableColumns
+    );
+  const hasBirthdayColumns = /\b(ngay sinh|nam sinh|birth|dob)\b/i.test(searchableColumns);
+  const isEmployeeBirthdaySheet =
+    metadata.documentType === "EMPLOYEE_BIRTHDAY_LIST" ||
+    (hasEmployeeColumns && hasBirthdayColumns);
+  const hasBusinessMetrics = numericColumns.length > 0;
+  const hasPredictableSeries = predictions.length > 0;
+  const excludedIdentifierColumns = sheets.flatMap((sheet) =>
+    (sheet.excludedIdentifierColumns || []).map((column) => ({
+      ...column,
+      sheetName: sheet.sheetName,
+    }))
+  );
+
+  if (isEmployeeBirthdaySheet) {
+    return {
+      documentType: "EMPLOYEE_BIRTHDAY_LIST",
+      primaryPipeline: "employee_birthday_reminders",
+      intentHints: ["HR_DATA", "BIRTHDAY_REMINDER", "DOCUMENT_QA"],
+      autoTaskMode: "on_user_request",
+      allowDataForecast: false,
+      confidenceLevel: hasEmployeeColumns && hasBirthdayColumns ? "HIGH" : "MEDIUM",
+      reason:
+        "Bảng có dấu hiệu là danh sách nhân sự/ngày sinh, nên ưu tiên bóc tách từng nhân viên để tạo reminder sinh nhật hằng năm.",
+      blockedOperations: [
+        "Không cộng tổng hoặc dự báo CCCD/số điện thoại/mã nhân viên/ngày sinh/năm sinh.",
+        "Không tạo một task tổng nếu người dùng yêu cầu nhắc sinh nhật từng nhân viên.",
+      ],
+      excludedIdentifierColumns,
+    };
+  }
+
+  if (hasBusinessMetrics) {
+    return {
+      documentType: "SPREADSHEET_DATA",
+      primaryPipeline: hasPredictableSeries ? "predictive_data_analysis" : "descriptive_data_analysis",
+      intentHints: ["DATA_ANALYSIS", "CHART_SUGGESTION", "DOCUMENT_QA"],
+      autoTaskMode: "confirm_suggestions",
+      allowDataForecast: hasPredictableSeries,
+      confidenceLevel: hasPredictableSeries ? "HIGH" : "MEDIUM",
+      reason:
+        "Bảng có cột chỉ số định lượng hợp lệ, có thể tính tổng/trung bình/nhóm và chỉ dự báo khi có chuỗi thời gian đủ rõ.",
+      blockedOperations: excludedIdentifierColumns.length
+        ? ["Các cột định danh đã bị loại khỏi phân tích số liệu."]
+        : [],
+      excludedIdentifierColumns,
+    };
+  }
+
+  return {
+    documentType: metadata.documentType || "SPREADSHEET_DATA",
+    primaryPipeline: "document_qa",
+    intentHints: ["DOCUMENT_QA", "SUMMARY"],
+    autoTaskMode: "off",
+    allowDataForecast: false,
+    confidenceLevel: "MEDIUM",
+    reason:
+      "Bảng chưa có cột chỉ số định lượng đáng tin, nên ưu tiên tóm tắt/hỏi đáp thay vì phân tích số hoặc tạo task tự động.",
+    blockedOperations: [
+      "Không tạo forecast khi không có cột metric nghiệp vụ hợp lệ.",
+      "Không tự tạo task nếu file chỉ là dữ liệu tham khảo.",
+    ],
+    excludedIdentifierColumns,
+  };
+}
+
 function analyzeSpreadsheetRows(rows, sheetName = "Sheet1") {
   if (!Array.isArray(rows) || rows.length === 0) {
     return {
@@ -395,11 +470,16 @@ function analyzeSpreadsheetRows(rows, sheetName = "Sheet1") {
     String(header || `Cột ${index + 1}`).trim()
   );
   const dataRows = rows.slice(1).filter((row) => row.some((cell) => String(cell || "").trim()));
+  const excludedIdentifierColumns = [];
   const numericColumns = headers
     .map((header, columnIndex) => {
       const rawValues = dataRows.map((row) => row[columnIndex]);
 
       if (isIdentifierLikeColumn(header, rawValues)) {
+        excludedIdentifierColumns.push({
+          name: header,
+          reason: "identifier_or_personal_data",
+        });
         return null;
       }
 
@@ -512,6 +592,7 @@ function analyzeSpreadsheetRows(rows, sheetName = "Sheet1") {
     columnCount: headers.length,
     columns: headers,
     numericColumns,
+    excludedIdentifierColumns,
     dimensionColumns,
     groupInsights,
     chartSuggestions,
@@ -1116,6 +1197,20 @@ async function extractSpreadsheetDataInsights(file) {
       sheetName: sheet.sheetName,
     }))
   );
+  const analysisRouter = inferSpreadsheetRouter({
+    file,
+    text: sheets
+      .flatMap((sheet) => [
+        sheet.sheetName,
+        ...(sheet.columns || []),
+        ...(sheet.rowSample || []).map((row) => JSON.stringify(row)),
+      ])
+      .join("\n"),
+    sheets,
+    numericColumns,
+    predictions,
+  });
+  const excludedIdentifierColumns = analysisRouter.excludedIdentifierColumns || [];
   const predictiveActions = predictions
     .map((prediction) => prediction.recommendedAction)
     .filter(Boolean);
@@ -1151,12 +1246,17 @@ async function extractSpreadsheetDataInsights(file) {
   }
 
   return {
-    type: "SPREADSHEET_NUMERIC_INSIGHTS",
+    type:
+      analysisRouter.primaryPipeline === "employee_birthday_reminders"
+        ? "SPREADSHEET_HR_RECORDS"
+        : "SPREADSHEET_NUMERIC_INSIGHTS",
+    analysisRouter,
     summary: summaryLines,
     sheets,
     columnRoles,
     keyFindings,
     numericColumns,
+    excludedIdentifierColumns,
     qualityChecks,
     groupInsights,
     outliers,
@@ -1227,6 +1327,17 @@ function buildAnalyzeResponse({
     Array.isArray(tasks) ? tasks : []
   );
   const intelligence = buildDocumentIntelligence(text, normalizedTasks);
+  const analysisRouter =
+    dataInsights?.analysisRouter ||
+    (isSpreadsheetFile(file)
+      ? inferSpreadsheetRouter({
+          file,
+          text,
+          sheets: dataInsights?.sheets || [],
+          numericColumns: dataInsights?.numericColumns || [],
+          predictions: dataInsights?.predictions || [],
+        })
+      : null);
   const nonActionableTypes = new Set([
     "REFERENCE_PROCESS_DOCUMENT",
     "KNOWLEDGE_ONLY",
@@ -1258,6 +1369,7 @@ function buildAnalyzeResponse({
     file: buildFileInfo(file),
     documentType,
     documentPurpose,
+    analysisRouter,
     isActionable: finalIsActionable,
     documentSummaryText:
       documentSummaryText ||
@@ -1292,10 +1404,16 @@ function buildAnalyzeResponse({
 }
 
 function createFallbackAnalysis(file, text, reason, dataInsights = null) {
-  const tasks = isSpreadsheetFile(file)
-    ? createSpreadsheetTasks(file)
-    : extractTasks(text);
   const metadata = inferLocalDocumentMetadata(text, file);
+  const router = dataInsights?.analysisRouter;
+  const tasks =
+    isSpreadsheetFile(file) &&
+    router?.primaryPipeline !== "descriptive_data_analysis" &&
+    router?.primaryPipeline !== "predictive_data_analysis"
+      ? []
+      : isSpreadsheetFile(file)
+      ? createSpreadsheetTasks(file)
+      : extractTasks(text);
 
   console.warn(
     "Using local document analyzer fallback:",
