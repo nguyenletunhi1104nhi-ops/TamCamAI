@@ -57,6 +57,9 @@ import {
   saveQTable,
   updateQValue,
 } from "../../utils/qLearningPolicy";
+import { sendChatMessage } from "../../services/chatApi";
+import { createFriendlyChatErrorMessage, getApiErrorKind as getChatApiErrorKind } from "../../utils/chatErrorMessage";
+import { normalizeChatResponse } from "../../utils/normalizeChatResponse";
 
 function Chat() {
   const LOCAL_CHAT_STORAGE_KEY = "tamcam-chat-conversations";
@@ -154,6 +157,41 @@ function Chat() {
     return firstUserMessage.content.slice(0, 42);
   };
 
+  const buildConversationSummarySnapshot = (chatMessages = []) => {
+    const recentMessages = chatMessages
+      .filter((item) => item?.content)
+      .slice(-8)
+      .map((item) => ({
+        role: item.role,
+        content: String(item.content).slice(0, 500),
+        intent: item.intent || "",
+      }));
+    const latestUserMessage = [...recentMessages]
+      .reverse()
+      .find((item) => item.role === "user");
+    const latestAssistantMessage = [...recentMessages]
+      .reverse()
+      .find((item) => item.role === "assistant");
+
+    return {
+      currentTopic: latestUserMessage?.content || "",
+      currentState: latestAssistantMessage?.content || "",
+      recentMessages,
+      updatedAt: new Date().toISOString(),
+    };
+  };
+
+  const getActiveConversationSummary = (conversationId = activeConversationId) => {
+    const activeConversation = conversations.find(
+      (conversation) => conversation.id === conversationId
+    );
+
+    return (
+      activeConversation?.summary ||
+      buildConversationSummarySnapshot(activeConversation?.messages || messages)
+    );
+  };
+
   const getChatUploadErrorMessage = (error) => {
     const rawMessage = String(error?.message || "").trim();
     const apiError = getApiErrorKind(error);
@@ -244,44 +282,7 @@ function Chat() {
   };
 
   const getApiErrorKind = (error) => {
-    const rawText = [
-      error?.message,
-      error?.errorKind,
-      error?.status,
-      error?.details,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-    if (
-      rawText.includes("403") ||
-      rawText.includes("permission-denied") ||
-      rawText.includes("permission denied") ||
-      rawText.includes("denied access")
-    ) {
-      return "permission-denied";
-    }
-
-    if (
-      rawText.includes("429") ||
-      rawText.includes("quota") ||
-      rawText.includes("rate limit") ||
-      rawText.includes("rate-limit")
-    ) {
-      return "quota-or-rate-limit";
-    }
-
-    if (
-      rawText.includes("failed to fetch") ||
-      rawText.includes("fetch failed") ||
-      rawText.includes("econnrefused") ||
-      rawText.includes("networkerror")
-    ) {
-      return "network";
-    }
-
-    return "unknown";
+    return getChatApiErrorKind(error);
   };
 
   const createAiServiceErrorReply = (error, userMessage) => {
@@ -304,8 +305,9 @@ function Chat() {
 
     if (errorKind === "network") {
       return [
-        "Mình chưa kết nối được với AI service.",
-        `Bạn kiểm tra FastAPI ở ${AI_SERVICE_BASE_URL} và Node/Express ở ${API_BASE_URL} đã chạy chưa.`,
+        createFriendlyChatErrorMessage(error),
+        `AI service: ${AI_SERVICE_BASE_URL}`,
+        `Node/Express: ${API_BASE_URL}`,
       ].join("\n");
     }
 
@@ -399,10 +401,12 @@ function Chat() {
   };
 
   const createLocalConversation = (initialMessages = defaultMessages) => {
+    const summary = buildConversationSummarySnapshot(initialMessages);
     const conversation = {
       id: `local-${Date.now()}`,
       title: getConversationTitle(initialMessages),
       messages: initialMessages,
+      summary,
       updatedAtLocal: Date.now(),
     };
 
@@ -419,10 +423,15 @@ function Chat() {
 
   const updateConversationCache = (conversationId, nextMessages) => {
     setConversations((currentConversations) => {
+      const previousConversation = currentConversations.find(
+        (conversation) => conversation.id === conversationId
+      );
       const nextConversation = {
+        ...previousConversation,
         id: conversationId,
         title: getConversationTitle(nextMessages),
         messages: nextMessages,
+        summary: buildConversationSummarySnapshot(nextMessages),
         updatedAtLocal: Date.now(),
       };
       const withoutCurrent = currentConversations.filter(
@@ -446,6 +455,7 @@ function Chat() {
         id: conversationId,
         title: getConversationTitle(nextMessages),
         messages: nextMessages,
+        summary: buildConversationSummarySnapshot(nextMessages),
       });
       return;
     }
@@ -454,6 +464,7 @@ function Chat() {
       await updateDoc(doc(db, "chatConversations", conversationId), {
         title: getConversationTitle(nextMessages),
         messages: nextMessages,
+        summary: buildConversationSummarySnapshot(nextMessages),
         updatedAt: serverTimestamp(),
       });
     } catch (error) {
@@ -462,6 +473,7 @@ function Chat() {
         id: conversationId,
         title: getConversationTitle(nextMessages),
         messages: nextMessages,
+        summary: buildConversationSummarySnapshot(nextMessages),
       });
     }
   };
@@ -489,6 +501,7 @@ function Chat() {
     }
 
     try {
+      const summary = buildConversationSummarySnapshot(initialMessages);
       const conversationRef = await addDoc(
         collection(db, "chatConversations"),
         {
@@ -496,6 +509,7 @@ function Chat() {
           userEmail: auth.currentUser.email,
           title: getConversationTitle(initialMessages),
           messages: initialMessages,
+          summary,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
         }
@@ -505,6 +519,7 @@ function Chat() {
         id: conversationRef.id,
         title: getConversationTitle(initialMessages),
         messages: initialMessages,
+        summary,
         updatedAtLocal: Date.now(),
       };
 
@@ -6396,6 +6411,7 @@ function Chat() {
     id: Date.now(),
     role: "user",
     content: cleanMessage,
+    createdAt: new Date().toISOString(),
   };
 
   appendMessages([userMessage], conversationId);
@@ -6415,6 +6431,12 @@ function Chat() {
         role: "assistant",
         content: fixMojibake(localPayload.content),
         suggestedTasks: localPayload.suggestedTasks,
+        intent: "LOCAL_ACTION",
+        metadata: {
+          provider: "local",
+          model: "frontend-local-action",
+        },
+        createdAt: new Date().toISOString(),
         qState,
         qAction,
       };
@@ -6424,42 +6446,24 @@ function Chat() {
       return;
     }
 
-    const response = await fetch(
-      `${AI_SERVICE_BASE_URL}/chat`,
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type": "application/json",
-        },
-
-        body: JSON.stringify({
-          message: cleanMessage,
-          tasks,
-          documents,
-          history: getRecentChatHistory(cleanMessage),
-          relevantContext: buildRelevantContextForMessage(cleanMessage),
-          feedbackMemory: buildFeedbackMemory(),
-          qLearningPolicy,
-        }),
-      }
-    );
-
-    const data = await response.json().catch(() => ({}));
-
-    if (!response.ok || data.success === false) {
-      const chatError = new Error(
-        data.message ||
-          data.error ||
-          data.answer ||
-          data.reply ||
-          `HTTP error: ${response.status}`
-      );
-      chatError.errorKind = data.errorKind || data.aiErrorKind || "";
-      chatError.status = response.status;
-      chatError.details = data.details || "";
-      throw chatError;
-    }
+    const rawChatResponse = await sendChatMessage({
+      aiServiceBaseUrl: AI_SERVICE_BASE_URL,
+      message: cleanMessage,
+      conversationId,
+      userId: auth.currentUser?.uid || "",
+      tasks,
+      documents,
+      history: getRecentChatHistory(cleanMessage),
+      relevantContext: buildRelevantContextForMessage(cleanMessage),
+      feedbackMemory: buildFeedbackMemory(),
+      qLearningPolicy,
+      conversationSummary: getActiveConversationSummary(conversationId),
+      userProfile: {
+        displayName: auth.currentUser?.displayName || "",
+        email: auth.currentUser?.email || "",
+      },
+    });
+    const data = normalizeChatResponse(rawChatResponse);
 
 let assistantReply = appendConfidenceText(
   fixMojibake(data.reply || data.answer || ""),
@@ -6675,6 +6679,13 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       role: "assistant",
       content: fixMojibake(assistantReply),
       suggestedTasks,
+      intent: data.intent,
+      model: data.metadata?.model || data.model || "",
+      sources: data.sources || [],
+      suggestedActions: data.suggestedActions || [],
+      memoryCandidates: data.memoryCandidates || [],
+      metadata: data.metadata || {},
+      createdAt: new Date().toISOString(),
       qState,
       qAction,
     };
@@ -6696,6 +6707,12 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       role: "assistant",
       content:
           "Tôi không thể xử lý yêu cầu. Vui lòng kiểm tra TamCam AI Service hoặc kết nối Firestore.",
+      intent: "ERROR_FALLBACK",
+      metadata: {
+        provider: "local",
+        errorKind: getApiErrorKind(error),
+      },
+      createdAt: new Date().toISOString(),
       qState: classifyQlState(cleanMessage),
       qAction: "direct_answer",
     };

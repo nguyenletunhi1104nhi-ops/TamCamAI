@@ -22,7 +22,12 @@ from services.task_scoring import (
 load_dotenv()
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_CHAT_MODEL = os.getenv(
+    "GEMINI_CHAT_MODEL",
+    os.getenv("GEMINI_MODEL", "gemini-2.5-flash"),
+)
+GEMINI_REASONING_MODEL = os.getenv("GEMINI_REASONING_MODEL", "").strip()
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", GEMINI_CHAT_MODEL)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
 GROQ_FALLBACK_MODELS = [
@@ -35,7 +40,7 @@ GROQ_FALLBACK_MODELS = [
 ]
 AI_PROVIDER = os.getenv(
     "AI_PROVIDER",
-    "groq" if GROQ_API_KEY else "gemini",
+    "gemini" if GEMINI_API_KEY else ("groq" if GROQ_API_KEY else "gemini"),
 ).lower().strip()
 CLIENT_ORIGINS = [
     origin.strip()
@@ -128,25 +133,72 @@ def create_ai_model():
 
     if GEMINI_API_KEY:
         genai.configure(api_key=GEMINI_API_KEY)
-        return genai.GenerativeModel(GEMINI_MODEL)
+        return genai.GenerativeModel(GEMINI_CHAT_MODEL)
 
     print("GEMINI_API_KEY is not configured. Gemini calls will use local fallback.")
     return None
 
 
 gemini_model = create_ai_model()
+groq_fallback_model = (
+    GroqChatModel(GROQ_API_KEY, GROQ_MODEL, GROQ_FALLBACK_MODELS)
+    if GROQ_API_KEY and AI_PROVIDER != "groq"
+    else None
+)
 
 
 def get_active_model_name():
     if AI_PROVIDER == "groq" and gemini_model is not None:
         return getattr(gemini_model, "last_used_model", GROQ_MODEL)
 
-    return GROQ_MODEL if AI_PROVIDER == "groq" else GEMINI_MODEL
+    return GROQ_MODEL if AI_PROVIDER == "groq" else GEMINI_CHAT_MODEL
 
 
 def is_active_key_configured():
     return bool(GROQ_API_KEY) if AI_PROVIDER == "groq" else bool(GEMINI_API_KEY)
 
+
+def is_complex_chat_request(message: str, relevant_context=None):
+    text = normalize_grounding_text(message)
+    context_count = len(relevant_context or [])
+    complex_terms = [
+        "phan tich",
+        "du bao",
+        "predict",
+        "forecast",
+        "workflow",
+        "lap ke hoach",
+        "chien luoc",
+        "so sanh",
+        "rui ro",
+        "bat thuong",
+        "insight",
+        "bao cao",
+        "chia nho",
+        "de xuat",
+        "toi can lam gi",
+    ]
+
+    return context_count > 0 or any(term in text for term in complex_terms)
+
+
+def get_chat_generation_model(message: str, relevant_context=None):
+    if AI_PROVIDER == "gemini" and GEMINI_API_KEY:
+        model_name = (
+            GEMINI_REASONING_MODEL
+            if GEMINI_REASONING_MODEL and is_complex_chat_request(message, relevant_context)
+            else GEMINI_CHAT_MODEL
+        )
+        genai.configure(api_key=GEMINI_API_KEY)
+        return genai.GenerativeModel(model_name), "gemini", model_name
+
+    if AI_PROVIDER == "groq" and gemini_model is not None:
+        return gemini_model, "groq", get_active_model_name()
+
+    if groq_fallback_model is not None:
+        return groq_fallback_model, "groq", GROQ_MODEL
+
+    return gemini_model, AI_PROVIDER, get_active_model_name()
 
 
 app = FastAPI(
@@ -166,12 +218,16 @@ app.add_middleware(
 
 class ChatRequest(BaseModel):
     message: str
+    conversationId: str = ""
+    userId: str = ""
     tasks: list[dict[str, Any]] = []
     documents: list[dict[str, Any]] = []
     history: list[dict[str, Any]] = []
     relevantContext: list[dict[str, Any]] = []
     feedbackMemory: str = ""
     qLearningPolicy: str = ""
+    conversationSummary: dict[str, Any] | str | None = None
+    userProfile: dict[str, Any] = {}
 
 
 class DocumentAnalysisRequest(BaseModel):
@@ -853,6 +909,8 @@ def build_chat_context(
     relevant_context=None,
     feedback_memory="",
     q_learning_policy="",
+    conversation_summary=None,
+    user_profile=None,
 ):
     incomplete_tasks = [
         task
@@ -927,11 +985,28 @@ def build_chat_context(
             )
         )
 
+    safe_conversation_summary = conversation_summary or {}
+    if not isinstance(safe_conversation_summary, str):
+        safe_conversation_summary = json.dumps(
+            safe_conversation_summary,
+            ensure_ascii=False,
+        )
+    safe_user_profile = user_profile or {}
+    if not isinstance(safe_user_profile, str):
+        safe_user_profile = json.dumps(
+            safe_user_profile,
+            ensure_ascii=False,
+        )
+
     return {
         "task_summary": "\n".join(task_lines) or "Chưa có task đang làm.",
         "document_summary": "\n".join(document_lines) or "Chưa có tài liệu đã lưu.",
         "history_summary": build_history_context(history or []),
         "relevant_context": build_relevant_context(relevant_context or []),
+        "conversation_summary": str(safe_conversation_summary or "").strip()[:2200]
+        or "Chưa có tóm tắt hội thoại.",
+        "user_profile": str(safe_user_profile or "").strip()[:1200]
+        or "Chưa có hồ sơ người dùng.",
         "feedback_memory": str(feedback_memory or "").strip()[:2200]
         or "Chưa có phản hồi huấn luyện từ người dùng.",
         "q_learning_policy": str(q_learning_policy or "").strip()[:1200]
@@ -1734,8 +1809,14 @@ def parse_structured_chat_response(raw_text):
             "intent": "KNOWLEDGE_QA",
             "answer": str(raw_text or "").strip(),
             "confidenceLevel": "MEDIUM",
+            "requiresClarification": False,
+            "clarificationQuestion": "",
             "requiresConfirmation": False,
             "suggestedTasks": [],
+            "sources": [],
+            "suggestedActions": [],
+            "memoryCandidates": [],
+            "metadata": {},
         }
 
     if not isinstance(data, dict):
@@ -1770,8 +1851,18 @@ def parse_structured_chat_response(raw_text):
         "intent": str(data.get("intent") or "KNOWLEDGE_QA").strip() or "KNOWLEDGE_QA",
         "answer": answer,
         "confidenceLevel": normalize_confidence_level(data.get("confidenceLevel")),
+        "requiresClarification": bool(data.get("requiresClarification")),
+        "clarificationQuestion": str(data.get("clarificationQuestion") or "").strip(),
         "requiresConfirmation": bool(data.get("requiresConfirmation") or normalized_tasks),
         "suggestedTasks": normalized_tasks,
+        "sources": data.get("sources") if isinstance(data.get("sources"), list) else [],
+        "suggestedActions": data.get("suggestedActions")
+        if isinstance(data.get("suggestedActions"), list)
+        else [],
+        "memoryCandidates": data.get("memoryCandidates")
+        if isinstance(data.get("memoryCandidates"), list)
+        else [],
+        "metadata": data.get("metadata") if isinstance(data.get("metadata"), dict) else {},
     }
 
 
@@ -1783,6 +1874,10 @@ def ask_gemini_work_assistant(
     relevant_context=None,
     feedback_memory="",
     q_learning_policy="",
+    conversation_summary=None,
+    user_profile=None,
+    conversation_id="",
+    user_id="",
 ):
     context = build_chat_context(
         tasks,
@@ -1791,6 +1886,8 @@ def ask_gemini_work_assistant(
         relevant_context,
         feedback_memory,
         q_learning_policy,
+        conversation_summary,
+        user_profile,
     )
     now = datetime.now()
     current_time = now.strftime("%A, %d/%m/%Y %H:%M")
@@ -1874,8 +1971,14 @@ BẮT BUỘC TRẢ VỀ JSON HỢP LỆ, KHÔNG THÊM VĂN BẢN NGOÀI JSON:
   "intent": "DOCUMENT_ANALYSIS",
   "answer": "Câu trả lời tiếng Việt tự nhiên cho người dùng.",
   "confidenceLevel": "HIGH",
+  "requiresClarification": false,
+  "clarificationQuestion": "",
   "requiresConfirmation": false,
-  "suggestedTasks": []
+  "sources": [],
+  "suggestedActions": [],
+  "suggestedTasks": [],
+  "memoryCandidates": [],
+  "metadata": {{}}
 }}
 
 Schema suggestedTasks khi cần đề xuất task nháp:
@@ -1948,6 +2051,12 @@ USER_FEEDBACK_MEMORY:
 Q_LEARNING_POLICY:
 {context["q_learning_policy"]}
 
+CONVERSATION_SUMMARY:
+{context["conversation_summary"]}
+
+USER_PROFILE:
+{context["user_profile"]}
+
 TASK HIỆN CÓ:
 {context["task_summary"]}
 
@@ -1962,10 +2071,27 @@ TÀI LIỆU ĐÃ UPLOAD:
 """
 
     try:
-        if gemini_model is None:
-            raise RuntimeError("Gemini model is not configured")
+        generation_model, used_provider, used_model = get_chat_generation_model(
+            message,
+            relevant_context,
+        )
+        if generation_model is None:
+            raise RuntimeError("AI model is not configured")
 
-        response = gemini_model.generate_content(prompt)
+        try:
+            response = generation_model.generate_content(prompt)
+        except Exception:
+            if used_provider != "groq" and groq_fallback_model is not None:
+                generation_model = groq_fallback_model
+                used_provider = "groq"
+                used_model = GROQ_MODEL
+                response = generation_model.generate_content(prompt)
+            else:
+                raise
+
+        if used_provider == "groq" and hasattr(generation_model, "last_used_model"):
+            used_model = generation_model.last_used_model
+
         reply = (response.text or "").strip()
 
         if not reply:
@@ -1992,7 +2118,7 @@ EVIDENCE:
 QUESTION:
 {message}
 """
-            retry_response = gemini_model.generate_content(retry_prompt)
+            retry_response = generation_model.generate_content(retry_prompt)
             retry_reply = (retry_response.text or "").strip()
             retry_structured_reply = parse_structured_chat_response(retry_reply)
             retry_unsupported_facts = answer_has_unsupported_critical_facts(
@@ -2010,25 +2136,57 @@ QUESTION:
 
         return {
             "success": True,
+            "conversationId": conversation_id,
             "intent": structured_reply["intent"],
+            "answer": structured_reply["answer"],
             "reply": structured_reply["answer"],
             "confidenceLevel": structured_reply["confidenceLevel"],
+            "requiresClarification": structured_reply["requiresClarification"],
+            "clarificationQuestion": structured_reply["clarificationQuestion"],
             "requiresConfirmation": structured_reply["requiresConfirmation"],
+            "sources": structured_reply["sources"],
+            "suggestedActions": structured_reply["suggestedActions"],
             "suggestedTasks": structured_reply["suggestedTasks"],
+            "memoryCandidates": structured_reply["memoryCandidates"],
+            "metadata": {
+                **structured_reply["metadata"],
+                "provider": used_provider,
+                "model": used_model,
+                "userId": user_id,
+                "usedDocumentContext": bool(relevant_context),
+                "usedConversationSummary": bool(conversation_summary),
+            },
         }
     except Exception as error:
         print("Gemini chat guidance error:", error)
         return {
             "success": True,
+            "conversationId": conversation_id,
             "intent": "LOCAL_FALLBACK",
+            "answer": (
+                build_local_document_qa_fallback(message, relevant_context or [])
+                if relevant_context
+                else build_local_guidance_reply(message, tasks, documents)
+            ),
             "reply": (
                 build_local_document_qa_fallback(message, relevant_context or [])
                 if relevant_context
                 else build_local_guidance_reply(message, tasks, documents)
             ),
             "confidenceLevel": "LOW",
+            "requiresClarification": False,
+            "clarificationQuestion": "",
             "requiresConfirmation": False,
+            "sources": [],
+            "suggestedActions": [],
             "suggestedTasks": [],
+            "memoryCandidates": [],
+            "metadata": {
+                "provider": "local",
+                "model": "local-fallback",
+                "error": str(error)[:300],
+                "userId": user_id,
+            },
         }
 
 
@@ -2220,6 +2378,9 @@ def home():
         "status": "running",
         "provider": AI_PROVIDER,
         "model": get_active_model_name(),
+        "geminiChatModel": GEMINI_CHAT_MODEL,
+        "geminiReasoningModel": GEMINI_REASONING_MODEL,
+        "groqModel": GROQ_MODEL,
         "keyConfigured": is_active_key_configured(),
         "geminiKeyConfigured": bool(GEMINI_API_KEY),
         "groqKeyConfigured": bool(GROQ_API_KEY),
@@ -2234,6 +2395,9 @@ def health(
         "ok": bool(is_active_key_configured() and gemini_model),
         "provider": AI_PROVIDER,
         "model": get_active_model_name(),
+        "chatModel": GEMINI_CHAT_MODEL if AI_PROVIDER != "groq" else GROQ_MODEL,
+        "reasoningModel": GEMINI_REASONING_MODEL,
+        "groqFallbackConfigured": bool(groq_fallback_model),
         "keyConfigured": is_active_key_configured(),
         "probe": "skipped",
         "message": "AI provider probe was not requested.",
@@ -2288,6 +2452,9 @@ def health(
         "corsOrigins": CLIENT_ORIGINS,
         "provider": AI_PROVIDER,
         "model": get_active_model_name(),
+        "geminiChatModel": GEMINI_CHAT_MODEL,
+        "geminiReasoningModel": GEMINI_REASONING_MODEL,
+        "groqModel": GROQ_MODEL,
         "ai": ai_status,
         "gemini": ai_status,
         "groq": ai_status,
@@ -3185,5 +3352,9 @@ def chat(request: ChatRequest):
         request.relevantContext,
         request.feedbackMemory,
         request.qLearningPolicy,
+        request.conversationSummary,
+        request.userProfile,
+        request.conversationId,
+        request.userId,
     )
 
