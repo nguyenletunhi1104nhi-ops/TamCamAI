@@ -1006,6 +1006,89 @@ def clean_employee_field(value: str):
     return re.sub(r"\s+", " ", str(value or "").strip(" |,;:-\t"))
 
 
+def split_table_row(line: str):
+    value = str(line or "").strip()
+    if "|" in value:
+        return [clean_employee_field(part) for part in value.split("|")]
+    if "\t" in value:
+        return [clean_employee_field(part) for part in value.split("\t")]
+    if ";" in value:
+        return [clean_employee_field(part) for part in value.split(";")]
+    if "," in value and len(re.findall(r",", value)) >= 2:
+        return [clean_employee_field(part) for part in value.split(",")]
+    return []
+
+
+def get_header_field_type(header_cell: str):
+    normalized = normalize_question_text(header_cell)
+    if any(term in normalized for term in ["ma nhan vien", "mnv", "employee id"]):
+        return "employeeId"
+    if any(term in normalized for term in ["ho va ten", "ho ten", "ten nhan vien", "ten"]):
+        return "name"
+    if any(term in normalized for term in ["ngay sinh", "birthday", "dob"]):
+        return "birthday"
+    if any(term in normalized for term in ["phong ban", "bo phan", "department"]):
+        return "department"
+    if any(term in normalized for term in ["chuc vu", "vai tro", "position", "role"]):
+        return "role"
+    return ""
+
+
+def extract_employee_birthday_rows_from_table(lines, file_name: str):
+    extracted = []
+
+    for header_index, line in enumerate(lines):
+        header_cells = split_table_row(line)
+        if len(header_cells) < 2:
+            continue
+
+        header_map = {}
+        for cell_index, cell in enumerate(header_cells):
+            field_type = get_header_field_type(cell)
+            if field_type and field_type not in header_map:
+                header_map[field_type] = cell_index
+
+        if "name" not in header_map or "birthday" not in header_map:
+            continue
+
+        for row_index, row_line in enumerate(lines[header_index + 1:], start=header_index + 1):
+            row_cells = split_table_row(row_line)
+            if len(row_cells) <= max(header_map.values()):
+                continue
+
+            raw_name = row_cells[header_map["name"]]
+            raw_birthday = row_cells[header_map["birthday"]]
+            birthday = parse_birthday_date(raw_birthday)
+            name = clean_employee_field(raw_name)
+            if not birthday or not name or len(name) < 3:
+                continue
+
+            extracted.append(
+                {
+                    "name": name,
+                    "employeeId": clean_employee_field(row_cells[header_map["employeeId"]])
+                    if "employeeId" in header_map and header_map["employeeId"] < len(row_cells)
+                    else "",
+                    "department": clean_employee_field(row_cells[header_map["department"]])
+                    if "department" in header_map and header_map["department"] < len(row_cells)
+                    else "",
+                    "role": clean_employee_field(row_cells[header_map["role"]])
+                    if "role" in header_map and header_map["role"] < len(row_cells)
+                    else "",
+                    "birthdayText": birthday["text"],
+                    "day": birthday["day"],
+                    "month": birthday["month"],
+                    "year": birthday["year"],
+                    "nextBirthday": next_annual_date(birthday["day"], birthday["month"]),
+                    "sourceText": row_line[:500],
+                    "fileName": file_name,
+                    "sourceIndex": row_index,
+                }
+            )
+
+    return extracted
+
+
 def extract_employee_birthday_rows_from_text(text: str, file_name: str):
     raw_text = str(text or "")
     normalized_text = raw_text.replace("\r", "\n")
@@ -1019,7 +1102,7 @@ def extract_employee_birthday_rows_from_text(text: str, file_name: str):
         if re.sub(r"\s+", " ", line).strip()
     ]
 
-    rows = []
+    rows = extract_employee_birthday_rows_from_table(lines, file_name)
     for index, line in enumerate(lines):
         normalized_line = normalize_question_text(line)
         if not any(term in normalized_line for term in ["ngay sinh", "birthday"]):
