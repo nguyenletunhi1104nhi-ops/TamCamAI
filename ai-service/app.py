@@ -725,6 +725,109 @@ def suggest_task_schedule(message: str):
     return suggested_date, suggested_time, reminder
 
 
+def build_recurring_reminder_from_message(original_message: str):
+    normalized = normalize_question_text(original_message)
+    if not any(term in normalized for term in ["moi ngay", "hang ngay", "lap lai"]):
+        return None
+
+    task_time = extract_task_time(original_message)
+    if not task_time:
+        return None
+
+    if any(term in normalized for term in ["cham cong", "check in", "check-in"]):
+        title = "Chấm công"
+        description = "Nhắc chấm công hằng ngày theo yêu cầu trong chat."
+        category = "Work"
+        steps = [
+            f"Nhận thông báo lúc {task_time}.",
+            "Mở hệ thống chấm công.",
+            "Xác nhận đã chấm công.",
+        ]
+    else:
+        cleaned_title = re.sub(
+            r"\b(tao|dat|nhac|lich|thong bao|moi ngay|hang ngay|vao luc|luc|toi phai)\b",
+            " ",
+            normalized,
+        )
+        cleaned_title = re.sub(
+            r"\d{1,2}([:h]\d{0,2})?\s*(sang|chieu|toi)?",
+            " ",
+            cleaned_title,
+        )
+        title = clean_task_title(cleaned_title).capitalize() or "Nhắc việc hằng ngày"
+        title = split_title_context(title, 6)[0] or "Nhắc việc hằng ngày"
+        description = f"Nhắc việc hằng ngày theo yêu cầu: {original_message}"
+        category = "General"
+        steps = [
+            f"Nhận thông báo lúc {task_time}.",
+            "Thực hiện việc đã nhắc.",
+            "Đánh dấu hoàn thành sau khi xong.",
+        ]
+
+    start_date = date.today().isoformat()
+    task = {
+        "id": f"chat-recurring-{int(datetime.now().timestamp())}",
+        "title": title,
+        "description": description,
+        "category": category,
+        "type": "Reminder",
+        "domain": category,
+        "difficulty": "Dễ",
+        "necessity": "Cao",
+        "priority": "Trung bình",
+        "startDate": start_date,
+        "deadline": start_date,
+        "startTime": task_time,
+        "endTime": "",
+        "estimate": "Chọn thời gian",
+        "reminder": "Đúng giờ",
+        "assignee": "Tôi",
+        "status": "To do",
+        "completed": False,
+        "repeat": "daily",
+        "recurrence": {
+            "frequency": "DAILY",
+            "interval": 1,
+        },
+        "suggestedSteps": steps,
+    }
+
+    answer = (
+        f"Mình đã hiểu: bạn muốn nhắc hằng ngày lúc {task_time} cho việc \"{title}\".\n\n"
+        "Mình đã chuẩn bị task nháp bên dưới. Bạn xem lại rồi bấm tạo nếu đúng nhé."
+    )
+
+    return {
+        "success": True,
+        "intent": "CREATE_TASK_DRAFT",
+        "answer": answer,
+        "reply": answer,
+        "confidenceLevel": "HIGH",
+        "requiresClarification": False,
+        "clarificationQuestion": "",
+        "requiresConfirmation": True,
+        "sources": [],
+        "suggestedActions": [
+            {
+                "type": "CREATE_TASK_DRAFT",
+                "label": "Tạo lịch nhắc hằng ngày",
+            }
+        ],
+        "suggestedTasks": [task],
+        "memoryCandidates": [
+            {
+                "type": "preference",
+                "text": f"Người dùng muốn được nhắc hằng ngày lúc {task_time} cho việc {title}.",
+            }
+        ],
+        "metadata": {
+            "provider": "local-guard",
+            "model": "recurring-reminder-parser",
+            "repeat": "daily",
+        },
+    }
+
+
 def build_history_context(history):
     if not history:
         return "Chưa có lịch sử chat trong request này."
@@ -2854,6 +2957,16 @@ def chat(request: ChatRequest):
     documents = request.documents
 
     intent = detect_intent(message)
+    recurring_reminder_reply = build_recurring_reminder_from_message(
+        request.message
+    )
+    if recurring_reminder_reply:
+        recurring_reminder_reply["conversationId"] = request.conversationId
+        recurring_reminder_reply["metadata"] = {
+            **recurring_reminder_reply.get("metadata", {}),
+            "userId": request.userId,
+        }
+        return recurring_reminder_reply
 
     incomplete_tasks = [
         task
