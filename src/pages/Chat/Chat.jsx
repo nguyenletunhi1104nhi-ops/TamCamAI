@@ -192,6 +192,15 @@ function Chat() {
     );
   };
 
+  const getAssistantTraceLabel = (chatMessage) => {
+    const metadata = chatMessage?.metadata || {};
+    const provider = metadata.provider || "";
+    const model = chatMessage?.model || metadata.model || "";
+    const intent = chatMessage?.intent || "";
+
+    return [provider, model, intent].filter(Boolean).join(" • ");
+  };
+
   const getChatUploadErrorMessage = (error) => {
     const rawMessage = String(error?.message || "").trim();
     const apiError = getApiErrorKind(error);
@@ -6955,7 +6964,20 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
               </div>
 
               {item.role === "assistant" && (
-                <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-400">
+                  {getAssistantTraceLabel(item) && (
+                    <span
+                      className="max-w-full truncate rounded-full border border-pink-100 bg-white px-2 py-1"
+                      title={getAssistantTraceLabel(item)}
+                    >
+                      {getAssistantTraceLabel(item)}
+                    </span>
+                  )}
+                  {Array.isArray(item.sources) && item.sources.length > 0 && (
+                    <span className="rounded-full border border-pink-100 bg-white px-2 py-1">
+                      {item.sources.length} nguồn
+                    </span>
+                  )}
                   <span>Phản hồi</span>
                   <button
                     type="button"

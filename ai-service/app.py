@@ -30,6 +30,7 @@ GEMINI_REASONING_MODEL = os.getenv("GEMINI_REASONING_MODEL", "").strip()
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", GEMINI_CHAT_MODEL)
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
+GROQ_REASONING_MODEL = os.getenv("GROQ_REASONING_MODEL", "").strip()
 GROQ_FALLBACK_MODELS = [
     model.strip()
     for model in os.getenv(
@@ -122,6 +123,41 @@ class GroqChatModel:
 
         raise RuntimeError("All Groq models failed: " + " | ".join(errors))
 
+    def generate_content_with_preferred_models(self, prompt: str, preferred_models):
+        errors = []
+        model_chain = []
+
+        for model in [
+            *(preferred_models or []),
+            self.model,
+            *self.fallback_models,
+        ]:
+            if model and model not in model_chain:
+                model_chain.append(model)
+
+        for model in model_chain:
+            try:
+                return self.generate_content_with_model(prompt, model)
+            except Exception as error:
+                errors.append(f"{model}: {error}")
+
+        raise RuntimeError("All Groq models failed: " + " | ".join(errors))
+
+
+class GroqRoutedChatModel:
+    def __init__(self, base_model: GroqChatModel, preferred_models=None):
+        self.base_model = base_model
+        self.preferred_models = preferred_models or []
+        self.last_used_model = getattr(base_model, "last_used_model", base_model.model)
+
+    def generate_content(self, prompt: str):
+        response = self.base_model.generate_content_with_preferred_models(
+            prompt,
+            self.preferred_models,
+        )
+        self.last_used_model = self.base_model.last_used_model
+        return response
+
 
 def create_ai_model():
     if AI_PROVIDER == "groq":
@@ -193,9 +229,31 @@ def get_chat_generation_model(message: str, relevant_context=None):
         return genai.GenerativeModel(model_name), "gemini", model_name
 
     if AI_PROVIDER == "groq" and gemini_model is not None:
+        if is_complex_chat_request(message, relevant_context):
+            reasoning_model = GROQ_REASONING_MODEL or (
+                GROQ_FALLBACK_MODELS[0] if GROQ_FALLBACK_MODELS else ""
+            )
+            if reasoning_model:
+                return (
+                    GroqRoutedChatModel(gemini_model, [reasoning_model]),
+                    "groq",
+                    reasoning_model,
+                )
+
         return gemini_model, "groq", get_active_model_name()
 
     if groq_fallback_model is not None:
+        if is_complex_chat_request(message, relevant_context):
+            reasoning_model = GROQ_REASONING_MODEL or (
+                GROQ_FALLBACK_MODELS[0] if GROQ_FALLBACK_MODELS else ""
+            )
+            if reasoning_model:
+                return (
+                    GroqRoutedChatModel(groq_fallback_model, [reasoning_model]),
+                    "groq",
+                    reasoning_model,
+                )
+
         return groq_fallback_model, "groq", GROQ_MODEL
 
     return gemini_model, AI_PROVIDER, get_active_model_name()
@@ -865,6 +923,64 @@ def build_relevant_context(relevant_context):
         lines.append(f"{index}. {file_name}{score_text}: {text[:1400]}")
 
     return "\n".join(lines) or "Chưa có đoạn tài liệu liên quan được truy hồi."
+
+
+def select_relevant_document_context(message: str, documents, limit=6):
+    if not documents:
+        return []
+
+    query_terms = {
+        term
+        for term in normalize_grounding_text(message).split()
+        if len(term) >= 3
+    }
+    scored_items = []
+
+    for document in documents[:8]:
+        file_name = str(document.get("fileName") or document.get("name") or "Tài liệu")
+        candidate_texts = []
+
+        for chunk in document.get("documentChunks") or []:
+            if isinstance(chunk, dict):
+                text = str(chunk.get("text") or chunk.get("content") or "").strip()
+                if text:
+                    candidate_texts.append(text)
+
+        if not candidate_texts:
+            for key in [
+                "documentSummaryText",
+                "summary",
+                "textPreview",
+                "text",
+                "documentText",
+            ]:
+                value = str(document.get(key) or "").strip()
+                if value:
+                    candidate_texts.append(value[:2200])
+                    break
+
+        for index, text in enumerate(candidate_texts[:12]):
+            normalized_text = normalize_grounding_text(text)
+            score = sum(1 for term in query_terms if term in normalized_text)
+            if any(term in normalized_text for term in ["ngay sinh", "sinh nhat", "birthday"]):
+                score += 3
+            if any(term in normalized_text for term in ["deadline", "han", "ngay", "gio"]):
+                score += 1
+            if score > 0 or index == 0:
+                scored_items.append(
+                    {
+                        "fileName": file_name,
+                        "text": text[:1600],
+                        "score": score,
+                        "chunkIndex": index,
+                    }
+                )
+
+    return sorted(
+        scored_items,
+        key=lambda item: item.get("score", 0),
+        reverse=True,
+    )[:limit]
 
 
 def normalize_grounding_text(text):
@@ -2484,6 +2600,7 @@ def home():
         "geminiChatModel": GEMINI_CHAT_MODEL,
         "geminiReasoningModel": GEMINI_REASONING_MODEL,
         "groqModel": GROQ_MODEL,
+        "groqReasoningModel": GROQ_REASONING_MODEL,
         "keyConfigured": is_active_key_configured(),
         "geminiKeyConfigured": bool(GEMINI_API_KEY),
         "groqKeyConfigured": bool(GROQ_API_KEY),
@@ -2499,7 +2616,11 @@ def health(
         "provider": AI_PROVIDER,
         "model": get_active_model_name(),
         "chatModel": GEMINI_CHAT_MODEL if AI_PROVIDER != "groq" else GROQ_MODEL,
-        "reasoningModel": GEMINI_REASONING_MODEL,
+        "reasoningModel": (
+            GROQ_REASONING_MODEL
+            if AI_PROVIDER == "groq"
+            else GEMINI_REASONING_MODEL
+        ),
         "groqFallbackConfigured": bool(groq_fallback_model),
         "keyConfigured": is_active_key_configured(),
         "probe": "skipped",
@@ -2558,6 +2679,7 @@ def health(
         "geminiChatModel": GEMINI_CHAT_MODEL,
         "geminiReasoningModel": GEMINI_REASONING_MODEL,
         "groqModel": GROQ_MODEL,
+        "groqReasoningModel": GROQ_REASONING_MODEL,
         "ai": ai_status,
         "gemini": ai_status,
         "groq": ai_status,
@@ -2955,6 +3077,10 @@ def chat(request: ChatRequest):
     message = request.message.lower().strip()
     tasks = request.tasks
     documents = request.documents
+    relevant_context = request.relevantContext or select_relevant_document_context(
+        request.message,
+        documents,
+    )
 
     intent = detect_intent(message)
     recurring_reminder_reply = build_recurring_reminder_from_message(
@@ -3462,7 +3588,7 @@ def chat(request: ChatRequest):
         tasks,
         documents,
         request.history,
-        request.relevantContext,
+        relevant_context,
         request.feedbackMemory,
         request.qLearningPolicy,
         request.conversationSummary,
