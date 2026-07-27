@@ -1273,8 +1273,15 @@ function Chat() {
       text.includes("hang ngay") ||
       text.includes("moi ngay") ||
       text.includes("moi sang") ||
+      text.includes("moi buoi sang") ||
+      text.includes("vao moi sang") ||
+      text.includes("vao moi buoi sang") ||
       text.includes("moi chieu") ||
+      text.includes("moi buoi chieu") ||
+      text.includes("vao moi chieu") ||
       text.includes("moi toi") ||
+      text.includes("moi buoi toi") ||
+      text.includes("vao moi toi") ||
       text.includes("hằng ngày") ||
       text.includes("mỗi ngày")
     ) {
@@ -1566,6 +1573,9 @@ function Chat() {
       text.includes("ok") ||
       text.includes("duoc") ||
       text.includes("dung roi") ||
+      text === "co" ||
+      text === "có" ||
+      text === "oke" ||
       text === "dr" ||
       text === "d roi" ||
       text === "roi" ||
@@ -1589,6 +1599,11 @@ function Chat() {
       text.includes("hom nay") ||
       text.includes("ngay kia") ||
       text.includes("hang ngay") ||
+      text.includes("moi ngay") ||
+      text.includes("moi sang") ||
+      text.includes("moi buoi sang") ||
+      text.includes("vao moi sang") ||
+      text.includes("vao moi buoi sang") ||
       text.includes("hang tuan") ||
       text.includes("hang thang") ||
       text.includes("hang nam") ||
@@ -1646,11 +1661,29 @@ function Chat() {
       ...updatedFields,
     };
 
-    pendingScheduleTaskRef.current = updatedTask;
+    const updatedRecurrenceText =
+      updatedTask.recurrence === "daily"
+        ? " Lịch này sẽ lặp lại hằng ngày."
+        : updatedTask.recurrence === "weekly"
+          ? " Lịch này sẽ lặp lại hằng tuần."
+          : updatedTask.recurrence === "monthly"
+            ? " Lịch này sẽ lặp lại hằng tháng."
+            : updatedTask.recurrence === "yearly"
+              ? " Lịch này sẽ lặp lại hằng năm."
+              : "";
+
+    const shouldFinalizeAfterUpdate =
+      recurrence ||
+      confirmsSchedule ||
+      (updatedTask.startDate && updatedTask.startTime && updatedTask.recurrence);
+
+    pendingScheduleTaskRef.current = shouldFinalizeAfterUpdate
+      ? null
+      : updatedTask;
 
     return `Tôi đã chỉnh lịch cho "${updatedTask.title}" thành ${formatTaskSchedule(
       updatedTask
-    )}. Bạn muốn giữ lịch này không?`;
+    )}.${updatedRecurrenceText}`;
   };
 
   const createLocalTaskFromMessage = async (userMessage) => {
@@ -1674,7 +1707,7 @@ function Chat() {
         )
       : suggestedSchedule.endTime;
     const finalReminder = reminder || suggestedSchedule.reminder;
-    const hasSuggestedSchedule = !date || !time || !reminder;
+    const hasSuggestedSchedule = !date || !time || (!reminder && !recurrence);
 
     const newTask = {
       title,
