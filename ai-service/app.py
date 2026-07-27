@@ -735,13 +735,13 @@ def build_recurring_reminder_from_message(original_message: str):
         return None
 
     if any(term in normalized for term in ["cham cong", "check in", "check-in"]):
-        title = "Chấm công"
-        description = "Nhắc chấm công hằng ngày theo yêu cầu trong chat."
+        title = "Cham cong"
+        description = "Nhac cham cong hang ngay theo yeu cau trong chat."
         category = "Work"
         steps = [
-            f"Nhận thông báo lúc {task_time}.",
-            "Mở hệ thống chấm công.",
-            "Xác nhận đã chấm công.",
+            f"Nhan thong bao luc {task_time}.",
+            "Mo he thong cham cong.",
+            "Xac nhan da cham cong.",
         ]
     else:
         cleaned_title = re.sub(
@@ -754,14 +754,14 @@ def build_recurring_reminder_from_message(original_message: str):
             " ",
             cleaned_title,
         )
-        title = clean_task_title(cleaned_title).capitalize() or "Nhắc việc hằng ngày"
-        title = split_title_context(title, 6)[0] or "Nhắc việc hằng ngày"
-        description = f"Nhắc việc hằng ngày theo yêu cầu: {original_message}"
+        title = clean_task_title(cleaned_title).capitalize() or "Nhac viec hang ngay"
+        title = split_title_context(title, 6)[0] or "Nhac viec hang ngay"
+        description = f"Nhac viec hang ngay theo yeu cau: {original_message}"
         category = "General"
         steps = [
-            f"Nhận thông báo lúc {task_time}.",
-            "Thực hiện việc đã nhắc.",
-            "Đánh dấu hoàn thành sau khi xong.",
+            f"Nhan thong bao luc {task_time}.",
+            "Thuc hien viec da nhac.",
+            "Danh dau hoan thanh sau khi xong.",
         ]
 
     start_date = date.today().isoformat()
@@ -772,16 +772,16 @@ def build_recurring_reminder_from_message(original_message: str):
         "category": category,
         "type": "Reminder",
         "domain": category,
-        "difficulty": "Dễ",
+        "difficulty": "De",
         "necessity": "Cao",
-        "priority": "Trung bình",
+        "priority": "Trung binh",
         "startDate": start_date,
         "deadline": start_date,
         "startTime": task_time,
         "endTime": "",
-        "estimate": "Chọn thời gian",
-        "reminder": "Đúng giờ",
-        "assignee": "Tôi",
+        "estimate": "Chon thoi gian",
+        "reminder": "Dung gio",
+        "assignee": "Toi",
         "status": "To do",
         "completed": False,
         "repeat": "daily",
@@ -793,8 +793,8 @@ def build_recurring_reminder_from_message(original_message: str):
     }
 
     answer = (
-        f"Mình đã hiểu: bạn muốn nhắc hằng ngày lúc {task_time} cho việc \"{title}\".\n\n"
-        "Mình đã chuẩn bị task nháp bên dưới. Bạn xem lại rồi bấm tạo nếu đúng nhé."
+        f"Minh da hieu: ban muon nhac hang ngay luc {task_time} cho viec \"{title}\".\n\n"
+        "Minh da chuan bi task nhap ben duoi. Ban xem lai roi bam tao neu dung nhe."
     )
 
     return {
@@ -810,14 +810,14 @@ def build_recurring_reminder_from_message(original_message: str):
         "suggestedActions": [
             {
                 "type": "CREATE_TASK_DRAFT",
-                "label": "Tạo lịch nhắc hằng ngày",
+                "label": "Tao lich nhac hang ngay",
             }
         ],
         "suggestedTasks": [task],
         "memoryCandidates": [
             {
                 "type": "preference",
-                "text": f"Người dùng muốn được nhắc hằng ngày lúc {task_time} cho việc {title}.",
+                "text": f"Nguoi dung muon duoc nhac hang ngay luc {task_time} cho viec {title}.",
             }
         ],
         "metadata": {
