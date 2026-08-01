@@ -133,6 +133,34 @@ const cases = [
       );
     },
   },
+  {
+    name: "IELTS planner respects work and fixed class constraints",
+    payload: {
+      message:
+        "toi di lam tu thu 2 den sang thu 7, co 2 buoi hoc toi thu 2 va thu 4 tu 5h30 den 8h toi. hay sap xep lich hoc 4 ky nang IELTS, ngay nao cung hoc tu vung, dung PREP, Parrot, LearnEnglish, Grammarly va de Writing Huy Forum, tao lich nhac nho",
+      tasks: [],
+      documents: [],
+      conversationId: "eval-ielts-constraint-planner",
+      userId: "eval",
+    },
+    expect: (data) => {
+      const tasks = Array.isArray(data.suggestedTasks) ? data.suggestedTasks : [];
+      const titles = tasks.map((task) => String(task.title || "").toLowerCase());
+      const blockedStarts = new Set(["17:30", "18:00", "18:30", "19:00", "19:30"]);
+      return (
+        data.intent === "CREATE_TASK_DRAFT" &&
+        tasks.length >= 5 &&
+        titles.some((title) => title.includes("reading")) &&
+        titles.some((title) => title.includes("writing")) &&
+        titles.some((title) => title.includes("listening")) &&
+        titles.some((title) => title.includes("speaking")) &&
+        titles.some((title) => title.includes("vocabulary")) &&
+        tasks.some((task) => task.repeat === "daily") &&
+        tasks.filter((task) => task.repeat === "weekly").length >= 4 &&
+        tasks.every((task) => !blockedStarts.has(task.startTime))
+      );
+    },
+  },
 ];
 
 async function postChat(payload) {

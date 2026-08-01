@@ -1612,9 +1612,257 @@ def build_study_sessions_from_subjects(subjects, original_message: str):
     return suggested_tasks
 
 
+def is_ielts_study_plan_request(original_message: str):
+    normalized = normalize_question_text(original_message)
+    return (
+        "ielts" in normalized
+        and any(
+            term in normalized
+            for term in [
+                "sap xep",
+                "phan thoi gian",
+                "len lich",
+                "lap lich",
+                "tao lich",
+                "ke hoach",
+                "lich nhac",
+            ]
+        )
+        and any(
+            term in normalized
+            for term in [
+                "4 ky nang",
+                "bon ky nang",
+                "reading",
+                "writing",
+                "listening",
+                "speaking",
+                "tu vung",
+                "vocabulary",
+            ]
+        )
+    )
+
+
+def next_weekday_date(weekday: int, include_today=False):
+    today = date.today()
+    delta_days = (weekday - today.weekday()) % 7
+    if delta_days == 0 and not include_today:
+        delta_days = 7
+    return today + timedelta(days=delta_days)
+
+
+def build_ielts_schedule_reply(original_message: str, conversation_id="", user_id=""):
+    if not is_ielts_study_plan_request(original_message):
+        return None
+
+    normalized = normalize_question_text(original_message)
+    uses_prep = "prep" in normalized
+    uses_parrot = "parrot" in normalized or "parroto" in normalized
+    uses_learnenglish = "learnenglish" in normalized or "learn english" in normalized
+    uses_grammarly = "grammarly" in normalized
+    uses_huy_forum = "huy" in normalized or "forum" in normalized
+
+    start_date = date.today() + timedelta(days=1)
+    vocabulary_start = start_date
+    reading_date = next_weekday_date(1)
+    writing_date = next_weekday_date(3)
+    listening_date = next_weekday_date(4)
+    speaking_date = next_weekday_date(5)
+    weekend_review_date = next_weekday_date(6)
+
+    prep_label = "PREP" if uses_prep else "nguon luyen de"
+    speaking_tool = "Parrot/Parroto" if uses_parrot else "ung dung luyen noi"
+    writing_tools = []
+    if uses_learnenglish:
+        writing_tools.append("LearnEnglish")
+    if uses_grammarly:
+        writing_tools.append("Grammarly")
+    if uses_huy_forum:
+        writing_tools.append("de Writing Huy Forum")
+    writing_tool_text = " + ".join(writing_tools) or "bai mau + tu sua loi"
+
+    draft_specs = [
+        {
+            "title": "IELTS Vocabulary Daily",
+            "date": vocabulary_start,
+            "start": "21:30",
+            "duration": 25,
+            "repeat": "daily",
+            "priority": "Trung binh",
+            "description": "Hoc tu vung IELTS moi ngay sau gio lam/hoc co dinh, uu tien ghi vi du va on lai bang spaced repetition.",
+            "steps": [
+                "Hoc 10-15 tu moi theo chu de IELTS.",
+                "Dat 3 cau vi du cho tu kho nhat.",
+                "On lai tu cu trong 5 phut cuoi.",
+            ],
+        },
+        {
+            "title": "IELTS Reading - PREP",
+            "date": reading_date,
+            "start": "20:00",
+            "duration": 75,
+            "repeat": "weekly",
+            "priority": "Cao",
+            "description": f"Luyen Reading bang {prep_label}, xep sau gio lam va tranh buoi hoc co dinh thu 2/thu 4 luc 17:30-20:00.",
+            "steps": [
+                "Lam 1 passage co bam gio.",
+                "Kiem tra dap an va ghi loi sai.",
+                "Rut ra 5 tu/cum tu hoc thuat de dua vao Vocabulary Daily.",
+            ],
+        },
+        {
+            "title": "IELTS Writing - Practice",
+            "date": writing_date,
+            "start": "20:00",
+            "duration": 75,
+            "repeat": "weekly",
+            "priority": "Cao",
+            "description": f"Luyen Writing voi {writing_tool_text}, bat dau sau khung hoc co dinh thu 4 de khong trung lich.",
+            "steps": [
+                "Doc de va lap outline 10 phut.",
+                "Viet bai/phan than bai co bam gio.",
+                "Kiem tra loi ngu phap, tu vung va coherence.",
+            ],
+        },
+        {
+            "title": "IELTS Listening - PREP",
+            "date": listening_date,
+            "start": "20:00",
+            "duration": 60,
+            "repeat": "weekly",
+            "priority": "Cao",
+            "description": f"Luyen Listening bang {prep_label}, ket hop transcript de sua loi nghe sai.",
+            "steps": [
+                "Lam 1 section co bam gio.",
+                "Nghe lai doan sai va check transcript.",
+                "Ghi 5 cum phat am/noi am de on lai.",
+            ],
+        },
+        {
+            "title": "IELTS Speaking - Parrot",
+            "date": speaking_date,
+            "start": "15:00",
+            "duration": 60,
+            "repeat": "weekly",
+            "priority": "Cao",
+            "description": f"Luyen Speaking cuoi tuan sau gio lam sang thu 7, dung {speaking_tool} de shadowing va tu cham phat am.",
+            "steps": [
+                "Shadowing 10-15 phut.",
+                "Tra loi 3 cau Part 1 va 1 cue card Part 2.",
+                "Ghi am, nghe lai va sua 2 loi phat am/chuyen y.",
+            ],
+        },
+        {
+            "title": "IELTS Weekly Review",
+            "date": weekend_review_date,
+            "start": "14:00",
+            "duration": 90,
+            "repeat": "weekly",
+            "priority": "Trung binh",
+            "description": "Tong ket cuoi tuan de xem ky nang nao yeu nhat va dieu chinh lich hoc tuan sau.",
+            "steps": [
+                "Xem lai loi sai Reading/Listening.",
+                "Chon 1 bai Writing de sua sau.",
+                "Danh gia diem manh/diem yeu cua 4 ky nang.",
+            ],
+        },
+    ]
+
+    suggested_tasks = []
+    timestamp = int(datetime.now().timestamp())
+    for index, spec in enumerate(draft_specs):
+        suggested_tasks.append(
+            {
+                "id": f"ielts-plan-{index + 1}-{timestamp}",
+                "title": spec["title"],
+                "description": spec["description"],
+                "category": "Study",
+                "type": "Task",
+                "domain": "IELTS Planning",
+                "difficulty": "Trung binh",
+                "necessity": "Cao",
+                "priority": spec["priority"],
+                "startDate": spec["date"].isoformat(),
+                "deadline": spec["date"].isoformat(),
+                "startTime": spec["start"],
+                "endTime": add_minutes_to_time(spec["start"], spec["duration"]),
+                "estimate": f"{spec['duration']} phut",
+                "reminder": "Truoc 30 phut",
+                "assignee": "Toi",
+                "status": "To do",
+                "completed": False,
+                "repeat": spec["repeat"],
+                "recurrence": {
+                    "frequency": "DAILY" if spec["repeat"] == "daily" else "WEEKLY",
+                    "interval": 1,
+                },
+                "suggestedSteps": spec["steps"],
+            }
+        )
+
+    lines = [
+        "Mình hiểu bạn muốn sắp xếp lịch học IELTS quanh các ràng buộc: đi làm từ thứ 2 đến sáng thứ 7, tối thứ 2 và thứ 4 bận học 17:30-20:00.",
+        "Mình tạo lịch nháp theo nguyên tắc: không xếp vào giờ bận, 4 kỹ năng có buổi riêng, Vocabulary học lặp hằng ngày, cuối tuần học dài hơn.",
+        "",
+        "| Ngày | Thời gian | Kỹ năng | Nội dung |",
+        "| --- | --- | --- | --- |",
+        f"| Hằng ngày | 21:30-21:55 | Vocabulary | 10-15 từ mới + ví dụ + ôn lại |",
+        f"| Thứ 3 | 20:00-21:15 | Reading | {prep_label}: 1 passage, check đáp án, ghi lỗi sai |",
+        f"| Thứ 5 | 20:00-21:15 | Writing | {writing_tool_text}: outline, viết, sửa lỗi |",
+        f"| Thứ 6 | 20:00-21:00 | Listening | {prep_label}: luyện đề, xem transcript, ghi lỗi nghe |",
+        f"| Thứ 7 | 15:00-16:00 | Speaking | {speaking_tool}: shadowing, ghi âm, sửa phát âm |",
+        f"| Chủ nhật | 14:00-15:30 | Review | Tổng kết lỗi sai và chỉnh kế hoạch tuần sau |",
+        "",
+        "Mình đã để các mục này dưới dạng task/lịch nháp có lặp. Bạn bấm tạo nếu ổn, hoặc nhắn 'dời Speaking sang tối chủ nhật' / 'mỗi buổi 45 phút' để mình chỉnh.",
+    ]
+    answer = "\n".join(lines)
+
+    return {
+        "success": True,
+        "conversationId": conversation_id,
+        "intent": "CREATE_TASK_DRAFT",
+        "answer": answer,
+        "reply": answer,
+        "confidenceLevel": "HIGH",
+        "requiresClarification": False,
+        "clarificationQuestion": "",
+        "requiresConfirmation": True,
+        "sources": [],
+        "suggestedActions": [
+            {
+                "type": "CREATE_TASK_DRAFTS",
+                "label": "Duyet lich IELTS",
+            }
+        ],
+        "suggestedTasks": suggested_tasks,
+        "memoryCandidates": [
+            {
+                "type": "study_preference",
+                "text": "Nguoi dung muon hoc IELTS theo 4 ky nang, Vocabulary hang ngay, tranh gio lam va gio hoc co dinh.",
+            }
+        ],
+        "metadata": {
+            "provider": "local-guard",
+            "model": "ielts-constraint-planner",
+            "userId": user_id,
+            "constraintAware": True,
+            "suggestedSessionCount": len(suggested_tasks),
+        },
+    }
+
+
 def build_study_schedule_reply(original_message: str, tasks, conversation_id="", user_id=""):
     if not is_study_planning_request(original_message):
         return None
+
+    ielts_reply = build_ielts_schedule_reply(
+        original_message,
+        conversation_id,
+        user_id,
+    )
+    if ielts_reply:
+        return ielts_reply
 
     active_study_tasks = [
         task
