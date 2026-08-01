@@ -74,6 +74,44 @@ const cases = [
       return data.intent === "CLARIFY" && tasks.length === 0 && data.requiresClarification === true;
     },
   },
+  {
+    name: "study planner creates study sessions from active study tasks",
+    payload: {
+      message: "sap xep lich hoc hop li cho toi",
+      tasks: [
+        {
+          title: "On tap Python",
+          description: "Lam bai tap ve ham, list va file",
+          category: "Study",
+          priority: "Cao",
+          necessity: "Cao",
+          deadline: "2026-08-05",
+          completed: false,
+        },
+        {
+          title: "Hoc tu vung tieng Anh",
+          description: "On 30 tu vung chu de cong viec",
+          category: "Study",
+          priority: "Trung binh",
+          necessity: "Trung binh",
+          deadline: "2026-08-08",
+          completed: false,
+        },
+      ],
+      documents: [],
+      conversationId: "eval-study-planner",
+      userId: "eval",
+    },
+    expect: (data) => {
+      const tasks = Array.isArray(data.suggestedTasks) ? data.suggestedTasks : [];
+      return (
+        data.intent === "CREATE_TASK_DRAFT" &&
+        tasks.length >= 2 &&
+        tasks.every((task) => task.category === "Study") &&
+        tasks.every((task) => typeof task.startTime === "string" && task.startTime.length === 5)
+      );
+    },
+  },
 ];
 
 async function postChat(payload) {

@@ -1341,6 +1341,265 @@ def build_employee_birthday_reminder_reply(original_message: str, documents, con
     }
 
 
+def is_study_planning_request(original_message: str):
+    normalized = normalize_question_text(original_message)
+    has_study_signal = any(
+        term in normalized
+        for term in [
+            "lich hoc",
+            "sap xep lich hoc",
+            "ke hoach hoc",
+            "thoi khoa bieu",
+            "on thi",
+            "on tap",
+            "hoc bai",
+            "study plan",
+        ]
+    )
+    has_planning_signal = any(
+        term in normalized
+        for term in [
+            "sap xep",
+            "hop li",
+            "hop ly",
+            "len lich",
+            "lap lich",
+            "ke hoach",
+            "chia",
+            "phan bo",
+            "toi uu",
+        ]
+    )
+
+    return has_study_signal or (
+        has_planning_signal and any(term in normalized for term in ["hoc", "on", "mon"])
+    )
+
+
+def parse_iso_date(value):
+    text = str(value or "").strip()
+    if not text:
+        return None
+
+    try:
+        return date.fromisoformat(text[:10])
+    except Exception:
+        return None
+
+
+def is_study_task(task):
+    if not isinstance(task, dict):
+        return False
+
+    text = normalize_question_text(
+        " ".join(
+            [
+                str(task.get("title") or ""),
+                str(task.get("description") or ""),
+                str(task.get("category") or ""),
+                str(task.get("domain") or ""),
+                str(task.get("type") or ""),
+            ]
+        )
+    )
+    return any(
+        term in text
+        for term in [
+            "study",
+            "hoc",
+            "on",
+            "bai tap",
+            "kiem tra",
+            "thi",
+            "mon",
+            "tu vung",
+            "doc tai lieu",
+            "assignment",
+            "lab",
+        ]
+    )
+
+
+def priority_score(task):
+    priority = normalize_question_text(task.get("priority") or "")
+    necessity = normalize_question_text(task.get("necessity") or "")
+    score = 0
+
+    if "cao" in priority:
+        score += 30
+    elif "trung binh" in priority:
+        score += 15
+
+    if "cao" in necessity:
+        score += 20
+    elif "trung binh" in necessity:
+        score += 10
+
+    deadline = parse_iso_date(task.get("deadline") or task.get("startDate"))
+    if deadline:
+        days_left = (deadline - date.today()).days
+        if days_left <= 1:
+            score += 40
+        elif days_left <= 3:
+            score += 30
+        elif days_left <= 7:
+            score += 20
+        elif days_left <= 14:
+            score += 10
+
+    return score
+
+
+def get_study_slot(index):
+    today = date.today()
+    day = today + timedelta(days=index)
+    weekday = day.weekday()
+
+    if weekday >= 5:
+        slots = ["09:00", "14:00", "19:30"]
+    else:
+        slots = ["19:30", "20:45"]
+
+    return day, slots[index % len(slots)]
+
+
+def add_minutes_to_time(time_text, minutes):
+    try:
+        start = datetime.strptime(time_text, "%H:%M")
+        return (start + timedelta(minutes=minutes)).strftime("%H:%M")
+    except Exception:
+        return ""
+
+
+def build_study_schedule_reply(original_message: str, tasks, conversation_id="", user_id=""):
+    if not is_study_planning_request(original_message):
+        return None
+
+    active_study_tasks = [
+        task
+        for task in tasks or []
+        if not task.get("completed", False) and is_study_task(task)
+    ]
+
+    if not active_study_tasks:
+        answer = (
+            "Mình có thể giúp bạn sắp xếp lịch học hợp lý, nhưng hiện chưa thấy task học tập nào rõ ràng.\n\n"
+            "Bạn hãy cho mình biết 3 thông tin: môn cần học, hạn kiểm tra/deadline, và mỗi ngày bạn rảnh khung giờ nào. "
+            "Ví dụ: 'Mình cần học Toán, Anh, Python trong 2 tuần, rảnh 19h30 mỗi tối'."
+        )
+        return {
+            "success": True,
+            "conversationId": conversation_id,
+            "intent": "CLARIFY",
+            "answer": answer,
+            "reply": answer,
+            "confidenceLevel": "MEDIUM",
+            "requiresClarification": True,
+            "clarificationQuestion": "Bạn muốn mình lập lịch học cho môn nào và bạn rảnh khung giờ nào?",
+            "requiresConfirmation": False,
+            "sources": [],
+            "suggestedActions": [],
+            "suggestedTasks": [],
+            "memoryCandidates": [],
+            "metadata": {
+                "provider": "local-guard",
+                "model": "study-planner",
+                "userId": user_id,
+            },
+        }
+
+    ranked = sorted(active_study_tasks, key=priority_score, reverse=True)[:8]
+    suggested_tasks = []
+
+    for index, task in enumerate(ranked):
+        slot_date, slot_time = get_study_slot(index)
+        duration = 75 if priority_score(task) >= 30 else 60
+        title_source = clean_task_title(task.get("title") or "On tap")
+        title = split_title_context(title_source, 8)[0] or "On tap"
+        deadline = parse_iso_date(task.get("deadline"))
+        deadline_note = f" Deadline goc: {deadline.isoformat()}." if deadline else ""
+
+        suggested_tasks.append(
+            {
+                "id": f"study-plan-{index + 1}-{int(datetime.now().timestamp())}",
+                "title": f"Hoc: {title}"[:80],
+                "description": (
+                    f"Phien hoc duoc TamCam sap xep tu task hien co: {task.get('title') or 'Nhiem vu hoc tap'}."
+                    f"{deadline_note} Nen hoc theo Pomodoro va ket thuc bang 5 phut tu kiem tra."
+                ),
+                "category": "Study",
+                "type": "Task",
+                "domain": "Study Planning",
+                "difficulty": task.get("difficulty") or "Trung binh",
+                "necessity": task.get("necessity") or "Trung binh",
+                "priority": task.get("priority") or "Trung binh",
+                "startDate": slot_date.isoformat(),
+                "deadline": slot_date.isoformat(),
+                "startTime": slot_time,
+                "endTime": add_minutes_to_time(slot_time, duration),
+                "estimate": f"{duration} phut",
+                "reminder": "Truoc 30 phut",
+                "assignee": "Toi",
+                "status": "To do",
+                "completed": False,
+                "suggestedSteps": [
+                    "Doc lai muc tieu can hoan thanh trong buoi hoc.",
+                    "Hoc tap trung 25 phut, nghi 5 phut, lap lai 2-3 vong.",
+                    "Ghi lai phan chua hieu de hoi lai TamCam.",
+                    "Tu kiem tra nhanh truoc khi ket thuc.",
+                ],
+            }
+        )
+
+    lines = [
+        f"Mình tìm thấy {len(active_study_tasks)} task học tập chưa hoàn thành.",
+        "Mình đã xếp lịch học nháp theo nguyên tắc: task gấp/ưu tiên cao học trước, ngày thường học buổi tối, cuối tuần có thêm buổi sáng/chiều.",
+        "",
+    ]
+    for index, draft in enumerate(suggested_tasks[:6], start=1):
+        lines.append(
+            f"{index}. {draft['title']} - {draft['startDate']} lúc {draft['startTime']} ({draft['estimate']})"
+        )
+    if len(suggested_tasks) > 6:
+        lines.append(f"... và {len(suggested_tasks) - 6} buổi học khác.")
+    lines.append("")
+    lines.append("Bạn xem các task nháp bên dưới rồi bấm tạo nếu lịch hợp lý, hoặc nhắn 'chỉ học buổi tối' / 'dời sang cuối tuần' để mình chỉnh.")
+
+    answer = "\n".join(lines)
+    return {
+        "success": True,
+        "conversationId": conversation_id,
+        "intent": "CREATE_TASK_DRAFT",
+        "answer": answer,
+        "reply": answer,
+        "confidenceLevel": "HIGH",
+        "requiresClarification": False,
+        "clarificationQuestion": "",
+        "requiresConfirmation": True,
+        "sources": [],
+        "suggestedActions": [
+            {
+                "type": "CREATE_TASK_DRAFTS",
+                "label": "Duyet lich hoc",
+            }
+        ],
+        "suggestedTasks": suggested_tasks,
+        "memoryCandidates": [
+            {
+                "type": "workflow_preference",
+                "text": "Nguoi dung muon TamCam sap xep lich hoc hop ly dua tren task hoc tap hien co.",
+            }
+        ],
+        "metadata": {
+            "provider": "local-guard",
+            "model": "study-planner",
+            "userId": user_id,
+            "studyTaskCount": len(active_study_tasks),
+            "suggestedSessionCount": len(suggested_tasks),
+        },
+    }
+
+
 def build_history_context(history):
     if not history:
         return "Chưa có lịch sử chat trong request này."
@@ -3557,6 +3816,15 @@ def chat(request: ChatRequest):
     )
     if employee_birthday_reply:
         return employee_birthday_reply
+
+    study_schedule_reply = build_study_schedule_reply(
+        request.message,
+        tasks,
+        request.conversationId,
+        request.userId,
+    )
+    if study_schedule_reply:
+        return study_schedule_reply
 
     incomplete_tasks = [
         task
