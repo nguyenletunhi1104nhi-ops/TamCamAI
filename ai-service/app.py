@@ -1353,6 +1353,10 @@ def is_study_planning_request(original_message: str):
             "on thi",
             "on tap",
             "hoc bai",
+            "can hoc",
+            "muon hoc",
+            "minh can hoc",
+            "toi can hoc",
             "study plan",
         ]
     )
@@ -1373,6 +1377,9 @@ def is_study_planning_request(original_message: str):
 
     return has_study_signal or (
         has_planning_signal and any(term in normalized for term in ["hoc", "on", "mon"])
+    ) or (
+        any(term in normalized for term in ["can hoc", "muon hoc"])
+        and any(term in normalized for term in ["ranh", "trong", "moi toi", "moi ngay"])
     )
 
 
