@@ -1496,17 +1496,29 @@ def extract_study_horizon_days(original_message: str):
 
 
 def extract_available_study_times(original_message: str):
-    explicit_time = extract_task_time(original_message)
     normalized = normalize_question_text(original_message)
+    explicit_time_match = re.search(
+        r"(?:ranh|rảnh|luc|lúc|vao|vào)?\s*(\d{1,2})(?:h|:)([0-5]\d)\b",
+        str(original_message or "").lower(),
+    )
+    if explicit_time_match:
+        hour = int(explicit_time_match.group(1))
+        minute = int(explicit_time_match.group(2))
+        if any(term in normalized for term in ["chieu", "toi"]) and 1 <= hour <= 11:
+            hour += 12
+        if 0 <= hour <= 23:
+            return [f"{hour:02d}:{minute:02d}"]
 
-    if explicit_time:
-        return [explicit_time]
     if any(term in normalized for term in ["moi toi", "buoi toi", "toi nao", "toi"]):
         return ["19:30"]
     if any(term in normalized for term in ["moi sang", "buoi sang", "sang"]):
         return ["09:00"]
     if any(term in normalized for term in ["buoi chieu", "chieu"]):
         return ["14:00"]
+
+    explicit_time = extract_task_time(original_message)
+    if explicit_time and not any(term in normalized for term in ["tuan", "ngay", "thang"]):
+        return [explicit_time]
 
     return []
 
