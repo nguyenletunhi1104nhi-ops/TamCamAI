@@ -1420,7 +1420,7 @@ def is_study_task(task):
     )
 
 
-def priority_score(task):
+def study_task_score(task):
     priority = normalize_question_text(task.get("priority") or "")
     necessity = normalize_question_text(task.get("necessity") or "")
     score = 0
@@ -1508,12 +1508,12 @@ def build_study_schedule_reply(original_message: str, tasks, conversation_id="",
             },
         }
 
-    ranked = sorted(active_study_tasks, key=priority_score, reverse=True)[:8]
+    ranked = sorted(active_study_tasks, key=study_task_score, reverse=True)[:8]
     suggested_tasks = []
 
     for index, task in enumerate(ranked):
         slot_date, slot_time = get_study_slot(index)
-        duration = 75 if priority_score(task) >= 30 else 60
+        duration = 75 if study_task_score(task) >= 30 else 60
         title_source = clean_task_title(task.get("title") or "On tap")
         title = split_title_context(title_source, 8)[0] or "On tap"
         deadline = parse_iso_date(task.get("deadline"))
