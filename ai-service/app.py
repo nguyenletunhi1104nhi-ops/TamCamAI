@@ -3817,12 +3817,16 @@ def chat(request: ChatRequest):
     if employee_birthday_reply:
         return employee_birthday_reply
 
-    study_schedule_reply = build_study_schedule_reply(
-        request.message,
-        tasks,
-        request.conversationId,
-        request.userId,
-    )
+    try:
+        study_schedule_reply = build_study_schedule_reply(
+            request.message,
+            tasks,
+            request.conversationId,
+            request.userId,
+        )
+    except Exception as error:
+        print("Study planner error:", error)
+        study_schedule_reply = None
     if study_schedule_reply:
         return study_schedule_reply
 
