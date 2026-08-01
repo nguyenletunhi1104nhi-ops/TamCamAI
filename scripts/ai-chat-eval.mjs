@@ -112,6 +112,27 @@ const cases = [
       );
     },
   },
+  {
+    name: "study planner understands subjects from natural language",
+    payload: {
+      message: "minh can hoc Toan, Anh, Python trong 2 tuan, ranh 19h30 moi toi",
+      tasks: [],
+      documents: [],
+      conversationId: "eval-study-planner-subjects",
+      userId: "eval",
+    },
+    expect: (data) => {
+      const tasks = Array.isArray(data.suggestedTasks) ? data.suggestedTasks : [];
+      return (
+        data.intent === "CREATE_TASK_DRAFT" &&
+        tasks.length >= 3 &&
+        tasks.every((task) => task.category === "Study") &&
+        tasks.every((task) => task.startTime === "19:30") &&
+        tasks.some((task) => String(task.title || "").includes("Toan")) &&
+        tasks.some((task) => String(task.title || "").includes("Python"))
+      );
+    },
+  },
 ];
 
 async function postChat(payload) {

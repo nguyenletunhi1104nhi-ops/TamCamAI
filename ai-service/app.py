@@ -1471,6 +1471,128 @@ def add_minutes_to_time(time_text, minutes):
         return ""
 
 
+def extract_study_horizon_days(original_message: str):
+    normalized = normalize_question_text(original_message)
+    week_match = re.search(r"(\d{1,2})\s*tuan", normalized)
+    if week_match:
+        return max(3, min(int(week_match.group(1)) * 7, 60))
+
+    day_match = re.search(r"(\d{1,2})\s*ngay", normalized)
+    if day_match:
+        return max(2, min(int(day_match.group(1)), 60))
+
+    month_match = re.search(r"(\d{1,2})\s*thang", normalized)
+    if month_match:
+        return max(7, min(int(month_match.group(1)) * 30, 90))
+
+    return 7
+
+
+def extract_available_study_times(original_message: str):
+    explicit_time = extract_task_time(original_message)
+    normalized = normalize_question_text(original_message)
+
+    if explicit_time:
+        return [explicit_time]
+    if any(term in normalized for term in ["moi toi", "buoi toi", "toi nao", "toi"]):
+        return ["19:30"]
+    if any(term in normalized for term in ["moi sang", "buoi sang", "sang"]):
+        return ["09:00"]
+    if any(term in normalized for term in ["buoi chieu", "chieu"]):
+        return ["14:00"]
+
+    return []
+
+
+def extract_subjects_from_message(original_message: str):
+    normalized = normalize_question_text(original_message)
+    subject_text = ""
+    patterns = [
+        r"(?:can hoc|muon hoc|hoc|on tap|on thi|on)\s+(.+?)(?:\s+trong\s+\d|\s+ranh|\s+vao|\s+moi|\s+deadline|\s+thi|\s+kiem tra|$)",
+        r"(?:mon gom|gom|cac mon|nhung mon)\s+(.+?)(?:\s+trong\s+\d|\s+ranh|\s+vao|\s+moi|\s+deadline|\s+thi|\s+kiem tra|$)",
+    ]
+
+    for pattern in patterns:
+        match = re.search(pattern, normalized)
+        if match:
+            subject_text = match.group(1)
+            break
+
+    if not subject_text:
+        return []
+
+    subject_text = re.sub(
+        r"\b(cho toi|giup toi|hop li|hop ly|sap xep|lich hoc|ke hoach|de thi|thi|kiem tra)\b",
+        " ",
+        subject_text,
+    )
+    parts = re.split(r",|/|\+|\s+va\s+|\s+voi\s+|\s*&\s*", subject_text)
+    subjects = []
+
+    for part in parts:
+        cleaned = clean_task_title(part).strip(" .,:;-")
+        if not cleaned or len(cleaned) < 2:
+            continue
+        if cleaned in {"hoc", "on", "mon", "bai", "tap"}:
+            continue
+        subjects.append(cleaned.title())
+
+    return list(dict.fromkeys(subjects))[:8]
+
+
+def build_study_sessions_from_subjects(subjects, original_message: str):
+    horizon_days = extract_study_horizon_days(original_message)
+    preferred_times = extract_available_study_times(original_message)
+    today = date.today()
+    session_count = min(max(len(subjects) * 2, len(subjects)), 14, horizon_days)
+    suggested_tasks = []
+
+    for index in range(session_count):
+        subject = subjects[index % len(subjects)]
+        session_date = today + timedelta(days=index)
+        if preferred_times:
+            session_time = preferred_times[index % len(preferred_times)]
+        else:
+            _, session_time = get_study_slot(index)
+
+        duration = 75 if index < len(subjects) else 60
+        focus_label = "Nen tang" if index < len(subjects) else "On lai va tu kiem tra"
+
+        suggested_tasks.append(
+            {
+                "id": f"study-message-{index + 1}-{int(datetime.now().timestamp())}",
+                "title": f"Hoc: {subject}"[:80],
+                "description": (
+                    f"Phien hoc duoc TamCam lap tu yeu cau: {original_message}. "
+                    f"Trong tam buoi nay: {focus_label} cho mon {subject}."
+                ),
+                "category": "Study",
+                "type": "Task",
+                "domain": "Study Planning",
+                "difficulty": "Trung binh",
+                "necessity": "Cao" if index < len(subjects) else "Trung binh",
+                "priority": "Cao" if index < len(subjects) else "Trung binh",
+                "startDate": session_date.isoformat(),
+                "deadline": session_date.isoformat(),
+                "startTime": session_time,
+                "endTime": add_minutes_to_time(session_time, duration),
+                "estimate": f"{duration} phut",
+                "reminder": "Truoc 30 phut",
+                "assignee": "Toi",
+                "status": "To do",
+                "completed": False,
+                "suggestedSteps": [
+                    "Xac dinh muc tieu nho cua buoi hoc.",
+                    "Hoc tap trung theo Pomodoro 25/5.",
+                    "Lam 3-5 cau hoi hoac vi du ap dung.",
+                    "Ghi lai phan chua hieu de hoi TamCam.",
+                ],
+            }
+        )
+
+    return suggested_tasks
+
+
 def build_study_schedule_reply(original_message: str, tasks, conversation_id="", user_id=""):
     if not is_study_planning_request(original_message):
         return None
@@ -1482,6 +1604,58 @@ def build_study_schedule_reply(original_message: str, tasks, conversation_id="",
     ]
 
     if not active_study_tasks:
+        subjects = extract_subjects_from_message(original_message)
+        if subjects:
+            suggested_tasks = build_study_sessions_from_subjects(subjects, original_message)
+            answer_lines = [
+                f"Mình hiểu bạn muốn lập lịch học cho {len(subjects)} môn: {', '.join(subjects)}.",
+                "Mình đã chia thành các buổi học nháp, ưu tiên học nền tảng trước rồi ôn lại/tự kiểm tra sau.",
+                "",
+            ]
+            for index, draft in enumerate(suggested_tasks[:8], start=1):
+                answer_lines.append(
+                    f"{index}. {draft['title']} - {draft['startDate']} lúc {draft['startTime']} ({draft['estimate']})"
+                )
+            if len(suggested_tasks) > 8:
+                answer_lines.append(f"... và {len(suggested_tasks) - 8} buổi học khác.")
+            answer_lines.append("")
+            answer_lines.append("Bạn xem lịch nháp rồi bấm tạo nếu ổn, hoặc nhắn thêm giới hạn như 'chỉ học thứ 2-4-6' hay 'mỗi buổi 45 phút'.")
+            answer = "\n".join(answer_lines)
+
+            return {
+                "success": True,
+                "conversationId": conversation_id,
+                "intent": "CREATE_TASK_DRAFT",
+                "answer": answer,
+                "reply": answer,
+                "confidenceLevel": "HIGH",
+                "requiresClarification": False,
+                "clarificationQuestion": "",
+                "requiresConfirmation": True,
+                "sources": [],
+                "suggestedActions": [
+                    {
+                        "type": "CREATE_TASK_DRAFTS",
+                        "label": "Duyet lich hoc",
+                    }
+                ],
+                "suggestedTasks": suggested_tasks,
+                "memoryCandidates": [
+                    {
+                        "type": "study_plan",
+                        "text": f"Nguoi dung muon hoc cac mon: {', '.join(subjects)}.",
+                    }
+                ],
+                "metadata": {
+                    "provider": "local-guard",
+                    "model": "study-planner",
+                    "userId": user_id,
+                    "studyPlanSource": "message",
+                    "subjectCount": len(subjects),
+                    "suggestedSessionCount": len(suggested_tasks),
+                },
+            }
+
         answer = (
             "Mình có thể giúp bạn sắp xếp lịch học hợp lý, nhưng hiện chưa thấy task học tập nào rõ ràng.\n\n"
             "Bạn hãy cho mình biết 3 thông tin: môn cần học, hạn kiểm tra/deadline, và mỗi ngày bạn rảnh khung giờ nào. "
