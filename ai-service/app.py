@@ -13,6 +13,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+from ai.orchestrator import orchestrate_chat
 from agents.data_analysis_agent import run_data_analysis_agent
 from services.task_scoring import (
     rank_tasks,
@@ -4369,6 +4370,15 @@ def chat(request: ChatRequest):
         request.message,
         documents,
     )
+
+    try:
+        orchestrated_reply = orchestrate_chat(request.dict())
+    except Exception as error:
+        print("AI orchestrator error:", error)
+        orchestrated_reply = None
+
+    if orchestrated_reply:
+        return orchestrated_reply
 
     intent = detect_intent(message)
     recurring_reminder_reply = build_recurring_reminder_from_message(

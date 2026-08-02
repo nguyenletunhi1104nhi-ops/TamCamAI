@@ -153,11 +153,20 @@ const cases = [
         : [];
       const titles = tasks.map((task) => String(task.title || "").toLowerCase());
       const blockedStarts = new Set(["17:30", "18:00", "18:30", "19:00", "19:30"]);
+      const actionTypes = structuredActions.map((action) => action.type);
       return (
         data.intent === "CREATE_TASK_DRAFT" &&
+        data.primaryIntent === "CREATE_STUDY_PLAN" &&
         tasks.length >= 5 &&
         calendarEvents.length >= 5 &&
-        structuredActions.some((action) => action.type === "CREATE_CALENDAR_EVENTS") &&
+        actionTypes.includes("GET_CALENDAR_EVENTS") &&
+        actionTypes.includes("FIND_FREE_TIME") &&
+        actionTypes.includes("CREATE_STUDY_PLAN") &&
+        actionTypes.includes("CREATE_CALENDAR_EVENTS") &&
+        data.calendarPlan?.feasibilityScore >= 0.8 &&
+        (data.calendarPlan?.hardConstraintViolations || []).length === 0 &&
+        Array.isArray(data.orchestrationTrace?.phases) &&
+        data.orchestrationTrace.phases.length >= 7 &&
         titles.some((title) => title.includes("reading")) &&
         titles.some((title) => title.includes("writing")) &&
         titles.some((title) => title.includes("listening")) &&
@@ -166,6 +175,33 @@ const cases = [
         tasks.some((task) => task.repeat === "daily") &&
         tasks.filter((task) => task.repeat === "weekly").length >= 4 &&
         tasks.every((task) => !blockedStarts.has(task.startTime))
+      );
+    },
+  },
+  {
+    name: "multi-intent IELTS calendar orchestration",
+    payload: {
+      message:
+        "xem lich tuan sau, tim gio ranh, toi di lam tu thu 2 den sang thu 7 va toi thu 2 thu 4 ban 5h30 den 8h, sap xep IELTS du 4 ky nang va them vao calendar",
+      tasks: [],
+      documents: [],
+      conversationId: "eval-multi-intent-ielts",
+      userId: "eval",
+    },
+    expect: (data) => {
+      const actions = Array.isArray(data.structuredActions) ? data.structuredActions : [];
+      const actionTypes = actions.map((action) => action.type).join(">");
+      const events = Array.isArray(data.calendarPlan?.events) ? data.calendarPlan.events : [];
+      return (
+        data.intent === "CREATE_TASK_DRAFT" &&
+        data.primaryIntent === "CREATE_STUDY_PLAN" &&
+        actionTypes.includes("GET_CALENDAR_EVENTS") &&
+        actionTypes.includes("FIND_FREE_TIME") &&
+        actionTypes.includes("CREATE_STUDY_PLAN") &&
+        actionTypes.includes("CREATE_CALENDAR_EVENTS") &&
+        events.length >= 5 &&
+        data.requiresConfirmation === true &&
+        data.metadata?.orchestrator === "tamcam-ai-orchestrator"
       );
     },
   },

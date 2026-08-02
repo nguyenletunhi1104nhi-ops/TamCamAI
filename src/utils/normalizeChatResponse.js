@@ -27,6 +27,16 @@ export function normalizeChatResponse(data = {}) {
     calendarPlan: data.calendarPlan && typeof data.calendarPlan === "object"
       ? data.calendarPlan
       : null,
+    orchestrationTrace: data.orchestrationTrace && typeof data.orchestrationTrace === "object"
+      ? data.orchestrationTrace
+      : null,
+    conversationState: data.conversationState && typeof data.conversationState === "object"
+      ? data.conversationState
+      : null,
+    primaryIntent: data.primaryIntent || "",
+    secondaryIntents: Array.isArray(data.secondaryIntents)
+      ? data.secondaryIntents
+      : [],
     conflicts: Array.isArray(data.conflicts) ? data.conflicts : [],
     warnings: Array.isArray(data.warnings) ? data.warnings : [],
     memoryCandidates: Array.isArray(data.memoryCandidates)

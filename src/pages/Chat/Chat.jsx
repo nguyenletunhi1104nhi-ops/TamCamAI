@@ -198,7 +198,7 @@ function Chat() {
     const metadata = chatMessage?.metadata || {};
     const provider = metadata.provider || "";
     const model = chatMessage?.model || metadata.model || "";
-    const intent = chatMessage?.intent || "";
+    const intent = chatMessage?.primaryIntent || chatMessage?.intent || "";
 
     return [provider, model, intent].filter(Boolean).join(" • ");
   };
@@ -6696,6 +6696,10 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       suggestedActions: data.suggestedActions || [],
       structuredActions: data.structuredActions || [],
       calendarPlan: data.calendarPlan || null,
+      orchestrationTrace: data.orchestrationTrace || null,
+      conversationState: data.conversationState || null,
+      primaryIntent: data.primaryIntent || "",
+      secondaryIntents: data.secondaryIntents || [],
       conflicts: data.conflicts || [],
       warnings: data.warnings || [],
       memoryCandidates: data.memoryCandidates || [],
@@ -6808,6 +6812,27 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       : Array.isArray(structuredAction?.warnings)
         ? structuredAction.warnings
         : [];
+    const toolStatuses = Array.isArray(item.structuredActions)
+      ? item.structuredActions
+          .filter((action) =>
+            [
+              "GET_CALENDAR_EVENTS",
+              "FIND_FREE_TIME",
+              "CREATE_STUDY_PLAN",
+              "CREATE_CALENDAR_EVENTS",
+            ].includes(action?.type)
+          )
+          .map((action) => ({
+            type: action.type,
+            status: action.status || "pending",
+          }))
+      : [];
+    const statusLabel = {
+      GET_CALENDAR_EVENTS: "Kiểm tra lịch",
+      FIND_FREE_TIME: "Tìm giờ rảnh",
+      CREATE_STUDY_PLAN: "Tạo kế hoạch",
+      CREATE_CALENDAR_EVENTS: "Tạo sự kiện",
+    };
 
     return (
       <div className="mt-3 rounded-2xl border border-pink-100 bg-white px-4 py-3 shadow-sm">
@@ -6826,6 +6851,24 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
             Chờ xác nhận
           </span>
         </div>
+
+        {toolStatuses.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {toolStatuses.map((status) => (
+              <span
+                key={status.type}
+                className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-1 text-xs font-medium text-gray-600"
+              >
+                {statusLabel[status.type] || status.type}:{" "}
+                {status.status === "completed"
+                  ? "xong"
+                  : status.status === "needs_confirmation"
+                    ? "chờ xác nhận"
+                    : status.status}
+              </span>
+            ))}
+          </div>
+        )}
 
         <div className="mt-3 space-y-2">
           {events.slice(0, 4).map((event, index) => {
