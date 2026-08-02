@@ -21,6 +21,14 @@ export function normalizeChatResponse(data = {}) {
     suggestedActions: Array.isArray(data.suggestedActions)
       ? data.suggestedActions
       : [],
+    structuredActions: Array.isArray(data.structuredActions)
+      ? data.structuredActions
+      : [],
+    calendarPlan: data.calendarPlan && typeof data.calendarPlan === "object"
+      ? data.calendarPlan
+      : null,
+    conflicts: Array.isArray(data.conflicts) ? data.conflicts : [],
+    warnings: Array.isArray(data.warnings) ? data.warnings : [],
     memoryCandidates: Array.isArray(data.memoryCandidates)
       ? data.memoryCandidates
       : [],

@@ -145,11 +145,19 @@ const cases = [
     },
     expect: (data) => {
       const tasks = Array.isArray(data.suggestedTasks) ? data.suggestedTasks : [];
+      const calendarEvents = Array.isArray(data.calendarPlan?.events)
+        ? data.calendarPlan.events
+        : [];
+      const structuredActions = Array.isArray(data.structuredActions)
+        ? data.structuredActions
+        : [];
       const titles = tasks.map((task) => String(task.title || "").toLowerCase());
       const blockedStarts = new Set(["17:30", "18:00", "18:30", "19:00", "19:30"]);
       return (
         data.intent === "CREATE_TASK_DRAFT" &&
         tasks.length >= 5 &&
+        calendarEvents.length >= 5 &&
+        structuredActions.some((action) => action.type === "CREATE_CALENDAR_EVENTS") &&
         titles.some((title) => title.includes("reading")) &&
         titles.some((title) => title.includes("writing")) &&
         titles.some((title) => title.includes("listening")) &&

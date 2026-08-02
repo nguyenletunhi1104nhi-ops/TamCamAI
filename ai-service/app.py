@@ -1652,6 +1652,92 @@ def next_weekday_date(weekday: int, include_today=False):
     return today + timedelta(days=delta_days)
 
 
+def to_vietnam_calendar_datetime(day: date, time_text: str):
+    clean_time = clean_time_value(time_text) or "09:00"
+    return f"{day.isoformat()}T{clean_time}:00+07:00"
+
+
+def build_calendar_action_from_tasks(suggested_tasks, action_id: str, source="ai_chat"):
+    events = []
+    conflicts = []
+    warnings = []
+
+    for index, task in enumerate(suggested_tasks[:12], start=1):
+        start_day = parse_iso_date(task.get("startDate") or task.get("deadline"))
+        start_time = clean_time_value(task.get("startTime"))
+        end_time = clean_time_value(task.get("endTime"))
+
+        if not start_day or not start_time:
+            warnings.append(
+                {
+                    "eventIndex": index,
+                    "message": "Thieu ngay/gio bat dau nen chi co the tao task nhap.",
+                }
+            )
+            continue
+
+        if not end_time:
+            end_time = add_minutes_to_time(start_time, 60)
+
+        start_iso = to_vietnam_calendar_datetime(start_day, start_time)
+        end_iso = to_vietnam_calendar_datetime(start_day, end_time)
+
+        if end_iso <= start_iso:
+            warnings.append(
+                {
+                    "eventIndex": index,
+                    "message": "Gio ket thuc khong hop le, can chinh truoc khi tao Calendar.",
+                }
+            )
+            continue
+
+        recurrence = task.get("recurrence") if isinstance(task.get("recurrence"), dict) else {}
+        frequency = recurrence.get("frequency")
+        repeat = task.get("repeat")
+        if not frequency and repeat in {"daily", "weekly", "yearly"}:
+            frequency = repeat.upper().replace("YEARLY", "YEARLY")
+
+        event = {
+            "title": task.get("title") or "TamCam AI event",
+            "description": task.get("description") or "",
+            "start": start_iso,
+            "end": end_iso,
+            "timezone": "Asia/Ho_Chi_Minh",
+            "source": source,
+            "relatedDraftId": task.get("id") or f"draft-{index}",
+            "reminders": [
+                {
+                    "method": "popup",
+                    "minutes": 30,
+                }
+            ],
+        }
+
+        if frequency:
+            event["recurrence"] = {
+                "frequency": frequency,
+                "interval": int(recurrence.get("interval") or 1),
+                "until": recurrence.get("until"),
+            }
+
+        events.append(event)
+
+    return {
+        "id": action_id,
+        "type": "CREATE_CALENDAR_EVENTS",
+        "requiresConfirmation": True,
+        "executionMode": "draft_pending_confirmation",
+        "payload": {
+            "calendarId": "primary",
+            "timezone": "Asia/Ho_Chi_Minh",
+            "events": events,
+        },
+        "conflicts": conflicts,
+        "warnings": warnings,
+        "status": "READY_FOR_CONFIRMATION" if events else "NEEDS_REVIEW",
+    }
+
+
 def build_ielts_schedule_reply(original_message: str, conversation_id="", user_id=""):
     if not is_ielts_study_plan_request(original_message):
         return None
@@ -1801,6 +1887,13 @@ def build_ielts_schedule_reply(original_message: str, conversation_id="", user_i
             }
         )
 
+    calendar_action = build_calendar_action_from_tasks(
+        suggested_tasks,
+        f"ielts-calendar-plan-{timestamp}",
+        "study_plan",
+    )
+    calendar_events = calendar_action["payload"]["events"]
+
     lines = [
         "Mình hiểu bạn muốn sắp xếp lịch học IELTS quanh các ràng buộc: đi làm từ thứ 2 đến sáng thứ 7, tối thứ 2 và thứ 4 bận học 17:30-20:00.",
         "Mình tạo lịch nháp theo nguyên tắc: không xếp vào giờ bận, 4 kỹ năng có buổi riêng, Vocabulary học lặp hằng ngày, cuối tuần học dài hơn.",
@@ -1831,10 +1924,34 @@ def build_ielts_schedule_reply(original_message: str, conversation_id="", user_i
         "sources": [],
         "suggestedActions": [
             {
-                "type": "CREATE_TASK_DRAFTS",
+                "type": "CREATE_CALENDAR_EVENTS",
                 "label": "Duyet lich IELTS",
+                "actionId": calendar_action["id"],
+                "requiresConfirmation": True,
+                "eventCount": len(calendar_events),
             }
         ],
+        "structuredActions": [calendar_action],
+        "calendarPlan": {
+            "goal": "On IELTS theo 4 ky nang",
+            "timezone": "Asia/Ho_Chi_Minh",
+            "startDate": start_date.isoformat(),
+            "constraints": [
+                {
+                    "type": "BUSY_TIME",
+                    "label": "Di lam thu 2 den thu 6, sang thu 7",
+                    "hard": True,
+                },
+                {
+                    "type": "BUSY_TIME",
+                    "label": "Toi thu 2 va thu 4 ban hoc 17:30-20:00",
+                    "hard": True,
+                },
+            ],
+            "events": calendar_events,
+            "conflicts": calendar_action["conflicts"],
+            "warnings": calendar_action["warnings"],
+        },
         "suggestedTasks": suggested_tasks,
         "memoryCandidates": [
             {
@@ -3189,6 +3306,10 @@ def parse_structured_chat_response(raw_text):
             "suggestedTasks": [],
             "sources": [],
             "suggestedActions": [],
+            "structuredActions": [],
+            "calendarPlan": None,
+            "conflicts": [],
+            "warnings": [],
             "memoryCandidates": [],
             "metadata": {},
         }
@@ -3233,6 +3354,14 @@ def parse_structured_chat_response(raw_text):
         "suggestedActions": data.get("suggestedActions")
         if isinstance(data.get("suggestedActions"), list)
         else [],
+        "structuredActions": data.get("structuredActions")
+        if isinstance(data.get("structuredActions"), list)
+        else [],
+        "calendarPlan": data.get("calendarPlan")
+        if isinstance(data.get("calendarPlan"), dict)
+        else None,
+        "conflicts": data.get("conflicts") if isinstance(data.get("conflicts"), list) else [],
+        "warnings": data.get("warnings") if isinstance(data.get("warnings"), list) else [],
         "memoryCandidates": data.get("memoryCandidates")
         if isinstance(data.get("memoryCandidates"), list)
         else [],
@@ -3520,6 +3649,10 @@ QUESTION:
             "requiresConfirmation": structured_reply["requiresConfirmation"],
             "sources": structured_reply["sources"],
             "suggestedActions": structured_reply["suggestedActions"],
+            "structuredActions": structured_reply["structuredActions"],
+            "calendarPlan": structured_reply["calendarPlan"],
+            "conflicts": structured_reply["conflicts"],
+            "warnings": structured_reply["warnings"],
             "suggestedTasks": structured_reply["suggestedTasks"],
             "memoryCandidates": structured_reply["memoryCandidates"],
             "metadata": {

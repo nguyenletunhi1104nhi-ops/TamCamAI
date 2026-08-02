@@ -2,7 +2,9 @@
 import {
   AlertTriangle,
   Bot,
+  CalendarDays,
   Plus,
+  Repeat,
   Send,
   ThumbsDown,
   ThumbsUp,
@@ -6692,6 +6694,10 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       model: data.metadata?.model || data.model || "",
       sources: data.sources || [],
       suggestedActions: data.suggestedActions || [],
+      structuredActions: data.structuredActions || [],
+      calendarPlan: data.calendarPlan || null,
+      conflicts: data.conflicts || [],
+      warnings: data.warnings || [],
       memoryCandidates: data.memoryCandidates || [],
       metadata: data.metadata || {},
       createdAt: new Date().toISOString(),
@@ -6776,6 +6782,92 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
       instruction: "đổi task này thành ưu tiên cao và giải thích trong mô tả vì sao cần làm sớm",
     },
   ];
+
+  const renderCalendarPlanPreview = (item) => {
+    const calendarPlan = item.calendarPlan;
+    const structuredAction = Array.isArray(item.structuredActions)
+      ? item.structuredActions.find((action) => action?.type === "CREATE_CALENDAR_EVENTS")
+      : null;
+    const events = Array.isArray(calendarPlan?.events)
+      ? calendarPlan.events
+      : Array.isArray(structuredAction?.payload?.events)
+        ? structuredAction.payload.events
+        : [];
+
+    if (events.length === 0) {
+      return null;
+    }
+
+    const conflicts = Array.isArray(calendarPlan?.conflicts)
+      ? calendarPlan.conflicts
+      : Array.isArray(structuredAction?.conflicts)
+        ? structuredAction.conflicts
+        : [];
+    const warnings = Array.isArray(calendarPlan?.warnings)
+      ? calendarPlan.warnings
+      : Array.isArray(structuredAction?.warnings)
+        ? structuredAction.warnings
+        : [];
+
+    return (
+      <div className="mt-3 rounded-2xl border border-pink-100 bg-white px-4 py-3 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 text-sm font-bold text-gray-900">
+              <CalendarDays size={16} className="text-pink-500" />
+              <span>Kế hoạch Calendar nháp</span>
+            </div>
+            <p className="mt-1 text-sm text-gray-500">
+              {events.length} lịch • {calendarPlan?.timezone || "Asia/Ho_Chi_Minh"}
+            </p>
+          </div>
+          <span className="inline-flex items-center gap-1 rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold text-pink-600">
+            <Repeat size={13} />
+            Chờ xác nhận
+          </span>
+        </div>
+
+        <div className="mt-3 space-y-2">
+          {events.slice(0, 4).map((event, index) => {
+            const startText = String(event.start || "").replace("T", " ").slice(0, 16);
+            const repeatText = event.recurrence?.frequency
+              ? ` • ${event.recurrence.frequency.toLowerCase()}`
+              : "";
+
+            return (
+              <div
+                key={`${event.title || "calendar-event"}-${index}`}
+                className="rounded-xl bg-pink-50 px-3 py-2 text-sm text-gray-700"
+              >
+                <p className="line-clamp-1 font-semibold text-gray-900">
+                  {fixMojibake(event.title || "Lịch nháp")}
+                </p>
+                <p className="mt-0.5 text-xs text-gray-500">
+                  {startText}{repeatText}
+                </p>
+              </div>
+            );
+          })}
+          {events.length > 4 && (
+            <p className="text-xs font-medium text-gray-500">
+              Và {events.length - 4} lịch khác trong kế hoạch.
+            </p>
+          )}
+        </div>
+
+        {(conflicts.length > 0 || warnings.length > 0) && (
+          <div className="mt-3 rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            {conflicts.length > 0 && <p>Có {conflicts.length} xung đột cần kiểm tra.</p>}
+            {warnings.slice(0, 2).map((warning, index) => (
+              <p key={`${warning.message || "warning"}-${index}`}>
+                {warning.message || warning}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const renderFormattedMessage = (content, role) => {
     const text = fixMojibake(content || "");
@@ -7005,6 +7097,8 @@ if (shouldAnswerDocumentQuestion(cleanMessage) && isWeakAssistantReply(assistant
                   </button>
                 </div>
               )}
+
+              {item.role === "assistant" && renderCalendarPlanPreview(item)}
 
               {item.role === "assistant" &&
                 Array.isArray(item.suggestedTasks) &&
