@@ -24,9 +24,13 @@ export function normalizeChatResponse(data = {}) {
     structuredActions: Array.isArray(data.structuredActions)
       ? data.structuredActions
       : [],
+    actionPlan: data.actionPlan && typeof data.actionPlan === "object"
+      ? data.actionPlan
+      : null,
     calendarPlan: data.calendarPlan && typeof data.calendarPlan === "object"
       ? data.calendarPlan
       : null,
+    status: data.status || "",
     orchestrationTrace: data.orchestrationTrace && typeof data.orchestrationTrace === "object"
       ? data.orchestrationTrace
       : null,

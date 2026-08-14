@@ -43,6 +43,24 @@ service cloud.firestore {
       allow delete: if ownsExisting();
     }
 
+    match /chatFeedback/{feedbackId} {
+      allow create: if ownsIncoming();
+      allow read: if ownsExisting();
+      allow update: if ownsExisting() && ownsIncoming();
+      allow delete: if ownsExisting();
+    }
+
+    match /aiActionLogs/{actionLogId} {
+      allow create: if ownsIncoming();
+      allow read: if ownsExisting();
+      allow update: if ownsExisting() && ownsIncoming();
+      allow delete: if ownsExisting();
+    }
+
+    match /users/{userId}/memories/{memoryId} {
+      allow read, create, update, delete: if ownsUserDocument(userId);
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

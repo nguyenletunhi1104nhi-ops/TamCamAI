@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from .action_schema import build_action, validate_action_sequence
 from .context_builder import build_context
 from .intent_detector import detect_intents
 from .planning_engine import build_ielts_plan
@@ -82,7 +83,8 @@ def orchestrate_chat(payload: dict):
     phases.append(_phase("VERIFY_RESULT", "done", {"requested": len(plan.get("events") or [])}))
     phases.append(_phase("RESPOND", "done", {"language": "vi"}))
 
-    structured_actions = _build_actions(plan, analysis)
+    structured_actions = _build_actions(plan, analysis, context)
+    action_sequence_validation = validate_action_sequence(structured_actions)
     answer = build_ielts_response(plan, validation, execution_result)
     feasibility = plan.get("feasibility") or {}
 
@@ -95,8 +97,20 @@ def orchestrate_chat(payload: dict):
         "reply": answer,
         "confidenceLevel": "Cao" if analysis.get("confidence", 0) >= 0.9 else "Trung bình",
         "requiresConfirmation": True,
+        "status": "pending_confirmation",
         "suggestedTasks": plan.get("suggestedTasks") or [],
         "structuredActions": structured_actions,
+        "actionPlan": {
+            "status": "pending_confirmation",
+            "requiresConfirmation": True,
+            "actionCount": len(structured_actions),
+            "validation": action_sequence_validation,
+            "idempotencyKeys": [
+                action.get("idempotencyKey")
+                for action in structured_actions
+                if action.get("idempotencyKey")
+            ],
+        },
         "calendarPlan": {
             "timezone": plan.get("timezone") or "Asia/Ho_Chi_Minh",
             "weekStart": plan.get("weekStart"),
@@ -118,6 +132,7 @@ def orchestrate_chat(payload: dict):
             "requestAnalysis": analysis,
             "referenceResolution": references,
             "feasibility": feasibility,
+            "actionValidation": action_sequence_validation,
         },
         "conversationState": {
             "conversationId": context.get("conversationId"),
@@ -181,20 +196,55 @@ def _verify_draft_events(args: dict) -> dict:
     }
 
 
-def _build_actions(plan: dict, analysis: dict) -> list[dict]:
+def _build_actions(plan: dict, analysis: dict, context: dict) -> list[dict]:
     events = plan.get("events") or []
+    action_context = {
+        "conversationId": context.get("conversationId"),
+        "userId": context.get("userId"),
+        "preferConfirmationForWrites": True,
+        "hasHardConstraintConflict": bool(
+            (plan.get("validation") or {}).get("hardConstraintViolations")
+        ),
+    }
     return [
-        {"id": "action_1", "type": "GET_CALENDAR_EVENTS", "dependsOn": [], "status": "completed"},
-        {"id": "action_2", "type": "FIND_FREE_TIME", "dependsOn": ["action_1"], "status": "completed"},
-        {"id": "action_3", "type": "CREATE_STUDY_PLAN", "dependsOn": ["action_2"], "status": "completed"},
-        {
-            "id": "action_4",
-            "type": "CREATE_CALENDAR_EVENTS",
-            "dependsOn": ["action_3"],
-            "status": "needs_confirmation",
-            "executionMode": "draft_pending_confirmation",
-            "payload": {"events": events},
-        },
+        build_action(
+            action_id="action_1",
+            action_type="GET_CALENDAR_EVENTS",
+            depends_on=[],
+            status="completed",
+            execution_mode="read_context",
+            context=action_context,
+        ),
+        build_action(
+            action_id="action_2",
+            action_type="FIND_FREE_TIME",
+            depends_on=["action_1"],
+            status="completed",
+            execution_mode="deterministic_planner",
+            context=action_context,
+        ),
+        build_action(
+            action_id="action_3",
+            action_type="CREATE_STUDY_PLAN",
+            depends_on=["action_2"],
+            status="completed",
+            execution_mode="deterministic_planner",
+            payload={
+                "weekStart": plan.get("weekStart"),
+                "timezone": plan.get("timezone"),
+                "feasibility": plan.get("feasibility") or {},
+            },
+            context=action_context,
+        ),
+        build_action(
+            action_id="action_4",
+            action_type="CREATE_CALENDAR_EVENTS",
+            depends_on=["action_3"],
+            status="needs_confirmation",
+            execution_mode="draft_pending_confirmation",
+            payload={"events": events},
+            context=action_context,
+        ),
     ]
 
 
@@ -243,4 +293,3 @@ def _metadata(analysis: dict) -> dict:
         "orchestrator": "tamcam-ai-orchestrator",
         "intentConfidence": analysis.get("confidence"),
     }
-

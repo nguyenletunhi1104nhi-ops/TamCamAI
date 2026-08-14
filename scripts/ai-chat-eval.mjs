@@ -154,6 +154,9 @@ const cases = [
       const titles = tasks.map((task) => String(task.title || "").toLowerCase());
       const blockedStarts = new Set(["17:30", "18:00", "18:30", "19:00", "19:30"]);
       const actionTypes = structuredActions.map((action) => action.type);
+      const createCalendarAction = structuredActions.find(
+        (action) => action.type === "CREATE_CALENDAR_EVENTS"
+      );
       return (
         data.intent === "CREATE_TASK_DRAFT" &&
         data.primaryIntent === "CREATE_STUDY_PLAN" &&
@@ -165,6 +168,19 @@ const cases = [
         actionTypes.includes("CREATE_CALENDAR_EVENTS") &&
         data.calendarPlan?.feasibilityScore >= 0.8 &&
         (data.calendarPlan?.hardConstraintViolations || []).length === 0 &&
+        data.actionPlan?.status === "pending_confirmation" &&
+        data.actionPlan?.validation?.valid === true &&
+        Array.isArray(data.actionPlan?.idempotencyKeys) &&
+        data.actionPlan.idempotencyKeys.length >= 4 &&
+        structuredActions.every(
+          (action) =>
+            action.idempotencyKey &&
+            action.validation?.valid === true &&
+            typeof action.requiresConfirmation === "boolean"
+        ) &&
+        createCalendarAction?.impact === "HIGH" &&
+        createCalendarAction?.requiresConfirmation === true &&
+        createCalendarAction?.executionMode === "draft_pending_confirmation" &&
         Array.isArray(data.orchestrationTrace?.phases) &&
         data.orchestrationTrace.phases.length >= 7 &&
         titles.some((title) => title.includes("reading")) &&
@@ -192,6 +208,9 @@ const cases = [
       const actions = Array.isArray(data.structuredActions) ? data.structuredActions : [];
       const actionTypes = actions.map((action) => action.type).join(">");
       const events = Array.isArray(data.calendarPlan?.events) ? data.calendarPlan.events : [];
+      const createCalendarAction = actions.find(
+        (action) => action.type === "CREATE_CALENDAR_EVENTS"
+      );
       return (
         data.intent === "CREATE_TASK_DRAFT" &&
         data.primaryIntent === "CREATE_STUDY_PLAN" &&
@@ -200,6 +219,10 @@ const cases = [
         actionTypes.includes("CREATE_STUDY_PLAN") &&
         actionTypes.includes("CREATE_CALENDAR_EVENTS") &&
         events.length >= 5 &&
+        data.actionPlan?.status === "pending_confirmation" &&
+        data.actionPlan?.validation?.valid === true &&
+        createCalendarAction?.requiresConfirmation === true &&
+        createCalendarAction?.executionMode === "draft_pending_confirmation" &&
         data.requiresConfirmation === true &&
         data.metadata?.orchestrator === "tamcam-ai-orchestrator"
       );
